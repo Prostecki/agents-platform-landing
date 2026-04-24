@@ -12,7 +12,7 @@ export default function Nav() {
       transition={{ duration: 0.5, ease: "easeOut" }}
       className="sticky top-0 z-100 bg-bg/88 backdrop-blur-xl border-b border-subtle h-16 flex items-center"
     >
-      <div className="max-w-max mx-auto w-full px-pad flex justify-between items-center">
+      <div className="w-full max-w-[var(--max)] mx-auto px-pad flex justify-between items-center">
         <span className="text-[15px] font-bold tracking-[-0.3px]">Athlete AI</span>
         
         <div className="hidden md:flex gap-9">

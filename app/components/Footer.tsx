@@ -20,10 +20,10 @@ export default function Footer() {
       className="bg-bg border-t border-subtle p-[80px_var(--pad)_48px]"
     >
       <div className="max-w-[var(--max)] mx-auto flex flex-col gap-16">
-        <div className="grid grid-cols-1 lg:grid-cols-[1.2fr_1fr] gap-20 items-start">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-[1.2fr_1fr] gap-10 md:gap-14 lg:gap-20 items-start">
           <div className="flex flex-col gap-5">
             <div className="text-[18px] font-bold text-fg flex items-center gap-2.5">
-              <div className="hidden lg:flex w-8 h-8 bg-fg rounded-lg items-center justify-center">
+              <div className="hidden md:flex w-8 h-8 bg-fg rounded-lg items-center justify-center">
                 <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-4 h-4">
                   <path d="M3 8 L8 3 L13 8 L8 13 Z" fill="var(--bg)" />
                 </svg>
@@ -75,7 +75,7 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-10 border-t border-subtle pt-12">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-10 border-t border-subtle pt-12">
           <div className="flex flex-col gap-4">
             <div className="text-[13px] font-bold text-fg uppercase tracking-[0.5px] mb-1">Company</div>
             <a href="#" className="text-sm text-muted no-underline transition-colors hover:text-fg">About us</a>

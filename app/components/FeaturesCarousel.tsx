@@ -27,14 +27,14 @@ export default function FeaturesCarousel() {
         transition={{ duration: 0.6 }}
         className="text-center px-pad mb-14"
       >
-        <h2 className="text-[28px] lg:text-[42px] font-bold tracking-[-1px] lg:tracking-[-1.5px] leading-[1.08]">Built for Athlete Performance.</h2>
+        <h2 className="text-[28px] md:text-[36px] lg:text-[42px] font-bold tracking-[-1px] lg:tracking-[-1.5px] leading-[1.08]">Built for Athlete Performance.</h2>
       </motion.div>
       <motion.div 
         variants={containerVariants}
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true, margin: "-100px" }}
-        className="flex items-end justify-start lg:justify-center gap-4 lg:gap-10 px-6 lg:px-10 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden snap-x snap-mandatory pb-8"
+        className="flex items-end justify-start md:justify-center gap-4 md:gap-6 lg:gap-10 px-6 md:px-8 lg:px-10 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden snap-x snap-mandatory pb-8"
       >
         {/* Card 1: Cardio/Load */}
         <motion.div variants={cardVariants} className="shrink-0 text-center w-[85vw] sm:w-[320px] lg:w-[340px] snap-center">

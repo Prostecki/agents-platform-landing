@@ -33,8 +33,8 @@ export default function ProductShowcase() {
         transition={{ duration: 0.6 }}
       >
         <div className="font-mono text-[11px] text-[#bbb] tracking-[1.5px] uppercase mb-4">The Nutrition Agent</div>
-        <h2 className="text-[30px] lg:text-[46px] font-bold tracking-[-1px] lg:tracking-[-1.5px] leading-[1.08] mb-4">Fuel that knows your training.</h2>
-        <p className="text-[14px] lg:text-[16px] text-muted leading-[1.65] max-w-[480px] mx-auto mb-10 lg:mb-[72px]">Every meal recommendation is backed by your actual training data — not a generic algorithm.</p>
+        <h2 className="text-[30px] md:text-[38px] lg:text-[46px] font-bold tracking-[-1px] lg:tracking-[-1.5px] leading-[1.08] mb-4">Fuel that knows your training.</h2>
+        <p className="text-[14px] md:text-[15px] lg:text-[16px] text-muted leading-[1.65] max-w-[480px] mx-auto mb-10 lg:mb-[72px]">Every meal recommendation is backed by your actual training data — not a generic algorithm.</p>
       </motion.div>
 
       <motion.div 
@@ -42,12 +42,12 @@ export default function ProductShowcase() {
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true, margin: "-100px" }}
-        className="relative inline-block w-full lg:w-[700px] h-[520px] lg:h-[620px]"
+        className="relative inline-block w-full md:w-[600px] lg:w-[700px] h-[520px] md:h-[580px] lg:h-[620px]"
       >
         {/* Floating cards - hidden on mobile */}
         <motion.div 
           variants={cardVariants}
-          className="hidden lg:block absolute bg-bg-white/96 border border-white/8 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.45)] p-[14px_16px] z-[3] text-left w-40 top-[30px] left-5 data-[theme=light]:shadow-[0_8px_32px_rgba(0,0,0,0.1)] data-[theme=light]:border-black/9"
+          className="hidden md:block absolute bg-bg-white/96 border border-white/8 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.45)] p-[14px_16px] z-[3] text-left w-40 top-[30px] left-5 data-[theme=light]:shadow-[0_8px_32px_rgba(0,0,0,0.1)] data-[theme=light]:border-black/9"
         >
           <div className="text-[20px] mb-1.5">🥗 ⭐</div>
           <div className="text-xs font-bold text-fg mb-0.5 leading-[1.3]">Homemade Chicken<br />&amp; Veggie Soup</div>
@@ -56,7 +56,7 @@ export default function ProductShowcase() {
 
         <motion.div 
           variants={cardVariants}
-          className="hidden lg:block absolute bg-bg-white/96 border border-white/8 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.45)] p-[14px_16px] z-[3] text-left w-[168px] top-[60px] right-4 data-[theme=light]:shadow-[0_8px_32px_rgba(0,0,0,0.1)] data-[theme=light]:border-black/9"
+          className="hidden md:block absolute bg-bg-white/96 border border-white/8 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.45)] p-[14px_16px] z-[3] text-left w-[168px] top-[60px] right-4 data-[theme=light]:shadow-[0_8px_32px_rgba(0,0,0,0.1)] data-[theme=light]:border-black/9"
         >
           <div className="text-[9px] text-muted mb-1.5 flex items-center gap-1">
             <span className="w-[5px] h-[5px] rounded-full bg-indigo-base"></span>Nutritional Goals
@@ -76,7 +76,7 @@ export default function ProductShowcase() {
 
         <motion.div 
           variants={cardVariants}
-          className="hidden lg:block absolute bg-bg-white/96 border border-white/8 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.45)] p-[14px_16px] z-[3] text-left w-[156px] top-[300px] left-[10px] data-[theme=light]:shadow-[0_8px_32px_rgba(0,0,0,0.1)] data-[theme=light]:border-black/9"
+          className="hidden md:block absolute bg-bg-white/96 border border-white/8 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.45)] p-[14px_16px] z-[3] text-left w-[156px] top-[300px] left-[10px] data-[theme=light]:shadow-[0_8px_32px_rgba(0,0,0,0.1)] data-[theme=light]:border-black/9"
         >
           <div className="text-[9px] text-muted mb-1.5 flex items-center gap-1">
             <span className="w-[5px] h-[5px] rounded-full bg-green"></span>Macro Balance
@@ -108,7 +108,7 @@ export default function ProductShowcase() {
 
         <motion.div 
           variants={cardVariants}
-          className="hidden lg:block absolute bg-bg-white/96 border border-white/8 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.45)] p-[14px_16px] z-[3] text-left w-[164px] bottom-5 right-4 data-[theme=light]:shadow-[0_8px_32px_rgba(0,0,0,0.1)] data-[theme=light]:border-black/9"
+          className="hidden md:block absolute bg-bg-white/96 border border-white/8 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.45)] p-[14px_16px] z-[3] text-left w-[164px] bottom-5 right-4 data-[theme=light]:shadow-[0_8px_32px_rgba(0,0,0,0.1)] data-[theme=light]:border-black/9"
         >
           <div className="text-[9px] text-muted mb-1.5 flex items-center gap-1">
             <span className="w-[5px] h-[5px] rounded-full bg-green"></span>Food Log

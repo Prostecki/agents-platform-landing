@@ -18,20 +18,36 @@ No test suite is configured yet.
 
 - **Next.js 16.2.4** with the App Router (`app/` directory). This is a newer major version — read `node_modules/next/dist/docs/` before writing routing, data-fetching, or rendering code.
 - **React 19.2.4**
-- **Tailwind CSS v4** — configured via `@tailwindcss/postcss` (not the classic `tailwind.config.js`). Customize design tokens in `app/globals.css` using `@theme inline { ... }`.
+- **Tailwind CSS v4** — configured via `@tailwindcss/postcss` (not the classic `tailwind.config.js`). Customize design tokens in `app/globals.css` using `@theme { ... }` (no `inline` keyword).
 - **TypeScript**
+- **Firebase Admin SDK** — Firestore is used server-side via `app/lib/firebase-admin.ts`. Credentials come from `FIREBASE_PROJECT_ID`, `FIREBASE_CLIENT_EMAIL`, and `FIREBASE_PRIVATE_KEY` env vars.
 
 ## Architecture
 
-This is a single-page marketing/landing site. All code lives in the `app/` directory (App Router). There are no additional routes, API routes, or components yet — `app/page.tsx` is the only page.
+Single-page marketing/landing site for an AI athletic coaching app. `app/page.tsx` composes all sections in order: `Nav → Hero → TechBar → AgentNetwork → ProductShowcase → ProblemSolution → Demo → HowItWorks → FeaturesCarousel → FeaturesGrid → FinalCTA → Footer`.
 
-- `app/layout.tsx` — root layout; sets Geist Sans/Mono fonts as CSS variables and applies them globally.
-- `app/globals.css` — imports Tailwind, defines `--background`/`--foreground` CSS vars, and exposes them as Tailwind color tokens via `@theme inline`.
-- `app/page.tsx` — the landing page (currently the default Next.js starter template).
-- `public/` — static assets served at `/`.
+**Backend surface:** one Server Action at `app/actions/newsletter.ts` — handles email subscription, writes to Firestore `subscribers` collection.
+
+**Component layout:**
+- `app/components/` — all section components (one file per section, named after the section)
+- `app/components/magicui/` — third-party-style animation primitives (`AnimatedBeam`, `Terminal`, `TextAnimate`) used by section components
+- `app/lib/utils.ts` — exports `cn()` (clsx/tailwind-merge helper); import from `@/app/lib/utils`
+- `app/lib/firebase-admin.ts` — singleton Firebase Admin init, exports `db` and `admin`
 
 ## Key conventions
 
-- Tailwind v4 theming lives in `globals.css` under `@theme inline { ... }`, not in a config file.
-- Font variables (`--font-geist-sans`, `--font-geist-mono`) are injected on `<html>` and consumed by Tailwind via `--font-sans` / `--font-mono` tokens.
-- Dark mode is handled via `prefers-color-scheme` CSS media query in `globals.css`, not Tailwind's `dark:` class strategy.
+### Styling
+- All CSS lives in `app/globals.css`. There is no separate component CSS.
+- Tailwind v4 design tokens are declared in `@theme { ... }` at the top of `globals.css` as `--color-*`, `--radius-*`, etc. These become Tailwind utilities (e.g. `bg-bg`, `text-fg`, `text-muted`, `border-subtle`).
+- Raw CSS vars (`--bg`, `--fg`, `--muted`, `--subtle`, `--max`, `--pad`) are declared in `:root` under `@layer base` and used directly in `globals.css` component classes. Do not use these in Tailwind class names — use the `--color-*` tokens instead.
+- Most section layout styles use named CSS classes defined in `@layer components` in `globals.css` (e.g. `.section-inner`, `.hero-left`, `.feat-card`). Prefer extending these over adding inline Tailwind for structural layout.
+- Spacing uses `--max` (1200px max-width) and `--pad` (80px desktop / 24px mobile) CSS vars. Use `p-pad` and `max-w-spacing-max` in Tailwind, or `var(--pad)` / `var(--max)` in CSS classes.
+
+### Theming
+- Theme is controlled by `data-theme="dark"|"light"` on `<html>`, toggled by `ThemeToggle.tsx` which persists to `localStorage`.
+- Light theme overrides are in `[data-theme="light"] { ... }` blocks in `globals.css`. Do **not** use Tailwind's `dark:` class strategy.
+- Font is Space Mono (monospace, loaded in `app/layout.tsx`) for `--font-mono`, and SF Pro / system sans-serif for `--font-sans`.
+
+### Components
+- Client components that need browser APIs (localStorage, matchMedia) use the `mounted` guard pattern (render `null` or hidden until `useEffect` fires) to avoid hydration mismatches — see `ThemeToggle.tsx`.
+- `AgentNetwork.tsx` uses `AnimatedBeam` from `magicui/` — beams require both a `containerRef` on the wrapping div and `fromRef`/`toRef` on node divs.

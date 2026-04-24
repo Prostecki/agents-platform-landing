@@ -6,7 +6,7 @@ import { fadeIn, staggerContainer } from '@/app/lib/utils'
 export default function ProblemSolution() {
   return (
     <div className="border-b border-subtle" id="problem">
-      <div className="max-w-max mx-auto p-[64px_var(--spacing-pad)] lg:p-[96px_var(--spacing-pad)]">
+      <div className="w-full max-w-[var(--max)] mx-auto p-[64px_var(--spacing-pad)] lg:p-[96px_var(--spacing-pad)]">
         <motion.div 
           variants={fadeIn}
           initial="initial"
@@ -14,9 +14,9 @@ export default function ProblemSolution() {
           viewport={{ once: true }}
         >
           <div className="font-mono text-[11px] text-muted tracking-[1px] mb-2">02</div>
-          <h2 className="text-[30px] lg:text-[42px] font-bold tracking-[-1px] lg:tracking-[-1.5px] leading-[1.08] mb-8 lg:mb-12">Sound familiar?</h2>
+          <h2 className="text-[30px] md:text-[36px] lg:text-[42px] font-bold tracking-[-1px] lg:tracking-[-1.5px] leading-[1.08] mb-8 lg:mb-12">Sound familiar?</h2>
         </motion.div>
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-10 lg:gap-12">
           <motion.div 
             variants={staggerContainer}
             initial="initial"
