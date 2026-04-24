@@ -6,16 +6,23 @@ import { motion } from 'framer-motion'
 import { TextAnimate } from '@/app/components/magicui/text-animate'
 
 import { Terminal, TypingAnimation, AnimatedSpan } from '@/app/components/magicui/terminal'
+import { LightRays } from '@/app/components/magicui/light-rays'
 
 export default function Hero() {
   return (
-    <div className="grid lg:grid-cols-2 min-h-[620px] border-b border-subtle overflow-x-hidden">
+    <div className="relative grid lg:grid-cols-2 min-h-[620px] border-b border-subtle overflow-x-hidden bg-bg">
+      <LightRays 
+        className="opacity-100" 
+        color="rgba(34, 197, 94, 0.35)"
+        count={8}
+        speed={10}
+      />
       <motion.div
         initial={{ opacity: 0, y: 12 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.8, ease: "easeOut" }}
-        className="p-pad flex flex-col justify-center border-b lg:border-b-0 lg:border-r border-subtle bg-bg"
+        className="p-pad flex flex-col justify-center border-b lg:border-b-0 lg:border-r border-subtle relative z-[1]"
       >
         <motion.div
           initial={{ opacity: 0, y: 10 }}
@@ -79,7 +86,7 @@ export default function Hero() {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }}
-        className="p-pad lg:py-12 lg:pr-16 lg:pl-12 flex flex-col justify-center bg-bg relative before:content-[''] before:absolute before:inset-0 before:bg-[radial-gradient(ellipse_70%_60%_at_80%_40%,rgba(34,197,94,0.05)_0%,transparent_70%)] before:pointer-events-none"
+        className="p-pad lg:py-12 lg:pr-16 lg:pl-12 flex flex-col justify-center relative before:content-[''] before:absolute before:inset-0 before:bg-[radial-gradient(ellipse_70%_60%_at_80%_40%,rgba(34,197,94,0.05)_0%,transparent_70%)] before:pointer-events-none"
       >
         <Terminal className="relative z-1 shadow-[0_24px_64px_rgba(0,0,0,0.15)] dark:shadow-[0_24px_64px_rgba(0,0,0,0.35)] w-full max-w-2xl mx-auto lg:ml-auto min-w-0">
           <TypingAnimation>&gt; athlete-ai init --agents training,nutrition</TypingAnimation>
