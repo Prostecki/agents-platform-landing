@@ -1,0 +1,1270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Athlete AI — Wireframe Explorations</title>
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #f0ede8; font-family: -apple-system, BlinkMacSystemFont, SF Pro Display, SF Pro Text, sans-serif; }
+
+  /* Sketchy style globals */
+  .sketch-box {
+    border: 2px solid #1a1a1a;
+    background: #faf9f7;
+    border-radius: 3px;
+    position: relative;
+  }
+  .sketch-box::after {
+    content: '';
+    position: absolute;
+    inset: 2px;
+    border: 1px dashed rgba(0,0,0,0.1);
+    border-radius: 2px;
+    pointer-events: none;
+  }
+  .sketch-dark {
+    border: 2px solid #1a1a1a;
+    background: #1a1a1a;
+    border-radius: 3px;
+  }
+  .sketch-gray {
+    border: 2px solid #888;
+    background: #e5e3df;
+    border-radius: 3px;
+  }
+  .sketch-accent {
+    border: 2px solid #1a1a1a;
+    background: #c8f0d0;
+    border-radius: 3px;
+  }
+  .sketch-accent2 {
+    border: 2px solid #1a1a1a;
+    background: #d0e8f8;
+    border-radius: 3px;
+  }
+  .label {
+    font-family: 'Space Mono', monospace;
+    font-size: 9px;
+    color: #666;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+  .section-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 8px;
+    color: #999;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    position: absolute;
+    top: 4px;
+    right: 6px;
+  }
+  .annotation {
+    font-family: -apple-system, BlinkMacSystemFont, SF Pro Display, SF Pro Text, sans-serif;
+    font-size: 13px;
+    color: #555;
+    font-style: italic;
+  }
+  .arrow {
+    font-size: 16px;
+    color: #888;
+  }
+
+  /* Wireframe page container */
+  .wf-page {
+    width: 320px;
+    min-height: 560px;
+    background: #faf9f7;
+    border: 2.5px solid #1a1a1a;
+    border-radius: 4px;
+    overflow: hidden;
+    position: relative;
+    box-shadow: 4px 4px 0 #1a1a1a;
+  }
+
+  /* Direction labels */
+  .dir-badge {
+    display: inline-block;
+    background: #1a1a1a;
+    color: #f0ede8;
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    padding: 3px 8px;
+    border-radius: 2px;
+    margin-bottom: 8px;
+    letter-spacing: 1px;
+  }
+
+  .dir-title {
+    font-family: -apple-system, BlinkMacSystemFont, SF Pro Display, SF Pro Text, sans-serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: #1a1a1a;
+    margin-bottom: 4px;
+  }
+
+  .dir-desc {
+    font-family: -apple-system, BlinkMacSystemFont, SF Pro Display, SF Pro Text, sans-serif;
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 16px;
+    line-height: 1.4;
+  }
+
+  /* Hatch pattern for image placeholders */
+  .hatch {
+    background-image: repeating-linear-gradient(
+      45deg,
+      transparent,
+      transparent 4px,
+      rgba(0,0,0,0.08) 4px,
+      rgba(0,0,0,0.08) 5px
+    );
+  }
+  .hatch-dark {
+    background-image: repeating-linear-gradient(
+      45deg,
+      transparent,
+      transparent 4px,
+      rgba(255,255,255,0.06) 4px,
+      rgba(255,255,255,0.06) 5px
+    );
+  }
+</style>
+</head>
+<body>
+<script type="text/babel" src="design-canvas.jsx"></script>
+<script type="text/babel">
+
+/* ─── WIREFRAME DIRECTION 1: Dark Terminal ─── */
+function WF_DarkTerminal() {
+  const S = {
+    page: { width: 320, background: '#111', fontFamily: '-apple-system, BlinkMacSystemFont, SF Pro Display, SF Pro Text, sans-serif', overflow: 'hidden', border: '1.5px solid rgba(0,0,0,0.12)', borderRadius: 12, boxShadow: '0 4px 24px rgba(0,0,0,0.10)' },
+    nav: { display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px 14px', borderBottom: '1px solid #333' },
+    navLogo: { color: '#e8e6e0', fontSize: 14, fontWeight: 700 },
+    navLinks: { display: 'flex', gap: 10 },
+    navLink: { color: '#666', fontSize: 11, fontFamily: 'Space Mono, monospace' },
+
+    hero: { padding: '20px 14px 16px', borderBottom: '1px solid #2a2a2a' },
+    eyebrow: { background: '#1d3a2a', color: '#4ade80', fontSize: 10, padding: '2px 8px', borderRadius: 6, display: 'inline-block', marginBottom: 8, fontFamily: 'Space Mono, monospace' },
+    h1: { color: '#e8e6e0', fontSize: 24, fontWeight: 700, lineHeight: 1.2, marginBottom: 8 },
+    h1Accent: { color: '#4ade80' },
+    subtitle: { color: '#888', fontSize: 13, lineHeight: 1.4, marginBottom: 14 },
+
+    chatSplit: { display: 'flex', gap: 6, marginBottom: 12 },
+    chatBox: { flex: 1, background: '#1a1a1a', border: '1px solid #333', borderRadius: 10, padding: 8 },
+    chatLabel: { color: '#4ade80', fontSize: 9, fontFamily: 'Space Mono, monospace', marginBottom: 6 },
+    chatBubble: { background: '#252525', borderRadius: 6, padding: '4px 6px', marginBottom: 4, fontSize: 11, color: '#ccc' },
+    chatBubbleUser: { background: '#1d3a2a', borderRadius: 6, padding: '4px 6px', marginBottom: 4, fontSize: 11, color: '#ccc' },
+    syncLine: { display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 4, padding: '4px 0' },
+    syncDot: { width: 6, height: 6, borderRadius: '50%', background: '#4ade80' },
+    syncText: { color: '#4ade80', fontSize: 9, fontFamily: 'Space Mono, monospace' },
+
+    ctaRow: { display: 'flex', gap: 8 },
+    ctaPrimary: { background: '#4ade80', color: '#111', fontSize: 12, padding: '7px 14px', borderRadius: 6, fontWeight: 700, flex: 1, textAlign: 'center' },
+    ctaSecondary: { border: '1px solid #444', color: '#888', fontSize: 12, padding: '7px 14px', borderRadius: 6, flex: 1, textAlign: 'center' },
+
+    techBar: { padding: '8px 14px', borderBottom: '1px solid #2a2a2a', display: 'flex', justifyContent: 'center', gap: 6, flexWrap: 'wrap' },
+    techPill: { background: '#1a1a1a', border: '1px solid #333', color: '#666', fontSize: 9, padding: '2px 6px', borderRadius: 6, fontFamily: 'Space Mono, monospace' },
+
+    section: { padding: '14px 14px', borderBottom: '1px solid #2a2a2a', position: 'relative' },
+    sectionLabel: { color: '#555', fontSize: 9, fontFamily: 'Space Mono, monospace', textTransform: 'uppercase', letterSpacing: 1, marginBottom: 8 },
+    sectionTitle: { color: '#e8e6e0', fontSize: 15, fontWeight: 700, marginBottom: 10 },
+
+    probCols: { display: 'flex', gap: 10 },
+    probCol: { flex: 1 },
+    probHead: { color: '#666', fontSize: 10, fontFamily: 'Space Mono, monospace', marginBottom: 6 },
+    probItem: { background: '#1a1a1a', border: '1px solid #2a2a2a', borderRadius: 6, padding: '5px 7px', marginBottom: 4, fontSize: 11, color: '#888', lineHeight: 1.3 },
+    solItem: { background: '#1a1a1a', border: '1px solid #1d3a2a', borderRadius: 6, padding: '5px 7px', marginBottom: 4, fontSize: 11, color: '#4ade80', lineHeight: 1.3 },
+
+    demoCard: { background: '#141414', border: '1px solid #222', borderRadius: 10, padding: 10 },
+    demoMsg: { display: 'flex', gap: 6, marginBottom: 6, alignItems: 'flex-start' },
+    demoAvatar: { width: 18, height: 18, borderRadius: '50%', background: '#1d3a2a', border: '1px solid #4ade80', flexShrink: 0 },
+    demoBubble: { background: '#1a1a1a', borderRadius: 6, padding: '4px 7px', fontSize: 10, color: '#ccc', lineHeight: 1.4 },
+    demoSystem: { background: '#0f1f17', border: '1px dashed #1d3a2a', borderRadius: 6, padding: '4px 7px', fontSize: 9, color: '#4ade80', fontFamily: 'Space Mono, monospace', marginBottom: 6, textAlign: 'center' },
+
+    stepsRow: { display: 'flex', gap: 8 },
+    step: { flex: 1, background: '#1a1a1a', border: '1px solid #2a2a2a', borderRadius: 10, padding: 8 },
+    stepNum: { color: '#4ade80', fontSize: 18, fontWeight: 700 },
+    stepTitle: { color: '#e8e6e0', fontSize: 11, fontWeight: 700, marginBottom: 3 },
+    stepDesc: { color: '#666', fontSize: 10, lineHeight: 1.3 },
+
+    grid2: { display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8 },
+    featureCard: { background: '#1a1a1a', border: '1px solid #2a2a2a', borderRadius: 10, padding: 8 },
+    featureTitle: { color: '#e8e6e0', fontSize: 11, fontWeight: 700, marginBottom: 4 },
+    featureDesc: { color: '#666', fontSize: 10, lineHeight: 1.4 },
+
+    finalSection: { padding: 20, background: '#0d1a11', textAlign: 'center' },
+    finalH: { color: '#4ade80', fontSize: 20, fontWeight: 700, marginBottom: 12 },
+    finalBtn: { background: '#4ade80', color: '#111', fontSize: 13, padding: '9px 24px', borderRadius: 6, display: 'inline-block', fontWeight: 700 },
+    finalSub: { color: '#444', fontSize: 10, fontFamily: 'Space Mono, monospace', marginTop: 8 },
+  };
+
+  return (
+    <div style={S.page}>
+      {/* Nav */}
+      <div style={S.nav}>
+        <span style={S.navLogo}>ATHLETE AI</span>
+        <div style={S.navLinks}>
+          <span style={S.navLink}>HOW IT WORKS</span>
+          <span style={S.navLink}>START</span>
+        </div>
+      </div>
+
+      {/* Hero */}
+      <div style={S.hero}>
+        <span style={S.eyebrow}>POWERED BY GOOGLE A2A PROTOCOL</span>
+        <div style={S.h1}>Your coaches<br/>talk to each other.<br/><span style={S.h1Accent}>Finally.</span></div>
+        <div style={S.subtitle}>Two AI agents, live context, zero manual bridging.</div>
+
+        {/* Split chat UI */}
+        <div style={S.chatSplit}>
+          <div style={S.chatBox}>
+            <div style={S.chatLabel}>NUTRITION</div>
+            <div style={S.chatBubble}>What should I eat tonight?</div>
+            <div style={S.chatBubbleUser}>Querying training data...</div>
+            <div style={S.chatBubbleUser}>Load: 87 TSS. Carbs up.</div>
+          </div>
+          <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', gap: 3 }}>
+            <div style={S.syncDot}></div>
+            <div style={{ width: 1, height: 30, background: '#4ade80', opacity: 0.4 }}></div>
+            <div style={S.syncDot}></div>
+          </div>
+          <div style={S.chatBox}>
+            <div style={S.chatLabel}>TRAINING</div>
+            <div style={S.chatBubble}>Tomorrow: Speed endurance</div>
+            <div style={S.chatBubbleUser}>HRV: 62. Moderate load.</div>
+            <div style={S.chatBubble}>Glycogen priority.</div>
+          </div>
+        </div>
+
+        <div style={S.ctaRow}>
+          <div style={S.ctaPrimary}>START TRAINING</div>
+          <div style={S.ctaSecondary}>SEE HOW IT WORKS ↓</div>
+        </div>
+      </div>
+
+      {/* Tech bar */}
+      <div style={S.techBar}>
+        {['Google ADK', 'Gemini 2.5', 'Firestore', 'Cloud Run'].map(t => (
+          <span key={t} style={S.techPill}>{t}</span>
+        ))}
+      </div>
+
+      {/* Problem / Solution */}
+      <div style={S.section}>
+        <div style={S.sectionLabel}>PROBLEM / SOLUTION</div>
+        <div style={S.probCols}>
+          <div style={S.probCol}>
+            <div style={S.probHead}>BEFORE</div>
+            <div style={S.probItem}>Nutrition coach knows nothing about yesterday's brutal session</div>
+            <div style={S.probItem}>Training coach doesn't know you underate today</div>
+            <div style={S.probItem}>You manually bridge every piece of advice</div>
+          </div>
+          <div style={S.probCol}>
+            <div style={S.probHead}>WITH ATHLETE AI</div>
+            <div style={S.solItem}>Nutrition sees your full training load automatically</div>
+            <div style={S.solItem}>Training adapts to your fuel status in real time</div>
+            <div style={S.solItem}>Agents consult each other. You just ask.</div>
+          </div>
+        </div>
+      </div>
+
+      {/* Demo */}
+      <div style={S.section}>
+        <div style={S.sectionLabel}>LIVE DEMO</div>
+        <div style={S.demoCard}>
+          <div style={S.demoMsg}>
+            <div style={{ ...S.demoAvatar, background: '#1a1a1a', border: '1px solid #555' }}></div>
+            <div style={S.demoBubble}>I have a speed endurance session tomorrow. What should I eat tonight?</div>
+          </div>
+          <div style={S.demoSystem}>⟳ Consulting training agent...</div>
+          <div style={S.demoMsg}>
+            <div style={S.demoAvatar}></div>
+            <div style={S.demoBubble}>Based on tomorrow's 87 TSS speed work, prioritize 180g carbs tonight. 3-4hrs pre-sleep window. Avoid high fiber.</div>
+          </div>
+        </div>
+      </div>
+
+      {/* Steps */}
+      <div style={S.section}>
+        <div style={S.sectionLabel}>HOW IT WORKS</div>
+        <div style={S.stepsRow}>
+          {[['1', 'Ask', 'Talk to either agent naturally'],['2', 'Consult', 'A2A triggers context sharing'],['3', 'Act', 'Response informed by full context']].map(([n,t,d]) => (
+            <div key={n} style={S.step}>
+              <div style={S.stepNum}>{n}</div>
+              <div style={S.stepTitle}>{t}</div>
+              <div style={S.stepDesc}>{d}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Features */}
+      <div style={S.section}>
+        <div style={S.sectionLabel}>FEATURES</div>
+        <div style={S.grid2}>
+          {[['Cross-Agent','Nutrition & training flow between agents via A2A'],['Memory','Every session & meal stored in Firestore'],['Decathlon','Built for 10-event periodization'],['<2 sec','Gemini 2.5 Flash. No loading screens.']].map(([t,d]) => (
+            <div key={t} style={S.featureCard}>
+              <div style={S.featureTitle}>{t}</div>
+              <div style={S.featureDesc}>{d}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* CTA */}
+      <div style={S.finalSection}>
+        <div style={S.finalH}>Train with both coaches.</div>
+        <div style={S.finalBtn}>GET STARTED</div>
+        <div style={S.finalSub}>BUILT FOR COMPETITIVE ATHLETES</div>
+      </div>
+    </div>
+  );
+}
+
+/* ─── WIREFRAME DIRECTION 2: Clean / Editorial ─── */
+function WF_Editorial() {
+  const S = {
+    page: { width: 320, background: '#faf9f7', fontFamily: '-apple-system, BlinkMacSystemFont, SF Pro Display, SF Pro Text, sans-serif', overflow: 'hidden', border: '1.5px solid rgba(0,0,0,0.12)', borderRadius: 12, boxShadow: '0 4px 24px rgba(0,0,0,0.10)' },
+
+    nav: { display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px 16px', borderBottom: '1px solid rgba(0,0,0,0.08)' },
+    navLogo: { fontSize: 14, fontWeight: 700, letterSpacing: -0.5 },
+    navCta: { background: '#1a1a1a', color: '#faf9f7', fontSize: 10, padding: '4px 10px', borderRadius: 6 },
+
+    hero: { padding: '24px 16px 18px', borderBottom: '1px solid rgba(0,0,0,0.08)' },
+    eyebrow: { display: 'inline-flex', alignItems: 'center', gap: 4, background: '#e8f5ec', border: '1px solid #b2dfc0', borderRadius: 6, padding: '2px 8px', marginBottom: 12 },
+    eyebrowDot: { width: 6, height: 6, borderRadius: '50%', background: '#22c55e' },
+    eyebrowText: { fontSize: 10, color: '#166534', fontFamily: 'Space Mono, monospace' },
+    h1: { fontSize: 28, fontWeight: 700, lineHeight: 1.1, marginBottom: 10, color: '#0f0f0f' },
+    h1Strike: { textDecoration: 'line-through', color: '#999' },
+    h1New: { color: '#0f0f0f' },
+    subtitle: { fontSize: 14, color: '#555', lineHeight: 1.4, marginBottom: 16 },
+
+    heroGrid: { display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8, marginBottom: 14 },
+    agentCard: { border: '1px solid rgba(0,0,0,0.10)', borderRadius: 10, padding: 8, background: '#fff' },
+    agentTag: { fontSize: 9, fontFamily: 'Space Mono, monospace', textTransform: 'uppercase', letterSpacing: 1, marginBottom: 6, color: '#888' },
+    agentMsg: { fontSize: 10, color: '#333', background: '#f5f5f5', borderRadius: 6, padding: '4px 6px', marginBottom: 4, lineHeight: 1.3 },
+    agentResp: { fontSize: 10, color: '#166534', background: '#e8f5ec', borderRadius: 6, padding: '4px 6px', lineHeight: 1.3 },
+    syncBridge: { display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 4, margin: '4px 0' },
+    syncLine2: { flex: 1, height: 1, background: '#22c55e', borderTop: '2px dashed #22c55e' },
+    syncBadge: { background: '#e8f5ec', border: '1px solid #b2dfc0', borderRadius: 10, padding: '2px 6px', fontSize: 9, color: '#166534', fontFamily: 'Space Mono, monospace', flexShrink: 0 },
+
+    ctaRow: { display: 'flex', gap: 8 },
+    ctaPrimary: { flex: 1, background: '#0f0f0f', color: '#faf9f7', fontSize: 12, padding: '9px 0', borderRadius: 6, textAlign: 'center', fontWeight: 700 },
+    ctaGhost: { flex: 1, border: '1px solid rgba(0,0,0,0.10)', fontSize: 12, padding: '9px 0', borderRadius: 6, textAlign: 'center', color: '#1a1a1a' },
+
+    techBar: { borderBottom: '1px solid rgba(0,0,0,0.08)', padding: '7px 16px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' },
+    techText: { fontSize: 10, color: '#888', fontFamily: 'Space Mono, monospace' },
+
+    section: { padding: '16px', borderBottom: '1px solid rgba(0,0,0,0.08)', position: 'relative' },
+    sectionNum: { fontSize: 11, fontFamily: 'Space Mono, monospace', color: '#bbb', marginBottom: 4 },
+    sectionH: { fontSize: 18, fontWeight: 700, color: '#0f0f0f', marginBottom: 12 },
+
+    twoCol: { display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 },
+    colLabel: { fontSize: 10, fontFamily: 'Space Mono, monospace', textTransform: 'uppercase', letterSpacing: 1, marginBottom: 8, paddingBottom: 4, borderBottom: '1px solid #ddd', color: '#888' },
+    painItem: { fontSize: 12, color: '#666', marginBottom: 6, lineHeight: 1.3, paddingLeft: 8, borderLeft: '2px solid #ddd' },
+    gainItem: { fontSize: 12, color: '#1a1a1a', marginBottom: 6, lineHeight: 1.3, paddingLeft: 8, borderLeft: '2px solid #22c55e' },
+
+    demoContainer: { background: '#fff', border: '1px solid rgba(0,0,0,0.10)', borderRadius: 10, overflow: 'hidden' },
+    demoHeader: { background: '#1a1a1a', padding: '6px 10px', display: 'flex', alignItems: 'center', gap: 5 },
+    demoHeaderDot: { width: 6, height: 6, borderRadius: '50%', background: '#555' },
+    demoHeaderText: { color: '#888', fontSize: 9, fontFamily: 'Space Mono, monospace' },
+    demoBody: { padding: 10 },
+    demoRow: { display: 'flex', gap: 6, marginBottom: 8, alignItems: 'flex-start' },
+    demoInitial: { width: 20, height: 20, borderRadius: '50%', background: '#e5e5e5', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 9, fontWeight: 700, flexShrink: 0 },
+    demoBubble: { fontSize: 10, color: '#333', background: '#f5f5f5', padding: '5px 8px', borderRadius: 6, lineHeight: 1.4 },
+    demoSystem: { background: '#fefce8', border: '1px solid #fde68a', borderRadius: 6, padding: '4px 8px', fontSize: 9, color: '#92400e', fontFamily: 'Space Mono, monospace', textAlign: 'center', marginBottom: 8 },
+    demoAnswer: { fontSize: 10, color: '#166534', background: '#f0fdf4', border: '1px solid #bbf7d0', padding: '5px 8px', borderRadius: 6, lineHeight: 1.4 },
+
+    stepsH: { display: 'flex', gap: 0 },
+    stepItem: { flex: 1, padding: '10px 10px', borderRight: '1px solid rgba(0,0,0,0.08)' },
+    stepNum: { fontSize: 28, fontWeight: 700, color: '#e5e5e5', lineHeight: 1 },
+    stepTitle: { fontSize: 13, fontWeight: 700, color: '#0f0f0f', marginBottom: 3 },
+    stepDesc: { fontSize: 10, color: '#888', lineHeight: 1.4 },
+
+    grid2x2: { display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 0 },
+    fCard: { padding: 10, border: '1px solid rgba(0,0,0,0.06)', borderBottom: '1px solid rgba(0,0,0,0.08)' },
+    fTitle: { fontSize: 12, fontWeight: 700, color: '#0f0f0f', marginBottom: 4 },
+    fDesc: { fontSize: 10, color: '#888', lineHeight: 1.4 },
+
+    finalSection: { padding: '24px 16px', background: '#0f0f0f', textAlign: 'center' },
+    finalH: { fontSize: 22, fontWeight: 700, color: '#faf9f7', marginBottom: 14, lineHeight: 1.2 },
+    finalBtn: { background: '#22c55e', color: '#0f0f0f', fontSize: 13, padding: '10px 28px', borderRadius: 6, display: 'inline-block', fontWeight: 700 },
+    finalSub: { color: '#555', fontSize: 10, fontFamily: 'Space Mono, monospace', marginTop: 10 },
+  };
+
+  return (
+    <div style={S.page}>
+      <div style={S.nav}>
+        <span style={S.navLogo}>Athlete AI</span>
+        <span style={S.navCta}>Start Training →</span>
+      </div>
+
+      <div style={S.hero}>
+        <div style={S.eyebrow}>
+          <span style={S.eyebrowDot}></span>
+          <span style={S.eyebrowText}>GOOGLE A2A PROTOCOL</span>
+        </div>
+        <div style={S.h1}>Your coaches<br/>talk to<br/>each other.</div>
+        <div style={S.subtitle}>Two AI agents sharing live context. No copy-pasting. No switching tabs.</div>
+
+        {/* Agent cards with sync */}
+        <div style={S.heroGrid}>
+          <div style={S.agentCard}>
+            <div style={S.agentTag}>Nutrition Agent</div>
+            <div style={S.agentMsg}>What should I eat tonight?</div>
+            <div style={S.agentResp}>Based on tomorrow's TSS: 180g carbs...</div>
+          </div>
+          <div style={S.agentCard}>
+            <div style={S.agentTag}>Training Agent</div>
+            <div style={S.agentMsg}>Speed endurance tomorrow</div>
+            <div style={S.agentResp}>HRV 62 · TSS 87 · Load: Mod</div>
+          </div>
+        </div>
+        <div style={S.syncBridge}>
+          <div style={S.syncLine2}></div>
+          <div style={S.syncBadge}>A2A SYNC</div>
+          <div style={S.syncLine2}></div>
+        </div>
+        <div style={{ height: 12 }}></div>
+
+        <div style={S.ctaRow}>
+          <div style={S.ctaPrimary}>Start Training</div>
+          <div style={S.ctaGhost}>See how it works ↓</div>
+        </div>
+      </div>
+
+      <div style={S.techBar}>
+        <span style={S.techText}>Built on Google ADK · Gemini 2.5 Flash · Firestore · Cloud Run</span>
+      </div>
+
+      {/* Problem/Solution */}
+      <div style={S.section}>
+        <div style={S.sectionNum}>01</div>
+        <div style={S.sectionH}>The gap that costs performance.</div>
+        <div style={S.twoCol}>
+          <div>
+            <div style={S.colLabel}>Before</div>
+            <div style={S.painItem}>Nutrition coach is blind to yesterday's session</div>
+            <div style={S.painItem}>Training load ignores how you fueled</div>
+            <div style={S.painItem}>You bridge the gap manually, every time</div>
+          </div>
+          <div>
+            <div style={S.colLabel}>With Athlete AI</div>
+            <div style={S.gainItem}>Agents share context automatically</div>
+            <div style={S.gainItem}>Advice reflects full athlete state</div>
+            <div style={S.gainItem}>You just ask. Both know.</div>
+          </div>
+        </div>
+      </div>
+
+      {/* Demo */}
+      <div style={S.section}>
+        <div style={S.sectionNum}>02</div>
+        <div style={S.sectionH}>Watch the agents work.</div>
+        <div style={S.demoContainer}>
+          <div style={S.demoHeader}>
+            {[1,2,3].map(i => <div key={i} style={S.demoHeaderDot}></div>)}
+            <span style={S.demoHeaderText}>NUTRITION AGENT</span>
+          </div>
+          <div style={S.demoBody}>
+            <div style={S.demoRow}>
+              <div style={{ ...S.demoInitial, background: '#ddd' }}>U</div>
+              <div style={S.demoBubble}>I have a speed endurance session tomorrow. What should I eat tonight?</div>
+            </div>
+            <div style={S.demoSystem}>⟳ Consulting training agent...</div>
+            <div style={S.demoRow}>
+              <div style={{ ...S.demoInitial, background: '#dcfce7', color: '#166534' }}>N</div>
+              <div style={S.demoAnswer}>With 87 TSS tomorrow: prioritize 180g complex carbs tonight. Avoid high fiber 3hrs pre-sleep. This is based on your training plan, not a generic recommendation.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* How it works */}
+      <div style={{ ...S.section, padding: 0 }}>
+        <div style={{ padding: '14px 16px 0' }}>
+          <div style={S.sectionNum}>03</div>
+          <div style={S.sectionH}>How it works.</div>
+        </div>
+        <div style={S.stepsH}>
+          {[['1','Ask','Talk to either agent naturally'],['2','Consult','A2A triggers auto context sharing'],['3','Act','Full athlete context informs response']].map(([n,t,d], i) => (
+            <div key={n} style={{ ...S.stepItem, borderRight: i < 2 ? '2px solid #1a1a1a' : 'none' }}>
+              <div style={S.stepNum}>{n}</div>
+              <div style={S.stepTitle}>{t}</div>
+              <div style={S.stepDesc}>{d}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Features */}
+      <div style={S.section}>
+        <div style={S.sectionNum}>04</div>
+        <div style={S.sectionH}>What's under the hood.</div>
+        <div style={S.grid2x2}>
+          {[['Cross-Agent Context','Data flows between agents via A2A. Ask one, both know.'],['Persistent Memory','Every meal and session stored in Firestore.'],['Decathlon-Specific','Built for 10-event periodization and competition phases.'],['Real-Time','Gemini 2.5 Flash. Under 2 seconds.']].map(([t,d],i) => (
+            <div key={t} style={{ ...S.fCard, borderRight: i%2===0 ? '2px solid #1a1a1a' : 'none' }}>
+              <div style={S.fTitle}>{t}</div>
+              <div style={S.fDesc}>{d}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Final CTA */}
+      <div style={S.finalSection}>
+        <div style={S.finalH}>Train with<br/>both coaches.</div>
+        <div style={S.finalBtn}>Get Started</div>
+        <div style={S.finalSub}>BUILT FOR COMPETITIVE ATHLETES</div>
+      </div>
+    </div>
+  );
+}
+
+/* ─── WIREFRAME DIRECTION 3: Split-Screen / Data-forward ─── */
+function WF_SplitData() {
+  const S = {
+    page: { width: 320, background: '#f7f6f4', fontFamily: '-apple-system, BlinkMacSystemFont, SF Pro Display, SF Pro Text, sans-serif', overflow: 'hidden', border: '1.5px solid rgba(0,0,0,0.12)', borderRadius: 12, boxShadow: '0 4px 24px rgba(0,0,0,0.10)' },
+
+    nav: { display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px 14px', borderBottom: '1px solid rgba(0,0,0,0.08)', background: '#fff' },
+    logo: { fontSize: 13, fontWeight: 700, fontFamily: 'Space Mono, monospace' },
+    navRight: { display: 'flex', alignItems: 'center', gap: 8 },
+    navLink: { fontSize: 10, color: '#888' },
+    navBtn: { background: '#2563eb', color: '#fff', fontSize: 10, padding: '4px 10px', borderRadius: 6 },
+
+    hero: { borderBottom: '1px solid rgba(0,0,0,0.08)' },
+    heroTop: { padding: '16px 14px 14px', background: '#fff' },
+    eyebrow: { background: '#eff6ff', border: '1px solid #bfdbfe', borderRadius: 6, padding: '2px 7px', display: 'inline-block', fontSize: 9, color: '#1d4ed8', fontFamily: 'Space Mono, monospace', marginBottom: 10 },
+    h1: { fontSize: 22, fontWeight: 700, lineHeight: 1.2, color: '#0f0f0f', marginBottom: 8 },
+    h1Blue: { color: '#2563eb' },
+    subtitle: { fontSize: 13, color: '#666', lineHeight: 1.4, marginBottom: 12 },
+    ctaRow: { display: 'flex', gap: 8, marginBottom: 0 },
+    ctaBlue: { flex: 1, background: '#2563eb', color: '#fff', fontSize: 12, padding: '8px 0', borderRadius: 6, textAlign: 'center', fontWeight: 700 },
+    ctaGhost: { flex: 1, border: '1px solid rgba(0,0,0,0.10)', fontSize: 12, padding: '8px 0', borderRadius: 6, textAlign: 'center', color: '#1a1a1a' },
+
+    splitHero: { display: 'grid', gridTemplateColumns: '1fr 1fr', borderTop: '1px solid rgba(0,0,0,0.08)' },
+    agentPane: { padding: 10, borderRight: '1px solid #e5e5e5' },
+    agentPaneR: { padding: 10 },
+    agentHeader: { display: 'flex', align: 'center', gap: 4, marginBottom: 8 },
+    agentDot: { width: 8, height: 8, borderRadius: '50%', flexShrink: 0, marginTop: 2 },
+    agentName: { fontSize: 10, fontFamily: 'Space Mono, monospace', fontWeight: 700, color: '#333' },
+    statRow: { display: 'flex', justify: 'space-between', marginBottom: 4 },
+    stat: { background: '#f5f5f5', borderRadius: 6, padding: '4px 6px', textAlign: 'center', flex: 1, marginRight: 4 },
+    statVal: { fontSize: 14, fontWeight: 700, color: '#0f0f0f' },
+    statKey: { fontSize: 8, color: '#888', fontFamily: 'Space Mono, monospace' },
+    chatLine: { fontSize: 10, color: '#555', background: '#f5f5f5', padding: '4px 6px', borderRadius: 6, marginBottom: 3, lineHeight: 1.3 },
+    chatLineBlue: { fontSize: 10, color: '#1d4ed8', background: '#eff6ff', padding: '4px 6px', borderRadius: 6, marginBottom: 3, lineHeight: 1.3 },
+
+    syncBar: { background: '#1a1a1a', padding: '6px 14px', display: 'flex', align: 'center', justifyContent: 'center', gap: 6, borderTop: '1px solid rgba(0,0,0,0.08)', borderBottom: '1px solid rgba(0,0,0,0.08)' },
+    syncBubble: { background: '#374151', border: '1px solid #4b5563', borderRadius: 6, padding: '2px 8px', fontSize: 9, color: '#9ca3af', fontFamily: 'Space Mono, monospace' },
+    syncArrow: { color: '#2563eb', fontSize: 12, fontWeight: 700 },
+
+    section: { padding: '14px', borderBottom: '1px solid rgba(0,0,0,0.08)', background: '#fff' },
+    sLabel: { fontSize: 9, fontFamily: 'Space Mono, monospace', color: '#aaa', textTransform: 'uppercase', letterSpacing: 1, marginBottom: 6 },
+    sH: { fontSize: 16, fontWeight: 700, color: '#0f0f0f', marginBottom: 10 },
+
+    probGrid: { display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8 },
+    probCard: { background: '#fef2f2', border: '1px solid #fecaca', borderRadius: 10, padding: 8 },
+    gainCard: { background: '#eff6ff', border: '1px solid #bfdbfe', borderRadius: 10, padding: 8 },
+    cardLabel: { fontSize: 9, fontFamily: 'Space Mono, monospace', textTransform: 'uppercase', letterSpacing: 1, marginBottom: 6 },
+    cardItem: { fontSize: 11, lineHeight: 1.4, color: '#333', marginBottom: 4 },
+
+    demoFull: { background: '#0f172a', padding: 12, borderBottom: '1px solid rgba(0,0,0,0.08)' },
+    demoTitle: { color: '#94a3b8', fontSize: 10, fontFamily: 'Space Mono, monospace', marginBottom: 10 },
+    dmMsg: { display: 'flex', gap: 6, marginBottom: 6 },
+    dmAvatar: { width: 18, height: 18, borderRadius: 6, background: '#334155', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 8, color: '#94a3b8', flexShrink: 0 },
+    dmBubble: { background: '#1e293b', borderRadius: 6, padding: '5px 8px', fontSize: 10, color: '#cbd5e1', lineHeight: 1.4 },
+    dmSystem: { background: '#172554', border: '1px solid #1e40af', borderRadius: 6, padding: '4px 8px', fontSize: 9, color: '#60a5fa', fontFamily: 'Space Mono, monospace', textAlign: 'center', marginBottom: 6 },
+    dmResponse: { background: '#1e293b', borderRadius: 6, padding: '5px 8px', fontSize: 10, color: '#86efac', lineHeight: 1.4 },
+
+    stepsRow: { display: 'flex', gap: 0 },
+    stepBox: { flex: 1, padding: 10, background: '#fff', borderRight: '1px solid rgba(0,0,0,0.08)' },
+    stepN: { fontSize: 22, fontWeight: 700, color: '#2563eb', lineHeight: 1 },
+    stepT: { fontSize: 12, fontWeight: 700, color: '#0f0f0f', marginBottom: 3 },
+    stepD: { fontSize: 10, color: '#888', lineHeight: 1.3 },
+
+    featureGrid: { display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 0, background: '#fff' },
+    fCard: { padding: 10, border: '1px solid #e5e5e5' },
+    fT: { fontSize: 12, fontWeight: 700, color: '#0f0f0f', marginBottom: 3 },
+    fD: { fontSize: 10, color: '#888', lineHeight: 1.4 },
+
+    finalDark: { background: '#0f172a', padding: '20px 16px', textAlign: 'center' },
+    finalH: { fontSize: 20, fontWeight: 700, color: '#f1f5f9', marginBottom: 12, lineHeight: 1.2 },
+    finalBtn: { background: '#2563eb', color: '#fff', fontSize: 13, padding: '9px 24px', borderRadius: 6, display: 'inline-block', fontWeight: 700 },
+    finalSub: { color: '#334155', fontSize: 9, fontFamily: 'Space Mono, monospace', marginTop: 8 },
+  };
+
+  return (
+    <div style={S.page}>
+      <div style={S.nav}>
+        <span style={S.logo}>ATHLETE AI</span>
+        <div style={S.navRight}>
+          <span style={S.navLink}>Docs</span>
+          <span style={S.navBtn}>Start Training</span>
+        </div>
+      </div>
+
+      {/* Hero */}
+      <div style={S.hero}>
+        <div style={S.heroTop}>
+          <div style={S.eyebrow}>GOOGLE A2A PROTOCOL</div>
+          <div style={S.h1}>Your coaches<br/><span style={S.h1Blue}>talk to each other.</span><br/>Finally.</div>
+          <div style={S.subtitle}>Two AI agents. Live context sharing. One platform built for decathletes.</div>
+          <div style={S.ctaRow}>
+            <div style={S.ctaBlue}>Start Training</div>
+            <div style={S.ctaGhost}>See how it works ↓</div>
+          </div>
+        </div>
+
+        {/* Split agent panes */}
+        <div style={S.splitHero}>
+          <div style={S.agentPane}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 4, marginBottom: 8 }}>
+              <div style={{ ...S.agentDot, background: '#22c55e' }}></div>
+              <span style={S.agentName}>NUTRITION</span>
+            </div>
+            <div style={{ display: 'flex', gap: 4, marginBottom: 6 }}>
+              <div style={{ ...S.stat, marginRight: 4 }}>
+                <div style={S.statVal}>2,840</div>
+                <div style={S.statKey}>KCAL</div>
+              </div>
+              <div style={{ ...S.stat, marginRight: 0 }}>
+                <div style={S.statVal}>187g</div>
+                <div style={S.statKey}>CARBS</div>
+              </div>
+            </div>
+            <div style={S.chatLine}>Tonight: 180g carbs rec.</div>
+            <div style={S.chatLineBlue}>Why? Training load: 87 TSS</div>
+          </div>
+          <div style={S.agentPaneR}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 4, marginBottom: 8 }}>
+              <div style={{ ...S.agentDot, background: '#3b82f6' }}></div>
+              <span style={S.agentName}>TRAINING</span>
+            </div>
+            <div style={{ display: 'flex', gap: 4, marginBottom: 6 }}>
+              <div style={{ ...S.stat, marginRight: 4 }}>
+                <div style={S.statVal}>87</div>
+                <div style={S.statKey}>TSS</div>
+              </div>
+              <div style={{ ...S.stat, marginRight: 0 }}>
+                <div style={S.statVal}>62</div>
+                <div style={S.statKey}>HRV</div>
+              </div>
+            </div>
+            <div style={S.chatLine}>Tomorrow: Speed endurance</div>
+            <div style={S.chatLineBlue}>Glycogen: Priority HIGH</div>
+          </div>
+        </div>
+        <div style={S.syncBar}>
+          <span style={S.syncBubble}>NUTRITION</span>
+          <span style={S.syncArrow}>⇄</span>
+          <span style={S.syncBubble}>A2A SYNC</span>
+          <span style={S.syncArrow}>⇄</span>
+          <span style={S.syncBubble}>TRAINING</span>
+        </div>
+      </div>
+
+      {/* Tech bar */}
+      <div style={{ padding: '6px 14px', borderBottom: '1px solid rgba(0,0,0,0.08)', background: '#f7f6f4', textAlign: 'center' }}>
+        <span style={{ fontSize: 10, color: '#888', fontFamily: 'Space Mono, monospace' }}>ADK · GEMINI 2.5 FLASH · FIRESTORE · CLOUD RUN</span>
+      </div>
+
+      {/* Problem / Solution */}
+      <div style={S.section}>
+        <div style={S.sLabel}>THE PROBLEM</div>
+        <div style={S.sH}>Every coach is an island.</div>
+        <div style={S.probGrid}>
+          <div style={S.probCard}>
+            <div style={{ ...S.cardLabel, color: '#dc2626' }}>BEFORE</div>
+            {['Nutrition blind to training load','Training ignores fuel deficit','You bridge everything manually'].map(t => (
+              <div key={t} style={S.cardItem}>— {t}</div>
+            ))}
+          </div>
+          <div style={S.gainCard}>
+            <div style={{ ...S.cardLabel, color: '#1d4ed8' }}>WITH ATHLETE AI</div>
+            {['Agents share context via A2A','Advice reflects full athlete state','You just ask one agent'].map(t => (
+              <div key={t} style={S.cardItem}>✓ {t}</div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* Demo */}
+      <div style={S.demoFull}>
+        <div style={S.demoTitle}>LIVE INTERACTION DEMO</div>
+        <div style={S.dmMsg}>
+          <div style={{ ...S.dmAvatar }}>U</div>
+          <div style={S.dmBubble}>Speed endurance session tomorrow. What should I eat tonight?</div>
+        </div>
+        <div style={S.dmSystem}>⟳ Consulting training agent via A2A...</div>
+        <div style={S.dmMsg}>
+          <div style={{ ...S.dmAvatar, background: '#1a3a2a', color: '#4ade80' }}>N</div>
+          <div style={S.dmResponse}>Based on 87 TSS tomorrow and your current glycogen: 180g carbs tonight. 3–4hr pre-sleep cutoff. Skip the high fiber.</div>
+        </div>
+        <div style={{ fontSize: 9, color: '#334155', fontFamily: 'Space Mono, monospace', marginTop: 8, textAlign: 'center' }}>REAL AGENTS · REAL CONTEXT · REAL TIME</div>
+      </div>
+
+      {/* Steps */}
+      <div style={{ borderBottom: '1px solid rgba(0,0,0,0.08)', background: '#fff' }}>
+        <div style={{ padding: '10px 14px 6px' }}>
+          <div style={S.sLabel}>HOW IT WORKS</div>
+        </div>
+        <div style={S.stepsRow}>
+          {[['1','Ask','Natural language to either agent'],['2','Consult','A2A auto context sharing'],['3','Act','Advice from full context']].map(([n,t,d], i) => (
+            <div key={n} style={{ ...S.stepBox, borderRight: i < 2 ? '2px solid #1a1a1a' : 'none' }}>
+              <div style={S.stepN}>{n}</div>
+              <div style={S.stepT}>{t}</div>
+              <div style={S.stepD}>{d}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Features */}
+      <div style={S.featureGrid}>
+        {[['Cross-Agent','Data flows via A2A. Ask one, both know.'],['Memory','Every session & meal in Firestore.'],['Decathlon','Built for 10-event periodization.'],['<2 sec','Gemini 2.5 Flash. No loading screens.']].map(([t,d], i) => (
+          <div key={t} style={{ ...S.fCard, borderRight: i%2===0 ? '2px solid #1a1a1a' : 'none', borderBottom: i < 2 ? '2px solid #1a1a1a' : 'none' }}>
+            <div style={S.fT}>{t}</div>
+            <div style={S.fD}>{d}</div>
+          </div>
+        ))}
+      </div>
+
+      {/* Final CTA */}
+      <div style={S.finalDark}>
+        <div style={S.finalH}>Train with<br/>both coaches.</div>
+        <div style={S.finalBtn}>Get Started</div>
+        <div style={S.finalSub}>BUILT FOR COMPETITIVE ATHLETES</div>
+      </div>
+    </div>
+  );
+}
+
+/* ─── WIREFRAME DIRECTION 4: Bold / Athletic ─── */
+function WF_BoldAthletic() {
+  const S = {
+    page: { width: 320, background: '#faf9f7', fontFamily: '-apple-system, BlinkMacSystemFont, SF Pro Display, SF Pro Text, sans-serif', overflow: 'hidden', border: '1.5px solid rgba(0,0,0,0.12)', borderRadius: 12, boxShadow: '0 4px 24px rgba(0,0,0,0.10)' },
+
+    nav: { display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '12px 16px', background: '#faf9f7', borderBottom: '1px solid rgba(0,0,0,0.08)' },
+    logo: { fontSize: 13, fontWeight: 700, letterSpacing: 2, textTransform: 'uppercase' },
+    navCta: { background: '#e84c3d', color: '#fff', fontSize: 10, padding: '5px 12px', borderRadius: 6, fontWeight: 700 },
+
+    hero: { background: '#1a1a1a', padding: '20px 16px 20px', position: 'relative', overflow: 'hidden' },
+    heroBg: { position: 'absolute', inset: 0, backgroundImage: 'repeating-linear-gradient(0deg, transparent, transparent 24px, rgba(255,255,255,0.03) 24px, rgba(255,255,255,0.03) 25px)', pointerEvents: 'none' },
+    eyebrow: { background: 'rgba(232,76,61,0.15)', border: '1px solid rgba(232,76,61,0.4)', borderRadius: 6, padding: '2px 8px', display: 'inline-block', fontSize: 9, color: '#e84c3d', fontFamily: 'Space Mono, monospace', marginBottom: 12 },
+    h1: { fontSize: 32, fontWeight: 700, lineHeight: 1.05, color: '#faf9f7', marginBottom: 10, letterSpacing: -1 },
+    h1Dim: { color: '#555', display: 'block' },
+    h1Big: { color: '#faf9f7', display: 'block' },
+    h1Accent: { color: '#e84c3d', display: 'block' },
+    subtitle: { fontSize: 13, color: '#666', lineHeight: 1.4, marginBottom: 16 },
+
+    agentCards: { display: 'flex', gap: 8, marginBottom: 16 },
+    aCard: { flex: 1, background: '#252525', border: '1px solid #333', borderRadius: 10, padding: 10 },
+    aCardLabel: { fontSize: 9, fontFamily: 'Space Mono, monospace', textTransform: 'uppercase', marginBottom: 6 },
+    aCardStat: { fontSize: 20, fontWeight: 700, marginBottom: 2 },
+    aCardSub: { fontSize: 10, color: '#666' },
+    aCardMsg: { fontSize: 10, color: '#aaa', marginTop: 6, lineHeight: 1.3 },
+    linkArrow: { textAlign: 'center', color: '#e84c3d', fontSize: 16, marginBottom: 16, fontFamily: 'Space Mono, monospace' },
+
+    ctaRow: { display: 'flex', gap: 8 },
+    ctaRed: { flex: 1, background: '#e84c3d', color: '#fff', fontSize: 12, padding: '10px 0', borderRadius: 6, textAlign: 'center', fontWeight: 700 },
+    ctaGhost: { flex: 1, border: '1px solid #444', color: '#888', fontSize: 12, padding: '10px 0', borderRadius: 6, textAlign: 'center' },
+
+    techBar: { padding: '8px 16px', borderBottom: '1px solid rgba(0,0,0,0.08)', borderTop: '1px solid rgba(0,0,0,0.08)', background: '#faf9f7', textAlign: 'center' },
+    techText: { fontSize: 10, color: '#888', fontFamily: 'Space Mono, monospace' },
+
+    section: { padding: '16px 16px', borderBottom: '1px solid rgba(0,0,0,0.08)' },
+    bigNum: { fontSize: 48, fontWeight: 700, color: '#e5e3df', lineHeight: 1, position: 'absolute', right: 16, top: 12 },
+    sLabel: { fontSize: 9, fontFamily: 'Space Mono, monospace', color: '#e84c3d', textTransform: 'uppercase', letterSpacing: 2, marginBottom: 6 },
+    sH: { fontSize: 18, fontWeight: 700, color: '#0f0f0f', marginBottom: 12, lineHeight: 1.2 },
+
+    probList: { marginBottom: 10 },
+    probItem: { display: 'flex', gap: 8, marginBottom: 6, alignItems: 'flex-start' },
+    probX: { color: '#e84c3d', fontWeight: 700, flexShrink: 0, fontSize: 14 },
+    probCheck: { color: '#22c55e', fontWeight: 700, flexShrink: 0, fontSize: 14 },
+    probText: { fontSize: 12, color: '#555', lineHeight: 1.3 },
+    gainText: { fontSize: 12, color: '#0f0f0f', lineHeight: 1.3 },
+
+    demoBlock: { background: '#0f0f0f', padding: 12, borderRadius: 10, border: '1px solid #222' },
+    demoUser: { background: '#1a1a1a', borderRadius: 6, padding: '6px 8px', fontSize: 11, color: '#aaa', marginBottom: 8, lineHeight: 1.4 },
+    demoPing: { display: 'flex', align: 'center', gap: 6, marginBottom: 8, padding: '4px 8px', background: '#1a1a1a', border: '1px dashed #333', borderRadius: 6 },
+    demoPingDot: { width: 5, height: 5, borderRadius: '50%', background: '#e84c3d', flexShrink: 0, marginTop: 3 },
+    demoPingText: { fontSize: 9, color: '#666', fontFamily: 'Space Mono, monospace' },
+    demoResp: { background: '#1a2e1a', border: '1px solid #1d3a2a', borderRadius: 6, padding: '6px 8px', fontSize: 11, color: '#4ade80', lineHeight: 1.4 },
+
+    stepsContainer: { position: 'relative', paddingLeft: 28 },
+    stepLine: { position: 'absolute', left: 10, top: 0, bottom: 0, width: 2, background: '#e5e3df' },
+    stepRow: { display: 'flex', gap: 10, marginBottom: 12, position: 'relative', alignItems: 'flex-start' },
+    stepCircle: { width: 20, height: 20, borderRadius: '50%', background: '#e84c3d', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 11, color: '#fff', fontWeight: 700, flexShrink: 0, position: 'absolute', left: -28 },
+    stepContent: {},
+    stepT: { fontSize: 13, fontWeight: 700, color: '#0f0f0f', marginBottom: 2 },
+    stepD: { fontSize: 11, color: '#888', lineHeight: 1.3 },
+
+    featureGrid: { display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8 },
+    fCard: { border: '1px solid rgba(0,0,0,0.10)', borderRadius: 10, padding: 10, background: '#fff' },
+    fNum: { fontSize: 22, fontWeight: 700, color: '#e5e3df', marginBottom: 4 },
+    fT: { fontSize: 12, fontWeight: 700, color: '#0f0f0f', marginBottom: 4 },
+    fD: { fontSize: 10, color: '#888', lineHeight: 1.4 },
+
+    finalSection: { background: '#1a1a1a', padding: '20px 16px', position: 'relative', overflow: 'hidden' },
+    finalBig: { fontSize: 11, fontFamily: 'Space Mono, monospace', color: '#333', letterSpacing: 2, marginBottom: 6 },
+    finalH: { fontSize: 26, fontWeight: 700, color: '#faf9f7', lineHeight: 1.1, marginBottom: 14 },
+    finalAccent: { color: '#e84c3d' },
+    finalBtn: { background: '#e84c3d', color: '#fff', fontSize: 14, padding: '11px 28px', borderRadius: 6, display: 'inline-block', fontWeight: 700, marginBottom: 10 },
+    finalSub: { color: '#555', fontSize: 9, fontFamily: 'Space Mono, monospace' },
+  };
+
+  return (
+    <div style={S.page}>
+      <div style={S.nav}>
+        <span style={S.logo}>Athlete AI</span>
+        <span style={S.navCta}>Start Training →</span>
+      </div>
+
+      {/* Hero - dark */}
+      <div style={S.hero}>
+        <div style={S.heroBg}></div>
+        <div style={S.eyebrow}>GOOGLE A2A PROTOCOL</div>
+        <div style={S.h1}>
+          <span style={S.h1Dim}>Your coaches</span>
+          <span style={S.h1Big}>talk to</span>
+          <span style={S.h1Accent}>each other.</span>
+        </div>
+        <div style={S.subtitle}>Two specialized AI agents sharing live context. Ask one — both answer.</div>
+
+        <div style={S.agentCards}>
+          <div style={S.aCard}>
+            <div style={{ ...S.aCardLabel, color: '#22c55e' }}>NUTRITION</div>
+            <div style={{ ...S.aCardStat, color: '#22c55e' }}>2,840</div>
+            <div style={S.aCardSub}>kcal today</div>
+            <div style={S.aCardMsg}>Carb window: 8pm–10pm</div>
+          </div>
+          <div style={S.aCard}>
+            <div style={{ ...S.aCardLabel, color: '#60a5fa' }}>TRAINING</div>
+            <div style={{ ...S.aCardStat, color: '#60a5fa' }}>87 TSS</div>
+            <div style={S.aCardSub}>load tomorrow</div>
+            <div style={S.aCardMsg}>Speed endurance · HRV 62</div>
+          </div>
+        </div>
+        <div style={S.linkArrow}>⟵ A2A SYNC ⟶</div>
+
+        <div style={S.ctaRow}>
+          <div style={S.ctaRed}>START TRAINING</div>
+          <div style={S.ctaGhost}>SEE HOW IT WORKS ↓</div>
+        </div>
+      </div>
+
+      {/* Tech bar */}
+      <div style={S.techBar}>
+        <span style={S.techText}>ADK · GEMINI 2.5 FLASH · FIRESTORE · CLOUD RUN</span>
+      </div>
+
+      {/* Problem/Solution */}
+      <div style={{ ...S.section, position: 'relative' }}>
+        <div style={S.sLabel}>THE GAP</div>
+        <div style={S.sH}>Two coaches that never talked.</div>
+        <div style={S.probList}>
+          {[
+            ['Nutrition coach blind to yesterday\'s brutal session', 'Nutrition sees full training load automatically'],
+            ['Training load ignores how you fueled today', 'Training adapts based on your fuel status'],
+            ['You manually bridge every piece of advice', 'Agents consult. You just ask.'],
+          ].map(([prob, sol], i) => (
+            <div key={i} style={{ marginBottom: 8 }}>
+              <div style={S.probItem}>
+                <span style={S.probX}>✗</span>
+                <span style={S.probText}>{prob}</span>
+              </div>
+              <div style={S.probItem}>
+                <span style={S.probCheck}>✓</span>
+                <span style={S.gainText}>{sol}</span>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Demo */}
+      <div style={{ ...S.section, background: '#0f0f0f', borderColor: '#1a1a1a' }}>
+        <div style={{ ...S.sLabel, color: '#e84c3d' }}>LIVE DEMO</div>
+        <div style={{ ...S.sH, color: '#faf9f7' }}>Watch them sync in real time.</div>
+        <div style={S.demoBlock}>
+          <div style={S.demoUser}>"Speed endurance session tomorrow. What should I eat tonight?"</div>
+          <div style={S.demoPing}>
+            <div style={S.demoPingDot}></div>
+            <span style={S.demoPingText}>Consulting training agent via A2A...</span>
+          </div>
+          <div style={S.demoResp}>Based on 87 TSS tomorrow: 180g carbs tonight. 3–4hr pre-sleep cutoff. No high fiber. This is your data — not a template.</div>
+        </div>
+      </div>
+
+      {/* How it works */}
+      <div style={S.section}>
+        <div style={S.sLabel}>HOW IT WORKS</div>
+        <div style={S.sH}>Three steps. No manual work.</div>
+        <div style={S.stepsContainer}>
+          <div style={S.stepLine}></div>
+          {[['Ask','Talk to either agent naturally — no switching tabs'],['Consult','A2A protocol triggers automatic context sharing between agents'],['Act','Response informed by full athlete context: nutrition + training']].map(([t,d], i) => (
+            <div key={t} style={S.stepRow}>
+              <div style={S.stepCircle}>{i+1}</div>
+              <div style={S.stepContent}>
+                <div style={S.stepT}>{t}</div>
+                <div style={S.stepD}>{d}</div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Features */}
+      <div style={{ ...S.section }}>
+        <div style={S.sLabel}>BUILT FOR PERFORMANCE</div>
+        <div style={S.featureGrid}>
+          {[['01','Cross-Agent','A2A protocol. Ask one, both know.'],['02','Memory','Firestore. Every session stored.'],['03','Decathlon','10-event periodization built in.'],['04','< 2 sec','Gemini 2.5 Flash. No loading.']].map(([n,t,d]) => (
+            <div key={t} style={S.fCard}>
+              <div style={S.fNum}>{n}</div>
+              <div style={S.fT}>{t}</div>
+              <div style={S.fD}>{d}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Final CTA */}
+      <div style={S.finalSection}>
+        <div style={S.finalBig}>ATHLETE AI</div>
+        <div style={S.finalH}>Train with<br/><span style={S.finalAccent}>both coaches.</span></div>
+        <div style={S.finalBtn}>Get Started</div>
+        <div style={{ height: 6 }}></div>
+        <div style={S.finalSub}>BUILT FOR COMPETITIVE ATHLETES</div>
+      </div>
+    </div>
+  );
+}
+
+/* ─── WIREFRAME DIRECTION B: Clean Editorial — Desktop Wide ─── */
+function WF_EditorialDesktop() {
+  const T = "-apple-system, BlinkMacSystemFont, SF Pro Display, SF Pro Text, sans-serif";
+  const mono = "'Space Mono', monospace";
+
+  const S = {
+    page: { width: 1440, background: '#faf9f7', fontFamily: T, overflow: 'hidden' },
+
+    // NAV
+    nav: { display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '0 80px', height: 64, borderBottom: '1px solid rgba(0,0,0,0.08)', background: '#fff' },
+    navLogo: { fontSize: 15, fontWeight: 700, letterSpacing: -0.3 },
+    navLinks: { display: 'flex', gap: 36, alignItems: 'center' },
+    navLink: { fontSize: 13, color: '#888' },
+    navCta: { background: '#0f0f0f', color: '#faf9f7', fontSize: 13, padding: '8px 20px', borderRadius: 8, fontWeight: 600 },
+
+    // HERO
+    hero: { display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 0, borderBottom: '1px solid rgba(0,0,0,0.08)', minHeight: 580 },
+    heroLeft: { padding: '80px 80px 80px 80px', display: 'flex', flexDirection: 'column', justifyContent: 'center', borderRight: '1px solid rgba(0,0,0,0.08)' },
+    eyebrow: { display: 'inline-flex', alignItems: 'center', gap: 6, background: '#e8f5ec', border: '1px solid #b2dfc0', borderRadius: 20, padding: '4px 12px', marginBottom: 24, alignSelf: 'flex-start' },
+    eyebrowDot: { width: 7, height: 7, borderRadius: '50%', background: '#22c55e', flexShrink: 0 },
+    eyebrowText: { fontSize: 11, color: '#166534', fontFamily: mono },
+    h1: { fontSize: 60, fontWeight: 700, lineHeight: 1.05, letterSpacing: -2, color: '#0f0f0f', marginBottom: 20 },
+    h1Sub: { color: '#bbb' },
+    subtitle: { fontSize: 17, color: '#666', lineHeight: 1.6, marginBottom: 36, maxWidth: 460 },
+    ctaRow: { display: 'flex', gap: 12, alignItems: 'center' },
+    ctaPrimary: { background: '#0f0f0f', color: '#faf9f7', fontSize: 14, padding: '13px 28px', borderRadius: 10, fontWeight: 700 },
+    ctaGhost: { border: '1px solid rgba(0,0,0,0.15)', color: '#555', fontSize: 14, padding: '13px 28px', borderRadius: 10 },
+    heroRight: { padding: '48px 80px 48px 60px', display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: 16, background: '#fff' },
+    agentCard: { border: '1px solid rgba(0,0,0,0.08)', borderRadius: 14, padding: '20px 24px', background: '#faf9f7' },
+    agentTag: { fontSize: 10, fontFamily: mono, textTransform: 'uppercase', letterSpacing: 1.5, marginBottom: 10, color: '#aaa' },
+    agentMsg: { fontSize: 13, color: '#444', background: '#f2f2f0', borderRadius: 8, padding: '8px 12px', marginBottom: 6, lineHeight: 1.4 },
+    agentResp: { fontSize: 13, color: '#166534', background: '#e8f5ec', borderRadius: 8, padding: '8px 12px', lineHeight: 1.4 },
+    syncRow: { display: 'flex', alignItems: 'center', gap: 10 },
+    syncLine: { flex: 1, height: 1, borderTop: '1.5px dashed #b2dfc0' },
+    syncBadge: { background: '#e8f5ec', border: '1px solid #b2dfc0', borderRadius: 20, padding: '4px 12px', fontSize: 10, color: '#166534', fontFamily: mono, flexShrink: 0 },
+
+    // TECH BAR
+    techBar: { display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 40, padding: '16px 80px', borderBottom: '1px solid rgba(0,0,0,0.08)', background: '#fff' },
+    techItem: { fontSize: 11, color: '#bbb', fontFamily: mono, letterSpacing: 1 },
+    techDivider: { width: 1, height: 16, background: '#e5e5e5' },
+
+    // SECTION BASE
+    section: { padding: '80px 80px', borderBottom: '1px solid rgba(0,0,0,0.08)' },
+    sectionNum: { fontSize: 11, fontFamily: mono, color: '#bbb', marginBottom: 6, letterSpacing: 1 },
+    sectionH: { fontSize: 38, fontWeight: 700, letterSpacing: -1, color: '#0f0f0f', marginBottom: 40 },
+
+    // PROBLEM / SOLUTION — 2 col
+    probGrid: { display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 24 },
+    colHead: { fontSize: 11, fontFamily: mono, textTransform: 'uppercase', letterSpacing: 1.5, marginBottom: 20, paddingBottom: 12, borderBottom: '1px solid rgba(0,0,0,0.08)', color: '#aaa' },
+    painItem: { fontSize: 15, color: '#999', lineHeight: 1.5, paddingLeft: 16, borderLeft: '2px solid #e5e5e5', marginBottom: 14 },
+    gainItem: { fontSize: 15, color: '#0f0f0f', lineHeight: 1.5, paddingLeft: 16, borderLeft: '2px solid #22c55e', marginBottom: 14 },
+
+    // DEMO — full width 2 col
+    demoSection: { padding: '80px 80px', borderBottom: '1px solid rgba(0,0,0,0.08)', background: '#fff' },
+    demoGrid: { display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 80, alignItems: 'start' },
+    demoCopy: {},
+    demoInterface: { background: '#0f0f0f', borderRadius: 16, overflow: 'hidden', border: '1px solid rgba(255,255,255,0.06)' },
+    demoBar: { background: '#1a1a1a', padding: '12px 20px', display: 'flex', alignItems: 'center', gap: 8 },
+    demoBarDot: { width: 10, height: 10, borderRadius: '50%', background: '#333' },
+    demoBarText: { fontSize: 11, color: '#555', fontFamily: mono, marginLeft: 8 },
+    demoBody: { padding: '24px 24px' },
+    demoUserMsg: { display: 'flex', gap: 12, marginBottom: 16 },
+    demoAvatar: { width: 28, height: 28, borderRadius: '50%', background: '#2a2a2a', flexShrink: 0 },
+    demoBubble: { background: '#1e1e1e', borderRadius: 10, padding: '10px 14px', fontSize: 13, color: '#ccc', lineHeight: 1.5, maxWidth: 360 },
+    demoSystem: { background: '#0f2a1f', border: '1px solid #1d3a2a', borderRadius: 8, padding: '8px 14px', fontSize: 11, color: '#4ade80', fontFamily: mono, textAlign: 'center', marginBottom: 16 },
+    demoAIMsg: { display: 'flex', gap: 12 },
+    demoAIAvatar: { width: 28, height: 28, borderRadius: '50%', background: '#1a3a2a', border: '1px solid #22c55e', flexShrink: 0 },
+    demoAIBubble: { background: '#0f1f17', border: '1px solid #1d3a2a', borderRadius: 10, padding: '10px 14px', fontSize: 13, color: '#86efac', lineHeight: 1.5, maxWidth: 360 },
+
+    // HOW IT WORKS — 3 col
+    stepsSection: { padding: '80px 80px', borderBottom: '1px solid rgba(0,0,0,0.08)' },
+    stepsGrid: { display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 0 },
+    stepCol: { padding: '0 48px 0 0', borderRight: '1px solid rgba(0,0,0,0.08)' },
+    stepColLast: { padding: '0 0 0 48px' },
+    stepNum: { fontSize: 56, fontWeight: 700, color: '#e5e5e5', lineHeight: 1, marginBottom: 16 },
+    stepTitle: { fontSize: 20, fontWeight: 700, color: '#0f0f0f', marginBottom: 8 },
+    stepDesc: { fontSize: 14, color: '#888', lineHeight: 1.6 },
+
+    // FEATURES — 2x2 grid
+    featSection: { padding: '80px 80px', background: '#fff' },
+    featGrid: { display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 24 },
+    featCard: { border: '1px solid rgba(0,0,0,0.08)', borderRadius: 14, padding: '28px 32px' },
+    featTitle: { fontSize: 18, fontWeight: 700, color: '#0f0f0f', marginBottom: 8 },
+    featDesc: { fontSize: 14, color: '#888', lineHeight: 1.6 },
+
+    // FINAL CTA
+    finalSection: { background: '#0f0f0f', padding: '100px 80px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' },
+    finalLeft: {},
+    finalH: { fontSize: 52, fontWeight: 700, color: '#faf9f7', letterSpacing: -2, lineHeight: 1.1, marginBottom: 16 },
+    finalSub: { fontSize: 14, color: '#555', fontFamily: mono },
+    finalRight: { display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: 14 },
+    finalBtn: { background: '#22c55e', color: '#0f0f0f', fontSize: 16, padding: '16px 40px', borderRadius: 12, display: 'inline-block', fontWeight: 700 },
+    finalNote: { fontSize: 11, color: '#333', fontFamily: mono },
+  };
+
+  return (
+    <div style={S.page}>
+      {/* Nav */}
+      <div style={S.nav}>
+        <span style={S.navLogo}>Athlete AI</span>
+        <div style={S.navLinks}>
+          <span style={S.navLink}>How it works</span>
+          <span style={S.navLink}>Features</span>
+          <span style={S.navLink}>Demo</span>
+        </div>
+        <span style={S.navCta}>Start Training →</span>
+      </div>
+
+      {/* Hero */}
+      <div style={S.hero}>
+        <div style={S.heroLeft}>
+          <div style={S.eyebrow}>
+            <span style={S.eyebrowDot}></span>
+            <span style={S.eyebrowText}>GOOGLE A2A PROTOCOL</span>
+          </div>
+          <div style={S.h1}>Your coaches<br/>talk to<br/><span style={S.h1Sub}>each other.</span></div>
+          <div style={S.subtitle}>Two AI agents sharing live context. No copy-pasting. No switching tabs. Ask one — both know.</div>
+          <div style={S.ctaRow}>
+            <div style={S.ctaPrimary}>Start Training</div>
+            <div style={S.ctaGhost}>See how it works ↓</div>
+          </div>
+        </div>
+        <div style={S.heroRight}>
+          <div style={S.agentCard}>
+            <div style={S.agentTag}>Nutrition Agent</div>
+            <div style={S.agentMsg}>What should I eat tonight before tomorrow's session?</div>
+            <div style={S.agentResp}>Based on 87 TSS tomorrow: 180g carbs, 3–4hr pre-sleep window.</div>
+          </div>
+          <div style={S.syncRow}>
+            <div style={S.syncLine}></div>
+            <div style={S.syncBadge}>A2A SYNC</div>
+            <div style={S.syncLine}></div>
+          </div>
+          <div style={S.agentCard}>
+            <div style={S.agentTag}>Training Agent</div>
+            <div style={S.agentMsg}>Speed endurance session tomorrow</div>
+            <div style={S.agentResp}>TSS: 87 · HRV: 62 · Load: Moderate · Glycogen: Priority HIGH</div>
+          </div>
+        </div>
+      </div>
+
+      {/* Tech bar */}
+      <div style={S.techBar}>
+        {['Google ADK', null, 'Gemini 2.5 Flash', null, 'Firestore', null, 'Cloud Run'].map((t, i) =>
+          t === null
+            ? <div key={i} style={S.techDivider}></div>
+            : <span key={t} style={S.techItem}>{t}</span>
+        )}
+      </div>
+
+      {/* Problem / Solution */}
+      <div style={S.section}>
+        <div style={S.sectionNum}>01</div>
+        <div style={S.sectionH}>The gap that costs performance.</div>
+        <div style={S.probGrid}>
+          <div>
+            <div style={S.colHead}>Before Athlete AI</div>
+            {['Nutrition coach is blind to yesterday\'s brutal session','Training load ignores how you fueled today','You manually bridge every piece of advice, every time'].map(t => (
+              <div key={t} style={S.painItem}>{t}</div>
+            ))}
+          </div>
+          <div>
+            <div style={S.colHead}>With Athlete AI</div>
+            {['Agents share context automatically via A2A protocol','Advice reflects the full athlete picture in real time','You just ask. Both coaches know. You act.'].map(t => (
+              <div key={t} style={S.gainItem}>{t}</div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* Demo */}
+      <div style={S.demoSection}>
+        <div style={S.demoGrid}>
+          <div style={S.demoCopy}>
+            <div style={S.sectionNum}>02</div>
+            <div style={S.sectionH}>Watch the agents work.</div>
+            <div style={{ fontSize: 15, color: '#888', lineHeight: 1.7, maxWidth: 400 }}>
+              Ask the nutrition agent anything. It automatically consults the training agent via A2A — you get an answer informed by your full context, not a generic recommendation.
+            </div>
+          </div>
+          <div style={S.demoInterface}>
+            <div style={S.demoBar}>
+              {[1,2,3].map(i => <div key={i} style={S.demoBarDot}></div>)}
+              <span style={S.demoBarText}>NUTRITION AGENT</span>
+            </div>
+            <div style={S.demoBody}>
+              <div style={S.demoUserMsg}>
+                <div style={S.demoAvatar}></div>
+                <div style={S.demoBubble}>I have a speed endurance session tomorrow. What should I eat tonight?</div>
+              </div>
+              <div style={S.demoSystem}>⟳ Consulting training agent via A2A...</div>
+              <div style={S.demoAIMsg}>
+                <div style={S.demoAIAvatar}></div>
+                <div style={S.demoAIBubble}>Based on 87 TSS tomorrow and your current glycogen levels: prioritize 180g complex carbs tonight. 3–4hr pre-sleep cutoff. Skip high fiber. This is your data — not a generic template.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* How it works */}
+      <div style={S.stepsSection}>
+        <div style={S.sectionNum}>03</div>
+        <div style={S.sectionH}>How it works.</div>
+        <div style={S.stepsGrid}>
+          {[
+            ['1','Ask','Talk to either agent naturally. No switching tabs, no copy-pasting context.', false],
+            ['2','Consult','A2A protocol triggers automatic context sharing between the two agents.', false],
+            ['3','Act','Your response is informed by both training load and nutritional state.', true],
+          ].map(([n,t,d,last]) => (
+            <div key={n} style={last ? { ...S.stepCol, ...S.stepColLast, borderRight: 'none', padding: '0 0 0 48px' } : { ...S.stepCol, padding: '0 48px 0 0' }}>
+              <div style={S.stepNum}>{n}</div>
+              <div style={S.stepTitle}>{t}</div>
+              <div style={S.stepDesc}>{d}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Features */}
+      <div style={S.featSection}>
+        <div style={S.sectionNum}>04</div>
+        <div style={S.sectionH}>What's under the hood.</div>
+        <div style={S.featGrid}>
+          {[
+            ['Cross-Agent Context','Data flows between agents via A2A. Ask the nutrition agent — it already knows your training load.'],
+            ['Persistent Memory','Every session and meal stored in Firestore. Your coaches remember everything.'],
+            ['Decathlon-Specific','Built for 10-event periodization, competition phases, and peak performance windows.'],
+            ['Real-Time Responses','Powered by Gemini 2.5 Flash. Under 2 seconds. No loading screens.'],
+          ].map(([t,d]) => (
+            <div key={t} style={S.featCard}>
+              <div style={S.featTitle}>{t}</div>
+              <div style={S.featDesc}>{d}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Final CTA */}
+      <div style={S.finalSection}>
+        <div style={S.finalLeft}>
+          <div style={S.finalH}>Train with<br/>both coaches.</div>
+          <div style={S.finalSub}>BUILT FOR COMPETITIVE ATHLETES</div>
+        </div>
+        <div style={S.finalRight}>
+          <div style={S.finalBtn}>Get Started</div>
+          <div style={S.finalNote}>NO SETUP FEE · CANCEL ANYTIME</div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ─── Main Canvas ─── */
+function App() {
+  return (
+    <DesignCanvas title="Athlete AI — Wireframe Explorations">
+      <DCSection id="directions" title="Four Layout Directions">
+        <DCArtboard id="dir1" label="Direction A: Dark Terminal" width={380} height={1380}>
+          <div style={{ padding: '16px 30px 20px' }}>
+            <div style={{ marginBottom: 12 }}>
+              <div style={{ fontFamily: 'Space Mono, monospace', fontSize: 9, color: '#999', textTransform: 'uppercase', letterSpacing: 1, marginBottom: 4 }}>DIRECTION A</div>
+              <div style={{ fontFamily: '-apple-system, BlinkMacSystemFont, SF Pro Display, SF Pro Text, sans-serif', fontSize: 20, fontWeight: 700, color: '#1a1a1a', marginBottom: 2 }}>Dark Terminal</div>
+              <div style={{ fontFamily: '-apple-system, BlinkMacSystemFont, SF Pro Display, SF Pro Text, sans-serif', fontSize: 13, color: '#666' }}>Dark bg, green accent, monospace readouts. Technical, hacker aesthetic. High information density. Feels like a performance system.</div>
+            </div>
+            <WF_DarkTerminal />
+          </div>
+        </DCArtboard>
+
+        <DCArtboard id="dir2" label="Direction B: Clean Editorial" width={380} height={1600}>
+          <div style={{ padding: '16px 30px 20px' }}>
+            <div style={{ marginBottom: 12 }}>
+              <div style={{ fontFamily: 'Space Mono, monospace', fontSize: 9, color: '#999', textTransform: 'uppercase', letterSpacing: 1, marginBottom: 4 }}>DIRECTION B</div>
+              <div style={{ fontFamily: '-apple-system, BlinkMacSystemFont, SF Pro Display, SF Pro Text, sans-serif', fontSize: 20, fontWeight: 700, color: '#1a1a1a', marginBottom: 2 }}>Clean Editorial</div>
+              <div style={{ fontFamily: '-apple-system, BlinkMacSystemFont, SF Pro Display, SF Pro Text, sans-serif', fontSize: 13, color: '#666' }}>Light, Bevel-inspired. Numbered sections, sharp grid, minimal color. Green accent. Refined and credible.</div>
+            </div>
+            <WF_Editorial />
+          </div>
+        </DCArtboard>
+
+        <DCArtboard id="dir3" label="Direction C: Split-Screen Data" width={380} height={1540}>
+          <div style={{ padding: '16px 30px 20px' }}>
+            <div style={{ marginBottom: 12 }}>
+              <div style={{ fontFamily: 'Space Mono, monospace', fontSize: 9, color: '#999', textTransform: 'uppercase', letterSpacing: 1, marginBottom: 4 }}>DIRECTION C</div>
+              <div style={{ fontFamily: '-apple-system, BlinkMacSystemFont, SF Pro Display, SF Pro Text, sans-serif', fontSize: 20, fontWeight: 700, color: '#1a1a1a', marginBottom: 2 }}>Split-Screen Data</div>
+              <div style={{ fontFamily: '-apple-system, BlinkMacSystemFont, SF Pro Display, SF Pro Text, sans-serif', fontSize: 13, color: '#666' }}>Hero splits into two agent panes side by side, connected by sync bar. Blue accent. Data-forward, emphasizes the dual-agent mechanic structurally.</div>
+            </div>
+            <WF_SplitData />
+          </div>
+        </DCArtboard>
+
+        <DCArtboard id="dir4" label="Direction D: Bold Athletic" width={380} height={1640}>
+          <div style={{ padding: '16px 30px 20px' }}>
+            <div style={{ marginBottom: 12 }}>
+              <div style={{ fontFamily: 'Space Mono, monospace', fontSize: 9, color: '#999', textTransform: 'uppercase', letterSpacing: 1, marginBottom: 4 }}>DIRECTION D</div>
+              <div style={{ fontFamily: '-apple-system, BlinkMacSystemFont, SF Pro Display, SF Pro Text, sans-serif', fontSize: 20, fontWeight: 700, color: '#1a1a1a', marginBottom: 2 }}>Bold Athletic</div>
+              <div style={{ fontFamily: '-apple-system, BlinkMacSystemFont, SF Pro Display, SF Pro Text, sans-serif', fontSize: 13, color: '#666' }}>Dark hero with large type, red accent. Sports brand energy. Before/after problem layout. Timeline-style how-it-works. High drama, high contrast.</div>
+            </div>
+            <WF_BoldAthletic />
+          </div>
+        </DCArtboard>
+      </DCSection>
+
+      <DCSection id="desktop" title="Direction B — Desktop Landing Page">
+        <DCArtboard id="desktop-b" label="Direction B: Clean Editorial — Wide Web" width={1440} height={900}>
+          <WF_EditorialDesktop />
+        </DCArtboard>
+      </DCSection>
+    </DesignCanvas>
+  );
+}
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(<App />);
+</script>
+
+<div id="root"></div>
+</body>
+</html>

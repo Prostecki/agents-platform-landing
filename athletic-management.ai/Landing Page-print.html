@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Athlete AI — Landing Page</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #13151f;
+    --bg-white: #1c1f2e;
+    --fg: #e8e6f0;
+    --muted: #6b6f82;
+    --subtle: rgba(255,255,255,0.07);
+    --green: #22c55e;
+    --green-bg: rgba(34,197,94,0.10);
+    --green-border: rgba(34,197,94,0.22);
+    --green-text: #4ade80;
+    --mono: 'Space Mono', monospace;
+    --sans: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', sans-serif;
+    --radius-sm: 8px;
+    --radius-md: 12px;
+    --radius-lg: 16px;
+    --max: 1100px;
+    --pad: 64px;
+  }
+
+  body { font-family: var(--sans); background: var(--bg); color: var(--fg); -webkit-font-smoothing: antialiased; }
+
+  /* ─── PRINT SETUP ─── */
+  @media print {
+    @page { size: 1440px 900px; margin: 0; }
+    * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+    body { background: var(--bg) !important; }
+    .no-print { display: none !important; }
+    .page-break { break-before: page; }
+    nav { display: none; }
+    .beam-svg, #network-svg, #beam-svg { display: none; }
+    /* Prevent orphans in text */
+    p, .pain-item, .gain-item, .step-desc, .feat-desc { orphans: 3; widows: 3; }
+  }
+
+  /* ─── SHARED ─── */
+  .print-page {
+    width: 1440px;
+    min-height: 900px;
+    overflow: hidden;
+    position: relative;
+  }
+  .section-inner { max-width: var(--max); margin: 0 auto; padding: 72px var(--pad); }
+  .section-num { font-family: var(--mono); font-size: 11px; color: var(--muted); letter-spacing: 1px; margin-bottom: 8px; }
+  .section-h { font-size: 42px; font-weight: 700; letter-spacing: -1.5px; line-height: 1.08; margin-bottom: 48px; }
+  .border-b { border-bottom: 1px solid var(--subtle); }
+
+  /* ─── PAGE 1: HERO ─── */
+  .hero-page {
+    background: var(--bg);
+    display: grid; grid-template-columns: 1fr 1fr;
+    min-height: 900px;
+  }
+  .hero-left {
+    padding: 80px var(--pad);
+    display: flex; flex-direction: column; justify-content: center;
+    border-right: 1px solid var(--subtle);
+  }
+  .eyebrow {
+    display: inline-flex; align-items: center; gap: 7px;
+    background: var(--green-bg); border: 1px solid var(--green-border);
+    border-radius: 20px; padding: 5px 14px;
+    margin-bottom: 28px; align-self: flex-start;
+  }
+  .eyebrow-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--green); }
+  .eyebrow-text { font-family: var(--mono); font-size: 10px; color: var(--green-text); letter-spacing: 0.5px; }
+  .hero-h1 { font-size: 72px; font-weight: 700; line-height: 1.02; letter-spacing: -3px; margin-bottom: 24px; }
+  .hero-h1 span { color: #3d4060; }
+  .hero-sub { font-size: 18px; color: var(--muted); line-height: 1.65; margin-bottom: 40px; max-width: 440px; }
+  .cta-row { display: flex; gap: 12px; align-items: center; }
+  .btn-primary {
+    background: var(--fg); color: var(--bg);
+    font-size: 14px; font-weight: 700;
+    padding: 14px 30px; border-radius: var(--radius-md);
+    text-decoration: none;
+  }
+  .btn-ghost {
+    border: 1px solid rgba(255,255,255,0.14); color: var(--muted);
+    font-size: 14px; padding: 14px 30px; border-radius: var(--radius-md);
+    text-decoration: none;
+  }
+  .hero-right {
+    padding: 60px var(--pad) 60px 56px;
+    display: flex; flex-direction: column; justify-content: center;
+    background: var(--bg); position: relative;
+  }
+  .hero-right::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse 70% 60% at 80% 40%, rgba(34,197,94,0.05) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .agents-ui {
+    background: var(--bg-white);
+    border: 1px solid rgba(255,255,255,0.09);
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 24px 64px rgba(0,0,0,0.35), 0 1px 0 rgba(255,255,255,0.06) inset;
+    position: relative; z-index: 1;
+  }
+  .agents-titlebar {
+    display: flex; align-items: center; gap: 6px;
+    padding: 12px 16px;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    background: rgba(255,255,255,0.03);
+  }
+  .agents-titlebar-dot { width: 10px; height: 10px; border-radius: 50%; }
+  .agents-titlebar-label { font-family: var(--mono); font-size: 10px; color: var(--muted); margin-left: 6px; }
+  .agents-body { padding: 20px; display: flex; flex-direction: column; gap: 4px; }
+  .agent-panel { border: 1px solid rgba(255,255,255,0.07); border-radius: 14px; overflow: hidden; background: rgba(255,255,255,0.03); }
+  .agent-panel-header { display: flex; align-items: center; gap: 8px; padding: 10px 14px; border-bottom: 1px solid rgba(255,255,255,0.05); }
+  .agent-avatar { width: 22px; height: 22px; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 700; flex-shrink: 0; }
+  .agent-avatar-n { background: rgba(34,197,94,0.2); color: var(--green-text); border: 1px solid rgba(34,197,94,0.25); }
+  .agent-avatar-t { background: rgba(99,102,241,0.2); color: #a5b4fc; border: 1px solid rgba(99,102,241,0.25); }
+  .agent-panel-name { font-size: 11px; font-weight: 600; color: var(--fg); }
+  .agent-status { margin-left: auto; display: flex; align-items: center; gap: 4px; }
+  .agent-status-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--green); }
+  .agent-status-text { font-family: var(--mono); font-size: 9px; color: var(--muted); }
+  .agent-chat { padding: 12px 14px; display: flex; flex-direction: column; gap: 7px; }
+  .chat-row { display: flex; align-items: flex-start; gap: 8px; }
+  .chat-bubble { padding: 8px 11px; border-radius: 10px; font-size: 12px; line-height: 1.5; max-width: 85%; }
+  .chat-bubble-user { background: rgba(255,255,255,0.07); color: var(--muted); border: 1px solid rgba(255,255,255,0.06); }
+  .chat-bubble-ai-n { background: rgba(34,197,94,0.12); color: #86efac; border: 1px solid rgba(34,197,94,0.15); }
+  .chat-bubble-ai-t { background: rgba(99,102,241,0.12); color: #c7d2fe; border: 1px solid rgba(99,102,241,0.15); }
+  .chat-mini-avatar { width: 18px; height: 18px; border-radius: 5px; flex-shrink: 0; margin-top: 1px; display: flex; align-items: center; justify-content: center; font-size: 8px; font-weight: 700; }
+  .a2a-connector { display: flex; align-items: center; justify-content: center; gap: 10px; padding: 8px 14px; }
+  .a2a-line { flex: 1; height: 1px; background: linear-gradient(to right, transparent, rgba(34,197,94,0.3), transparent); }
+  .a2a-badge { background: rgba(34,197,94,0.1); border: 1px solid rgba(34,197,94,0.22); border-radius: 20px; padding: 3px 10px; font-family: var(--mono); font-size: 9px; color: var(--green-text); display: flex; align-items: center; gap: 5px; flex-shrink: 0; }
+  .a2a-pulse { width: 5px; height: 5px; border-radius: 50%; background: var(--green); }
+
+  /* ─── PAGE 2: SOCIAL PROOF + NETWORK ─── */
+  .tech-bar {
+    background: var(--bg-white);
+    border-bottom: 1px solid var(--subtle);
+    padding: 18px var(--pad);
+    display: flex; align-items: center; justify-content: center; gap: 40px;
+  }
+  .tech-item { font-family: var(--mono); font-size: 11px; color: var(--muted); letter-spacing: 0.5px; }
+  .tech-div { width: 1px; height: 16px; background: rgba(255,255,255,0.1); }
+
+  /* Network — print as static diagram */
+  .network-print {
+    background: var(--bg);
+    padding: 72px var(--pad) 80px;
+    text-align: center;
+  }
+  .network-print h2 { font-size: 42px; font-weight: 700; letter-spacing: -1.5px; margin-bottom: 12px; }
+  .network-print p { font-size: 16px; color: var(--muted); max-width: 480px; margin: 0 auto 56px; line-height: 1.65; }
+  .network-nodes {
+    display: flex; align-items: center; justify-content: center; gap: 0;
+    max-width: 900px; margin: 0 auto;
+  }
+  .net-col { display: flex; flex-direction: column; gap: 28px; align-items: center; }
+  .net-connector { flex: 1; display: flex; flex-direction: column; justify-content: center; gap: 12px; padding: 0 24px; }
+  .net-beam-line { height: 1px; background: linear-gradient(to right, transparent, rgba(255,255,255,0.15), transparent); }
+  .net-node-print { display: flex; flex-direction: column; align-items: center; gap: 6px; }
+  .net-icon-print {
+    width: 52px; height: 52px; border-radius: 50%;
+    border: 1px solid rgba(255,255,255,0.12);
+    background: var(--bg-white);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 20px;
+  }
+  .net-icon-print.hub { width: 68px; height: 68px; border-color: rgba(34,197,94,0.3); box-shadow: 0 0 24px rgba(34,197,94,0.15); }
+  .net-icon-print.green { border-color: rgba(34,197,94,0.3); background: rgba(34,197,94,0.08); }
+  .net-icon-print.indigo { border-color: rgba(99,102,241,0.3); background: rgba(99,102,241,0.08); }
+  .net-label-print { font-size: 11px; font-weight: 600; color: var(--fg); white-space: nowrap; }
+  .net-sub-print { font-size: 10px; color: var(--muted); white-space: nowrap; margin-top: -4px; }
+
+  /* ─── PAGE 3: PROBLEM + DEMO ─── */
+  .prob-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; }
+  .col-head { font-family: var(--mono); font-size: 10px; text-transform: uppercase; letter-spacing: 1.5px; color: #bbb; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 1px solid var(--subtle); }
+  .pain-item { font-size: 15px; color: var(--muted); line-height: 1.6; padding-left: 18px; border-left: 2px solid rgba(255,255,255,0.1); margin-bottom: 14px; }
+  .gain-item { font-size: 15px; color: var(--fg); line-height: 1.6; padding-left: 18px; border-left: 2px solid var(--green); margin-bottom: 14px; }
+
+  /* ─── DEMO ─── */
+  .demo-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+  .demo-body-text { font-size: 15px; color: var(--muted); line-height: 1.7; max-width: 400px; }
+  .demo-interface { background: #0f0f0f; border-radius: var(--radius-lg); overflow: hidden; border: 1px solid rgba(255,255,255,0.05); }
+  .demo-titlebar { background: #1a1a1a; padding: 14px 20px; display: flex; align-items: center; gap: 7px; }
+  .demo-dot { width: 10px; height: 10px; border-radius: 50%; background: #333; }
+  .demo-label { font-family: var(--mono); font-size: 11px; color: #555; margin-left: 10px; }
+  .demo-body { padding: 24px; }
+  .demo-user-msg { display: flex; gap: 12px; margin-bottom: 16px; align-items: flex-start; }
+  .demo-avatar { width: 28px; height: 28px; border-radius: 50%; background: #2a2a2a; flex-shrink: 0; }
+  .demo-bubble { background: #1e1e1e; border-radius: 10px; padding: 10px 14px; font-size: 13px; color: #ccc; line-height: 1.6; }
+  .demo-system { background: #0f2a1f; border: 1px solid #1d3a2a; border-radius: 8px; padding: 8px 14px; font-family: var(--mono); font-size: 11px; color: #4ade80; text-align: center; margin-bottom: 16px; }
+  .demo-ai-msg { display: flex; gap: 12px; align-items: flex-start; }
+  .demo-ai-avatar { width: 28px; height: 28px; border-radius: 50%; background: #1a3a2a; border: 1px solid #22c55e; flex-shrink: 0; }
+  .demo-ai-bubble { background: #0f1f17; border: 1px solid #1d3a2a; border-radius: 10px; padding: 10px 14px; font-size: 13px; color: #86efac; line-height: 1.6; }
+
+  /* ─── PAGE 4: HOW IT WORKS + FEATURES ─── */
+  .steps-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0; }
+  .step-col { padding: 0 48px 0 0; border-right: 1px solid var(--subtle); margin-right: 48px; }
+  .step-col:last-child { border-right: none; margin-right: 0; padding-right: 0; }
+  .step-num { font-size: 56px; font-weight: 700; color: rgba(255,255,255,0.07); line-height: 1; margin-bottom: 16px; letter-spacing: -2px; }
+  .step-title { font-size: 18px; font-weight: 700; color: var(--fg); margin-bottom: 10px; }
+  .step-desc { font-size: 14px; color: var(--muted); line-height: 1.7; }
+  .feat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  .feat-card { border: 1px solid var(--subtle); border-radius: var(--radius-lg); padding: 28px 32px; }
+  .feat-title { font-size: 17px; font-weight: 700; color: var(--fg); margin-bottom: 8px; }
+  .feat-desc { font-size: 14px; color: var(--muted); line-height: 1.7; }
+
+  /* ─── PAGE 5: CTA + FOOTER ─── */
+  .final-cta {
+    background: var(--bg-white);
+    border-top: 1px solid var(--subtle);
+    position: relative; overflow: hidden;
+  }
+  .final-cta::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse 80% 60% at 50% 100%, rgba(34,197,94,0.07) 0%, transparent 70%); pointer-events: none; }
+  .final-inner { max-width: var(--max); margin: 0 auto; padding: 96px var(--pad); display: flex; justify-content: space-between; align-items: center; position: relative; }
+  .final-h { font-size: 52px; font-weight: 700; color: var(--fg); letter-spacing: -2px; line-height: 1.05; margin-bottom: 14px; }
+  .final-right { display: flex; flex-direction: column; align-items: flex-end; gap: 14px; }
+  .btn-green { background: var(--green); color: #0f0f0f; font-size: 16px; font-weight: 700; padding: 17px 44px; border-radius: var(--radius-md); text-decoration: none; }
+  .final-note { font-family: var(--mono); font-size: 11px; color: var(--muted); }
+  footer { background: var(--bg); border-top: 1px solid var(--subtle); padding: 48px var(--pad) 40px; }
+  .footer-inner { max-width: var(--max); margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: start; }
+  .footer-logo { font-size: 16px; font-weight: 700; color: var(--fg); margin-bottom: 6px; display: flex; align-items: center; gap: 8px; }
+  .footer-logo-icon { width: 28px; height: 28px; background: var(--fg); border-radius: 6px; display: flex; align-items: center; justify-content: center; }
+  .footer-copy { font-size: 12px; color: #aaa; margin-bottom: 20px; }
+  .footer-right { display: grid; grid-template-columns: repeat(4, 1fr); gap: 32px; }
+  .footer-col-head { font-size: 12px; font-weight: 600; color: var(--fg); margin-bottom: 12px; }
+  .footer-link { display: block; font-size: 12px; color: #888; text-decoration: none; margin-bottom: 8px; }
+</style>
+</head>
+<body>
+
+<!-- ═══ PAGE 1: HERO ═══ -->
+<div class="print-page">
+  <div class="hero-page">
+    <div class="hero-left">
+      <div class="eyebrow">
+        <span class="eyebrow-dot"></span>
+        <span class="eyebrow-text">AI coaching that actually works together</span>
+      </div>
+      <h1 class="hero-h1">Train smarter.<br/>Eat right.<br/><span>Win more.</span></h1>
+      <p class="hero-sub">Athlete AI gives you two personal coaches — nutrition and training — that share information in real time. Ask one question. Get advice that considers everything.</p>
+      <div class="cta-row">
+        <a href="#" class="btn-primary">Start for free</a>
+        <a href="#" class="btn-ghost">See it in action ↓</a>
+      </div>
+    </div>
+    <div class="hero-right">
+      <div class="agents-ui">
+        <div class="agents-titlebar">
+          <div class="agents-titlebar-dot" style="background:#ff5f57"></div>
+          <div class="agents-titlebar-dot" style="background:#febc2e"></div>
+          <div class="agents-titlebar-dot" style="background:#28c840"></div>
+          <span class="agents-titlebar-label">ATHLETE AI — AGENTS</span>
+        </div>
+        <div class="agents-body">
+          <div class="agent-panel">
+            <div class="agent-panel-header">
+              <div class="agent-avatar agent-avatar-n">N</div>
+              <span class="agent-panel-name">Nutrition Agent</span>
+              <div class="agent-status">
+                <div class="agent-status-dot"></div>
+                <span class="agent-status-text">ACTIVE</span>
+              </div>
+            </div>
+            <div class="agent-chat">
+              <div class="chat-row">
+                <div class="chat-mini-avatar" style="background:rgba(255,255,255,0.07);color:var(--muted);">U</div>
+                <div class="chat-bubble chat-bubble-user">What should I eat tonight before tomorrow's session?</div>
+              </div>
+              <div class="chat-row">
+                <div class="chat-mini-avatar agent-avatar-n">N</div>
+                <div class="chat-bubble chat-bubble-ai-n">Based on 87 TSS tomorrow: 180g carbs, 3–4hr pre-sleep window. Skip high fiber.</div>
+              </div>
+            </div>
+          </div>
+          <div class="a2a-connector">
+            <div class="a2a-line"></div>
+            <div class="a2a-badge">
+              <div class="a2a-pulse"></div>
+              A2A SYNC
+            </div>
+            <div class="a2a-line"></div>
+          </div>
+          <div class="agent-panel">
+            <div class="agent-panel-header">
+              <div class="agent-avatar agent-avatar-t">T</div>
+              <span class="agent-panel-name">Training Agent</span>
+              <div class="agent-status">
+                <div class="agent-status-dot" style="background:#818cf8"></div>
+                <span class="agent-status-text">SYNCED</span>
+              </div>
+            </div>
+            <div class="agent-chat">
+              <div class="chat-row">
+                <div class="chat-mini-avatar agent-avatar-t">T</div>
+                <div class="chat-bubble chat-bubble-ai-t">Tomorrow: Speed endurance · TSS 87 · HRV 62</div>
+              </div>
+              <div class="chat-row">
+                <div class="chat-mini-avatar agent-avatar-t">T</div>
+                <div class="chat-bubble chat-bubble-ai-t">Glycogen priority flagged → shared with Nutrition</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ PAGE 2: NETWORK ═══ -->
+<div class="print-page page-break">
+  <div class="tech-bar">
+    <span class="tech-item">Trusted technology from Google</span>
+    <span class="tech-div"></span>
+    <span class="tech-item">Built for competitive athletes</span>
+    <span class="tech-div"></span>
+    <span class="tech-item">Used in decathlon preparation</span>
+  </div>
+  <div class="network-print">
+    <h2>How your coaches talk.</h2>
+    <p>Every time you ask a question, both agents share context automatically. No setup. No switching.</p>
+    <div class="network-nodes">
+      <!-- Left -->
+      <div class="net-col">
+        <div class="net-node-print">
+          <div class="net-icon-print">💬</div>
+          <div class="net-label-print">You</div>
+          <div class="net-sub-print">Ask anything</div>
+        </div>
+        <div class="net-node-print">
+          <div class="net-icon-print">🏃</div>
+          <div class="net-label-print">Training Log</div>
+          <div class="net-sub-print">Sessions &amp; load</div>
+        </div>
+        <div class="net-node-print">
+          <div class="net-icon-print">❤️</div>
+          <div class="net-label-print">Health Data</div>
+          <div class="net-sub-print">HRV · Sleep · Fatigue</div>
+        </div>
+      </div>
+      <!-- Left connectors -->
+      <div class="net-connector">
+        <div class="net-beam-line"></div>
+        <div class="net-beam-line"></div>
+        <div class="net-beam-line"></div>
+      </div>
+      <!-- Center hub -->
+      <div class="net-col">
+        <div class="net-node-print" style="margin-top:60px;">
+          <div class="net-icon-print hub">⚡</div>
+          <div class="net-label-print">Athlete AI</div>
+          <div class="net-sub-print">A2A Protocol</div>
+        </div>
+      </div>
+      <!-- Right connectors -->
+      <div class="net-connector">
+        <div class="net-beam-line" style="background:linear-gradient(to right, transparent, rgba(34,197,94,0.3), transparent);"></div>
+        <div class="net-beam-line" style="background:linear-gradient(to right, transparent, rgba(99,102,241,0.3), transparent);"></div>
+      </div>
+      <!-- Right agents -->
+      <div class="net-col" style="justify-content:center;gap:48px;margin-top:20px;">
+        <div class="net-node-print">
+          <div class="net-icon-print green">🥗</div>
+          <div class="net-label-print">Nutrition Agent</div>
+          <div class="net-sub-print">Meals · Macros · Timing</div>
+        </div>
+        <div class="net-node-print">
+          <div class="net-icon-print indigo">🏋️</div>
+          <div class="net-label-print">Training Agent</div>
+          <div class="net-sub-print">Load · Recovery · Plan</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ PAGE 3: PROBLEM + DEMO ═══ -->
+<div class="print-page page-break" style="background:var(--bg);">
+  <!-- Problem/Solution -->
+  <div class="section-inner border-b">
+    <div class="section-num">02</div>
+    <h2 class="section-h">Sound familiar?</h2>
+    <div class="prob-grid">
+      <div>
+        <div class="col-head">The old way</div>
+        <div class="pain-item">Your nutritionist says eat more carbs. But they don't know you destroyed your legs yesterday.</div>
+        <div class="pain-item">Your coach plans a brutal session tomorrow. But your body is running on empty and nobody connected the dots.</div>
+        <div class="pain-item">You spend more time explaining your week to each coach than actually training.</div>
+      </div>
+      <div>
+        <div class="col-head">With Athlete AI</div>
+        <div class="gain-item">Your nutrition coach knows exactly what you trained today and adjusts your evening meal automatically.</div>
+        <div class="gain-item">Your training coach sees your energy levels and nutrition data before loading your next session.</div>
+        <div class="gain-item">Both coaches share context the moment you open the app. You just train.</div>
+      </div>
+    </div>
+  </div>
+  <!-- Demo -->
+  <div style="background:var(--bg-white);padding:56px var(--pad);">
+    <div class="demo-grid">
+      <div>
+        <div class="section-num">03</div>
+        <h2 class="section-h" style="margin-bottom:16px;">Watch it happen.</h2>
+        <p class="demo-body-text">A real conversation. Real agents. No scripts. See what it looks like when your coaches actually talk to each other.</p>
+        <p style="margin-top:24px;font-size:13px;color:var(--muted);font-style:italic;">"That last sentence? Your agent remembered it from three weeks ago."</p>
+      </div>
+      <div class="demo-interface">
+        <div class="demo-titlebar">
+          <span class="demo-dot"></span><span class="demo-dot"></span><span class="demo-dot"></span>
+          <span class="demo-label">NUTRITION AGENT</span>
+        </div>
+        <div class="demo-body">
+          <div class="demo-user-msg">
+            <div class="demo-avatar"></div>
+            <div class="demo-bubble">I have a really tough speed session tomorrow morning. What should I eat tonight?</div>
+          </div>
+          <div class="demo-system">Nutrition agent is checking your training schedule...</div>
+          <div class="demo-ai-msg">
+            <div class="demo-ai-avatar"></div>
+            <div class="demo-ai-bubble">Based on tomorrow's high-intensity speed session and your current fatigue level, tonight focus on: a large portion of pasta or rice (around 120g dry), chicken or salmon for protein, and avoid heavy fats after 8pm. Your body needs full glycogen stores for tomorrow. Last time before a similar session you felt better after eating earlier — around 7pm.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ PAGE 4: HOW IT WORKS + FEATURES ═══ -->
+<div class="print-page page-break" style="background:var(--bg);">
+  <div class="section-inner border-b">
+    <div class="section-num">04</div>
+    <h2 class="section-h">Simple for you.<br/>Powerful behind the scenes.</h2>
+    <div class="steps-grid">
+      <div class="step-col">
+        <div class="step-num">1</div>
+        <div class="step-title">Talk to your coach</div>
+        <div class="step-desc">Just message like you would a real coach. Tell it what you ate, how you feel, what's coming up. No forms, no logging apps, no spreadsheets.</div>
+      </div>
+      <div class="step-col">
+        <div class="step-num">2</div>
+        <div class="step-title">Your coaches sync automatically</div>
+        <div class="step-desc">The moment you ask a question, both agents share information. Your nutrition coach knows your training load. Your training coach knows your energy and recovery status.</div>
+      </div>
+      <div class="step-col">
+        <div class="step-num">3</div>
+        <div class="step-title">Get advice that makes sense</div>
+        <div class="step-desc">No generic meal plans. No one-size-fits-all programs. Every response considers your actual week — your sessions, your food, your fatigue, your next competition.</div>
+      </div>
+    </div>
+  </div>
+  <div style="background:var(--bg-white);padding:56px var(--pad);">
+    <div class="section-num">05</div>
+    <h2 class="section-h">Everything a serious athlete needs.</h2>
+    <div class="feat-grid">
+      <div class="feat-card">
+        <div class="feat-title">Two coaches, one conversation</div>
+        <div class="feat-desc">Stop repeating yourself to every coach and nutritionist. Athlete AI keeps both agents in sync so your advice is always consistent and always current.</div>
+      </div>
+      <div class="feat-card">
+        <div class="feat-title">It remembers everything</div>
+        <div class="feat-desc">Every meal. Every session. Every time you felt heavy on the track or light in the weight room. Your coaches build a picture of you over time — and get smarter every week.</div>
+      </div>
+      <div class="feat-card">
+        <div class="feat-title">Built for your sport</div>
+        <div class="feat-desc">Athlete AI understands the demands of multi-event competition. Periodization, peak weeks, recovery phases, pre-competition nutrition — it knows the difference between a preparation block and competition week.</div>
+      </div>
+      <div class="feat-card">
+        <div class="feat-title">Instant answers, any time</div>
+        <div class="feat-desc">Your coach doesn't sleep. Ask at 10pm what to eat before tomorrow's 7am session. Get a real answer in seconds, not a generic meal plan PDF from three months ago.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ PAGE 5: CTA + FOOTER ═══ -->
+<div class="print-page page-break" style="background:var(--bg-white);">
+  <div class="final-cta">
+    <div class="final-inner">
+      <div>
+        <h2 class="final-h">Your coaches<br/>are ready.</h2>
+        <p style="font-size:15px;color:var(--muted);line-height:1.7;max-width:480px;margin-top:16px;">Start your first conversation today and see what it feels like to have nutrition and training advice that actually work together.</p>
+      </div>
+      <div class="final-right">
+        <a href="#" class="btn-green">Start training smarter</a>
+        <span class="final-note">Built for competitive athletes who take their performance seriously.</span>
+      </div>
+    </div>
+  </div>
+  <footer>
+    <div class="footer-inner">
+      <div>
+        <div class="footer-logo">
+          <div class="footer-logo-icon">
+            <svg viewBox="0 0 16 16" fill="none"><path d="M3 8 L8 3 L13 8 L8 13 Z" fill="#13151f"/></svg>
+          </div>
+          Athlete AI
+        </div>
+        <div class="footer-copy">© athletic-management.ai, Inc. 2026</div>
+      </div>
+      <div class="footer-right">
+        <div>
+          <div class="footer-col-head">Company</div>
+          <a href="#" class="footer-link">About us</a>
+          <a href="#" class="footer-link">Careers</a>
+          <a href="#" class="footer-link">Blog</a>
+        </div>
+        <div>
+          <div class="footer-col-head">Product</div>
+          <a href="#" class="footer-link">Download App</a>
+          <a href="#" class="footer-link">Getting started</a>
+          <a href="#" class="footer-link">Release notes</a>
+        </div>
+        <div>
+          <div class="footer-col-head">Resources</div>
+          <a href="#" class="footer-link">FAQ</a>
+          <a href="#" class="footer-link">Request a feature</a>
+          <a href="#" class="footer-link">Contact us</a>
+        </div>
+        <div>
+          <div class="footer-col-head">Legal</div>
+          <a href="#" class="footer-link">Terms of Service</a>
+          <a href="#" class="footer-link">Privacy Policy</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+</div>
+
+<script>
+document.fonts.ready.then(() => {
+  setTimeout(() => window.print(), 500);
+});
+</script>
+</body>
+</html>

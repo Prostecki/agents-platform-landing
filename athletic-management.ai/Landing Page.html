@@ -1,0 +1,1507 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Athlete AI — Your coaches talk to each other.</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #13151f;
+    --bg-white: #1c1f2e;
+    --fg: #e8e6f0;
+    --muted: #6b6f82;
+    --subtle: rgba(255,255,255,0.07);
+    --green: #22c55e;
+    --green-bg: rgba(34,197,94,0.10);
+    --green-border: rgba(34,197,94,0.22);
+    --green-text: #4ade80;
+    --mono: 'Space Mono', monospace;
+    --sans: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', sans-serif;
+    --radius-sm: 8px;
+    --radius-md: 12px;
+    --radius-lg: 16px;
+    --max: 1200px;
+    --pad: 80px;
+  }
+
+  html { scroll-behavior: smooth; }
+  body { font-family: var(--sans); background: var(--bg); color: var(--fg); -webkit-font-smoothing: antialiased; }
+
+  /* ─── NAV ─── */
+  nav {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(19,21,31,0.88);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--subtle);
+    height: 64px;
+    display: flex; align-items: center;
+  }
+  .nav-inner {
+    max-width: var(--max); margin: 0 auto; width: 100%;
+    padding: 0 var(--pad);
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .nav-logo { font-size: 15px; font-weight: 700; letter-spacing: -0.3px; }
+  .nav-links { display: flex; gap: 36px; }
+  .nav-links a { font-size: 13px; color: var(--muted); text-decoration: none; transition: color 0.15s; }
+  .nav-links a:hover { color: var(--fg); }
+  .nav-cta {
+    background: var(--fg); color: var(--bg);
+    font-size: 13px; font-weight: 600;
+    padding: 9px 20px; border-radius: var(--radius-sm);
+    text-decoration: none; transition: opacity 0.15s;
+  }
+  .nav-cta:hover { opacity: 0.82; }
+
+  /* ─── SECTION SHARED ─── */
+  .section { border-bottom: 1px solid var(--subtle); }
+  .section-inner { max-width: var(--max); margin: 0 auto; padding: 96px var(--pad); }
+  .section-num { font-family: var(--mono); font-size: 11px; color: var(--muted); letter-spacing: 1px; margin-bottom: 8px; }
+  .section-h { font-size: 42px; font-weight: 700; letter-spacing: -1.5px; line-height: 1.08; margin-bottom: 48px; }
+
+  /* ─── HERO ─── */
+  .hero {
+    border-bottom: 1px solid var(--subtle);
+    display: grid; grid-template-columns: 1fr 1fr; min-height: 620px;
+  }
+  .hero-left {
+    padding: 96px var(--pad);
+    display: flex; flex-direction: column; justify-content: center;
+    border-right: 1px solid var(--subtle);
+  }
+  .eyebrow {
+    display: inline-flex; align-items: center; gap: 7px;
+    background: var(--green-bg); border: 1px solid var(--green-border);
+    border-radius: 20px; padding: 5px 14px;
+    margin-bottom: 28px; align-self: flex-start;
+  }
+  .eyebrow-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--green); }
+  .eyebrow-text { font-family: var(--mono); font-size: 10px; color: var(--green-text); letter-spacing: 0.5px; }
+  .hero-h1 { font-size: 66px; font-weight: 700; line-height: 1.02; letter-spacing: -2.5px; margin-bottom: 22px; }
+  .hero-h1 span { color: #3d4060; }
+  .hero-sub { font-size: 17px; color: var(--muted); line-height: 1.65; margin-bottom: 40px; max-width: 440px; }
+  .cta-row { display: flex; gap: 12px; align-items: center; }
+  .btn-primary {
+    background: var(--fg); color: var(--bg);
+    font-size: 14px; font-weight: 700;
+    padding: 14px 30px; border-radius: var(--radius-md);
+    text-decoration: none; transition: opacity 0.15s;
+  }
+  .btn-primary:hover { opacity: 0.82; }
+  .btn-ghost {
+    border: 1px solid rgba(255,255,255,0.14); color: var(--muted);
+    font-size: 14px; padding: 14px 30px; border-radius: var(--radius-md);
+    text-decoration: none; transition: border-color 0.15s;
+  }
+  .btn-ghost:hover { border-color: rgba(255,255,255,0.35); color: var(--fg); }
+
+  .hero-right {
+    padding: 48px 64px 48px 48px;
+    display: flex; flex-direction: column; justify-content: center;
+    background: var(--bg);
+    position: relative;
+  }
+  .hero-right::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse 70% 60% at 80% 40%, rgba(34,197,94,0.05) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .agents-ui {
+    background: var(--bg-white);
+    border: 1px solid rgba(255,255,255,0.09);
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 24px 64px rgba(0,0,0,0.35), 0 1px 0 rgba(255,255,255,0.06) inset;
+    position: relative; z-index: 1;
+  }
+  .agents-titlebar {
+    display: flex; align-items: center; gap: 6px;
+    padding: 12px 16px;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    background: rgba(255,255,255,0.03);
+  }
+  .agents-titlebar-dot { width: 10px; height: 10px; border-radius: 50%; }
+  .agents-titlebar-label {
+    font-family: var(--mono); font-size: 10px; color: var(--muted);
+    margin-left: 6px; letter-spacing: 0.5px;
+  }
+  .agents-body { padding: 20px 20px; display: flex; flex-direction: column; gap: 4px; }
+
+  .agent-panel {
+    border: 1px solid rgba(255,255,255,0.07);
+    border-radius: 14px;
+    overflow: hidden;
+    background: rgba(255,255,255,0.03);
+  }
+  .agent-panel-header {
+    display: flex; align-items: center; gap: 8px;
+    padding: 10px 14px;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+  }
+  .agent-avatar {
+    width: 22px; height: 22px; border-radius: 6px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 10px; font-weight: 700; flex-shrink: 0;
+  }
+  .agent-avatar-n { background: rgba(34,197,94,0.2); color: var(--green-text); border: 1px solid rgba(34,197,94,0.25); }
+  .agent-avatar-t { background: rgba(99,102,241,0.2); color: #a5b4fc; border: 1px solid rgba(99,102,241,0.25); }
+  .agent-panel-name { font-size: 11px; font-weight: 600; color: var(--fg); }
+  .agent-status { margin-left: auto; display: flex; align-items: center; gap: 4px; }
+  .agent-status-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--green); }
+  .agent-status-text { font-family: var(--mono); font-size: 9px; color: var(--muted); }
+  .agent-chat { padding: 12px 14px; display: flex; flex-direction: column; gap: 7px; }
+  .chat-row { display: flex; align-items: flex-start; gap: 8px; }
+  .chat-bubble {
+    padding: 8px 11px; border-radius: 10px;
+    font-size: 12px; line-height: 1.5;
+    max-width: 85%;
+  }
+  .chat-bubble-user {
+    background: rgba(255,255,255,0.07);
+    color: var(--muted);
+    border: 1px solid rgba(255,255,255,0.06);
+  }
+  .chat-bubble-ai-n {
+    background: rgba(34,197,94,0.12);
+    color: #86efac;
+    border: 1px solid rgba(34,197,94,0.15);
+  }
+  .chat-bubble-ai-t {
+    background: rgba(99,102,241,0.12);
+    color: #c7d2fe;
+    border: 1px solid rgba(99,102,241,0.15);
+  }
+  .chat-mini-avatar {
+    width: 18px; height: 18px; border-radius: 5px; flex-shrink: 0;
+    margin-top: 1px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 8px; font-weight: 700;
+  }
+
+  .a2a-connector {
+    display: flex; align-items: center; justify-content: center;
+    gap: 10px; padding: 8px 14px;
+  }
+  .a2a-line { flex: 1; height: 1px; background: linear-gradient(to right, transparent, rgba(34,197,94,0.3), transparent); }
+  .a2a-badge {
+    background: rgba(34,197,94,0.1);
+    border: 1px solid rgba(34,197,94,0.22);
+    border-radius: 20px; padding: 3px 10px;
+    font-family: var(--mono); font-size: 9px; color: var(--green-text);
+    display: flex; align-items: center; gap: 5px; flex-shrink: 0;
+  }
+  .a2a-pulse { width: 5px; height: 5px; border-radius: 50%; background: var(--green); }
+
+  /* ─── TECH BAR ─── */
+  .tech-bar {
+    background: var(--bg-white);
+    border-bottom: 1px solid var(--subtle);
+    padding: 18px var(--pad);
+    display: flex; align-items: center; justify-content: center; gap: 40px;
+  }
+  .tech-item { font-family: var(--mono); font-size: 11px; color: var(--muted); letter-spacing: 0.5px; }
+  .tech-div { width: 1px; height: 16px; background: rgba(255,255,255,0.1); }
+
+  /* ─── PRODUCT SHOWCASE ─── */
+  .showcase {
+    background: var(--bg-white);
+    border-bottom: 1px solid var(--subtle);
+    padding: 100px var(--pad);
+    text-align: center;
+    overflow: hidden;
+  }
+  .showcase-eyebrow {
+    font-family: var(--mono); font-size: 11px; color: #bbb;
+    letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 16px;
+  }
+  .showcase-h { font-size: 46px; font-weight: 700; letter-spacing: -1.5px; line-height: 1.08; margin-bottom: 16px; }
+  .showcase-sub { font-size: 16px; color: var(--muted); line-height: 1.65; max-width: 480px; margin: 0 auto 72px; }
+
+  .showcase-stage {
+    position: relative; display: inline-block;
+    width: 700px; height: 620px;
+  }
+
+  /* iPhone frame */
+  .phone-wrap {
+    position: absolute; left: 50%; top: 0;
+    transform: translateX(-50%);
+    width: 260px; height: 560px;
+    background: #111;
+    border-radius: 46px;
+    box-shadow: 0 0 0 2px #2a2a2a, 0 32px 80px rgba(0,0,0,0.22), inset 0 0 0 1px rgba(255,255,255,0.06);
+    overflow: hidden;
+    z-index: 2;
+  }
+  .phone-screen {
+    position: absolute; inset: 8px;
+    background: #f5f5f7;
+    border-radius: 38px;
+    overflow: hidden;
+  }
+  .phone-notch {
+    position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+    width: 90px; height: 28px;
+    background: #111; border-radius: 0 0 20px 20px;
+    z-index: 10;
+  }
+  .phone-statusbar {
+    padding: 10px 20px 0;
+    display: flex; justify-content: space-between; align-items: center;
+    font-size: 9px; color: #1a1a1a; font-weight: 600;
+    position: relative; z-index: 5;
+    margin-bottom: 6px;
+  }
+  .phone-content { padding: 0 14px; }
+  .phone-nav-row {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 6px 0 10px; font-size: 11px; color: #aaa;
+  }
+  .phone-title { font-size: 18px; font-weight: 700; text-align: center; margin-bottom: 2px; color: #111; }
+  .phone-date { font-size: 11px; color: var(--muted); text-align: center; margin-bottom: 16px; }
+  .phone-ring {
+    width: 100px; height: 100px; border-radius: 50%;
+    border: 8px solid #e8e8e8; margin: 0 auto 10px;
+    display: flex; align-items: center; justify-content: center;
+    position: relative;
+    background: conic-gradient(#6366f1 0% 72%, #e8e8e8 72% 100%);
+  }
+  .phone-ring-inner {
+    width: 76px; height: 76px; border-radius: 50%;
+    background: #f5f5f7;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+  }
+  .phone-score { font-size: 24px; font-weight: 700; color: #111; line-height: 1; }
+  .phone-score-label { font-size: 9px; color: var(--muted); }
+  .phone-metrics {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-bottom: 10px;
+  }
+  .phone-metric {
+    background: #fff; border-radius: 10px; padding: 8px 10px;
+  }
+  .phone-metric-label { font-size: 8px; color: var(--muted); margin-bottom: 2px; }
+  .phone-metric-val { font-size: 16px; font-weight: 700; color: #111; }
+  .phone-metric-sub { font-size: 9px; color: var(--green-text); }
+  .phone-actions {
+    display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 6px; margin-bottom: 10px;
+  }
+  .phone-action {
+    background: #fff; border-radius: 10px; padding: 8px 4px; text-align: center;
+  }
+  .phone-action-icon { font-size: 14px; margin-bottom: 2px; }
+  .phone-action-label { font-size: 8px; color: var(--muted); }
+  .phone-row {
+    background: #fff; border-radius: 10px; padding: 9px 10px;
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 6px;
+  }
+  .phone-row-left { font-size: 10px; font-weight: 600; color: #111; }
+  .phone-row-sub { font-size: 9px; color: var(--muted); }
+  .phone-row-arrow { font-size: 11px; color: #ccc; }
+
+  /* Floating cards */
+  .float-card {
+    position: absolute;
+    background: rgba(28,31,46,0.96);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 16px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.45);
+    padding: 14px 16px;
+    z-index: 3;
+    text-align: left;
+  }
+  .fc-food { width: 160px; top: 30px; left: 20px; }
+  .fc-goals { width: 168px; top: 60px; right: 16px; }
+  .fc-macros { width: 156px; top: 300px; left: 10px; }
+  .fc-chat { width: 164px; bottom: 20px; right: 16px; }
+
+  .fc-label { font-size: 9px; color: var(--muted); margin-bottom: 6px; display: flex; align-items: center; gap: 4px; }
+  .fc-label-dot { width: 5px; height: 5px; border-radius: 50%; background: #6366f1; }
+  .fc-title { font-size: 12px; font-weight: 700; color: var(--fg); margin-bottom: 2px; line-height: 1.3; }
+  .fc-sub { font-size: 10px; color: var(--muted); }
+  .fc-big { font-size: 26px; font-weight: 700; color: var(--fg); line-height: 1; }
+  .fc-big span { font-size: 12px; font-weight: 400; color: var(--muted); }
+  .fc-orange { color: #f97316; font-size: 10px; font-weight: 600; }
+  .fc-bars { display: flex; align-items: flex-end; gap: 3px; margin-top: 8px; height: 28px; }
+  .fc-bar { width: 10px; background: rgba(255,255,255,0.1); border-radius: 2px; }
+  .fc-bar.active { background: #6366f1; }
+
+  .fc-macros-row { display: flex; gap: 10px; margin-top: 8px; }
+  .fc-macro { text-align: center; }
+  .fc-macro-val { font-size: 14px; font-weight: 700; line-height: 1; }
+  .fc-macro-key { font-size: 8px; color: var(--muted); }
+
+  .fc-chat-bubble {
+    background: rgba(255,255,255,0.06); border-radius: 8px; padding: 7px 9px;
+    font-size: 10px; color: var(--muted); line-height: 1.4; margin-top: 8px;
+  }
+  .fc-chat-input {
+    background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px;
+    padding: 6px 9px; font-size: 10px; color: #bbb; margin-top: 6px;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .fc-plus { width: 18px; height: 18px; border-radius: 50%; background: var(--fg); color: #fff; font-size: 12px; display: flex; align-items: center; justify-content: center; }
+
+  /* ─── PROBLEM / SOLUTION ─── */
+  .prob-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; }
+  .col-head {
+    font-family: var(--mono); font-size: 10px; text-transform: uppercase;
+    letter-spacing: 1.5px; color: #bbb; margin-bottom: 24px;
+    padding-bottom: 14px; border-bottom: 1px solid var(--subtle);
+  }
+  .pain-item {
+    font-size: 15px; color: var(--muted); line-height: 1.6;
+    padding-left: 18px; border-left: 2px solid rgba(255,255,255,0.1); margin-bottom: 16px;
+  }
+  .gain-item {
+    font-size: 15px; color: var(--fg); line-height: 1.6;
+    padding-left: 18px; border-left: 2px solid var(--green); margin-bottom: 16px;
+  }
+
+  /* ─── DEMO ─── */
+  .demo-section { background: var(--bg-white); border-bottom: 1px solid var(--subtle); }
+  .demo-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+  .demo-copy .section-h { margin-bottom: 20px; }
+  .demo-body-text { font-size: 15px; color: var(--muted); line-height: 1.7; max-width: 400px; }
+  .demo-interface {
+    background: #0f0f0f; border-radius: var(--radius-lg);
+    overflow: hidden; border: 1px solid rgba(255,255,255,0.05);
+    box-shadow: 0 24px 60px rgba(0,0,0,0.18);
+  }
+  .demo-titlebar {
+    background: #1a1a1a; padding: 14px 20px;
+    display: flex; align-items: center; gap: 7px;
+  }
+  .demo-dot { width: 10px; height: 10px; border-radius: 50%; background: #333; }
+  .demo-label { font-family: var(--mono); font-size: 11px; color: #555; margin-left: 10px; }
+  .demo-body { padding: 28px 26px; }
+  .demo-user-msg { display: flex; gap: 12px; margin-bottom: 18px; align-items: flex-start; }
+  .demo-avatar { width: 30px; height: 30px; border-radius: 50%; background: #2a2a2a; flex-shrink: 0; }
+  .demo-bubble { background: #1e1e1e; border-radius: 10px; padding: 11px 15px; font-size: 13px; color: #ccc; line-height: 1.6; }
+  .demo-system {
+    background: #0f2a1f; border: 1px solid #1d3a2a; border-radius: var(--radius-sm);
+    padding: 9px 15px; font-family: var(--mono); font-size: 11px; color: #4ade80;
+    text-align: center; margin-bottom: 18px;
+  }
+  .demo-ai-msg { display: flex; gap: 12px; align-items: flex-start; }
+  .demo-ai-avatar { width: 30px; height: 30px; border-radius: 50%; background: #1a3a2a; border: 1px solid #22c55e; flex-shrink: 0; }
+  .demo-ai-bubble { background: #0f1f17; border: 1px solid #1d3a2a; border-radius: 10px; padding: 11px 15px; font-size: 13px; color: #86efac; line-height: 1.6; }
+
+  /* ─── HOW IT WORKS ─── */
+  .steps-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0; }
+  .step-col {
+    padding: 0 56px 0 0;
+    border-right: 1px solid var(--subtle);
+    margin-right: 56px;
+  }
+  .step-col:last-child { border-right: none; margin-right: 0; padding-right: 0; }
+  .step-num { font-size: 64px; font-weight: 700; color: rgba(255,255,255,0.07); line-height: 1; margin-bottom: 20px; letter-spacing: -2px; }
+  .step-title { font-size: 20px; font-weight: 700; color: var(--fg); margin-bottom: 10px; }
+  .step-desc { font-size: 14px; color: var(--muted); line-height: 1.7; }
+
+  /* ─── AGENT NETWORK ─── */
+  .network-section {
+    background: var(--bg); border-bottom: 1px solid var(--subtle);
+    padding: 96px var(--pad); text-align: center;
+  }
+  .network-header { margin-bottom: 64px; }
+  .network-header .section-num { text-align: left; display: inline-block; }
+  .network-canvas-wrap {
+    position: relative; display: inline-block;
+    width: 100%; max-width: 860px;
+    height: 400px;
+  }
+  #network-svg {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%;
+    overflow: visible; pointer-events: none;
+  }
+  .net-node {
+    position: absolute; transform: translate(-50%, -50%);
+    display: flex; flex-direction: column; align-items: center; gap: 8px;
+    z-index: 2;
+  }
+  .net-icon {
+    width: 52px; height: 52px; border-radius: 50%;
+    border: 1px solid rgba(255,255,255,0.12);
+    background: var(--bg-white);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px;
+    box-shadow: 0 0 0 6px rgba(255,255,255,0.03);
+  }
+  .net-icon.hub {
+    width: 72px; height: 72px; font-size: 24px;
+    background: var(--bg-white);
+    border: 1px solid rgba(34,197,94,0.3);
+    box-shadow: 0 0 0 8px rgba(34,197,94,0.06), 0 0 40px rgba(34,197,94,0.15);
+  }
+  .net-icon.green { border-color: rgba(34,197,94,0.3); background: rgba(34,197,94,0.08); }
+  .net-icon.indigo { border-color: rgba(99,102,241,0.3); background: rgba(99,102,241,0.08); }
+  .net-label {
+    font-size: 11px; font-weight: 600; color: var(--fg);
+    white-space: nowrap; letter-spacing: -0.2px;
+  }
+  .net-sublabel {
+    font-size: 10px; color: var(--muted); margin-top: -6px;
+    white-space: nowrap;
+  }
+
+  @keyframes netBeamFwd {
+    0%   { stroke-dashoffset: var(--nl); opacity: 0; }
+    5%   { opacity: 1; }
+    90%  { opacity: 1; }
+    100% { stroke-dashoffset: 0; opacity: 0; }
+  }
+  @keyframes netBeamRev {
+    0%   { stroke-dashoffset: calc(var(--nl) * -1); opacity: 0; }
+    5%   { opacity: 1; }
+    90%  { opacity: 1; }
+    100% { stroke-dashoffset: 0; opacity: 0; }
+  }
+  .nb-base { fill: none; stroke: rgba(255,255,255,0.05); stroke-linecap: round; }
+  .nb-beam { fill: none; stroke-linecap: round; }
+
+
+  @keyframes beamForward {
+    0%   { stroke-dashoffset: var(--beam-len); opacity: 0; }
+    5%   { opacity: 1; }
+    95%  { opacity: 1; }
+    100% { stroke-dashoffset: 0; opacity: 0; }
+  }
+  @keyframes beamReverse {
+    0%   { stroke-dashoffset: calc(var(--beam-len) * -1); opacity: 0; }
+    5%   { opacity: 1; }
+    95%  { opacity: 1; }
+    100% { stroke-dashoffset: 0; opacity: 0; }
+  }
+  .beam-svg {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%;
+    pointer-events: none; overflow: visible;
+    z-index: 5;
+  }
+  .beam-base { stroke: rgba(255,255,255,0.05); fill: none; stroke-linecap: round; }
+  .beam-animated {
+    fill: none; stroke-linecap: round;
+    stroke: url(#beamGrad);
+  }
+  .beam-forward {
+    animation: beamForward 2.4s cubic-bezier(0.16,1,0.3,1) infinite;
+  }
+  .beam-reverse {
+    animation: beamReverse 2.4s cubic-bezier(0.16,1,0.3,1) 1.2s infinite;
+  }
+
+
+  .feat-carousel {
+    background: var(--bg-white);
+    border-bottom: 1px solid var(--subtle);
+    padding: 96px 0 80px;
+    overflow: hidden;
+  }
+  .feat-carousel-header {
+    text-align: center;
+    padding: 0 var(--pad);
+    margin-bottom: 56px;
+  }
+  .feat-carousel-header h2 {
+    font-size: 42px; font-weight: 700; letter-spacing: -1.5px; line-height: 1.08;
+  }
+
+  .carousel-track {
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    gap: 16px;
+    padding: 0 40px;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .carousel-track::-webkit-scrollbar { display: none; }
+
+  .carousel-item { flex-shrink: 0; text-align: center; }
+  .carousel-item.side { width: 280px; }
+  .carousel-item.center { width: 380px; }
+
+  .carousel-card {
+    border-radius: 24px;
+    overflow: hidden;
+    position: relative;
+    margin-bottom: 20px;
+  }
+  .carousel-item.side .carousel-card { height: 340px; }
+  .carousel-item.center .carousel-card { height: 440px; }
+
+  /* Card backgrounds — gradient placeholders */
+  .card-bg-1 {
+    background: linear-gradient(160deg, #bfcfdf 0%, #8faabf 40%, #6a8ea8 100%);
+  }
+  .card-bg-2 {
+    background: linear-gradient(160deg, #c0bfd8 0%, #8a89b8 40%, #5c5a90 100%);
+  }
+  .card-bg-3 {
+    background: linear-gradient(160deg, #c5c0b8 0%, #a09890 40%, #7a706a 100%);
+  }
+  .card-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(to bottom, transparent 30%, rgba(0,0,0,0.35) 100%);
+  }
+  .card-blur-edge-left {
+    position: absolute; inset: 0;
+    background: linear-gradient(to right, rgba(255,255,255,0.3) 0%, transparent 20%);
+  }
+  .card-blur-edge-right {
+    position: absolute; inset: 0;
+    background: linear-gradient(to left, rgba(255,255,255,0.3) 0%, transparent 20%);
+  }
+
+  /* Silhouette shapes */
+  .card-silhouette {
+    position: absolute;
+    bottom: 0; left: 50%;
+    transform: translateX(-50%);
+    opacity: 0.25;
+  }
+
+  /* Card UI overlays */
+  .card-ui { position: absolute; inset: 0; padding: 18px; }
+
+  .card-metric-badge {
+    position: absolute;
+    background: rgba(19,21,31,0.88);
+    border: 1px solid rgba(255,255,255,0.1);
+    backdrop-filter: blur(8px);
+    border-radius: 12px;
+    padding: 8px 12px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.45);
+  }
+  .cmb-label { font-size: 9px; color: var(--muted); font-family: var(--mono); margin-bottom: 3px; }
+  .cmb-val { font-size: 18px; font-weight: 700; color: var(--fg); line-height: 1; }
+  .cmb-sub { font-size: 9px; color: var(--muted); }
+  .cmb-green { color: var(--green-text); }
+  .cmb-orange { color: #f97316; }
+
+  .card-timer {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -60%);
+    text-align: center;
+  }
+  .card-timer-digits {
+    font-size: 52px; font-weight: 700; color: #fff;
+    letter-spacing: 4px; line-height: 1;
+    text-shadow: 0 2px 20px rgba(0,0,0,0.3);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .card-workout-panel {
+    position: absolute;
+    bottom: 20px; left: 50%; transform: translateX(-50%);
+    background: rgba(19,21,31,0.92);
+    border: 1px solid rgba(255,255,255,0.1);
+    backdrop-filter: blur(12px);
+    border-radius: 14px;
+    padding: 12px 16px;
+    width: 220px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+  }
+  .cwp-row { display: flex; justify-content: space-between; margin-bottom: 6px; }
+  .cwp-sets { display: grid; grid-template-columns: repeat(4, 1fr); gap: 4px; margin-bottom: 8px; }
+  .cwp-set {
+    background: rgba(255,255,255,0.07); border-radius: 6px;
+    padding: 4px; text-align: center; font-size: 10px; font-weight: 600; color: var(--fg);
+  }
+  .cwp-set.active { background: var(--green); color: #0f0f0f; }
+  .cwp-set.done { background: rgba(34,197,94,0.15); color: var(--green-text); }
+  .cwp-exercise { font-size: 12px; font-weight: 700; color: var(--fg); }
+  .cwp-sub { font-size: 10px; color: var(--muted); }
+  .cwp-heart { font-size: 10px; color: #ef4444; }
+
+  .card-graph {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 80px;
+    opacity: 0.6;
+  }
+
+  .card-bottom-label {
+    position: absolute; bottom: 18px; left: 18px;
+    color: #fff; text-align: left;
+  }
+  .cbl-big { font-size: 32px; font-weight: 700; line-height: 1; text-shadow: 0 2px 12px rgba(0,0,0,0.3); }
+  .cbl-sub { font-size: 13px; opacity: 0.9; text-shadow: 0 1px 6px rgba(0,0,0,0.3); }
+
+  .carousel-title {
+    font-size: 17px; font-weight: 700; color: #111; margin-bottom: 8px;
+  }
+  .carousel-item.side .carousel-title { font-weight: 400; color: #555; }
+  .carousel-desc { font-size: 13px; color: var(--muted); line-height: 1.6; max-width: 300px; margin: 0 auto; }
+
+  .carousel-dots {
+    display: flex; justify-content: center; gap: 6px; margin-top: 32px;
+  }
+  .carousel-dot { width: 6px; height: 6px; border-radius: 50%; background: #ddd; }
+  .carousel-dot.active { background: var(--fg); width: 20px; border-radius: 3px; }
+
+  /* ─── FEATURES GRID (existing) ─── */
+  .feat-section { background: var(--bg-white); border-bottom: 1px solid var(--subtle); }
+  .feat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  .feat-card {
+    border: 1px solid var(--subtle); border-radius: var(--radius-lg);
+    padding: 32px 36px; transition: box-shadow 0.2s;
+  }
+  .feat-card:hover { box-shadow: 0 4px 20px rgba(0,0,0,0.06); }
+  .feat-title { font-size: 18px; font-weight: 700; color: var(--fg); margin-bottom: 10px; }
+  .feat-desc { font-size: 14px; color: var(--muted); line-height: 1.7; }
+
+  /* ─── FINAL CTA ─── */
+  .final-cta {
+    background: var(--bg-white);
+    border-top: 1px solid var(--subtle);
+    border-bottom: 1px solid var(--subtle);
+    position: relative; overflow: hidden;
+  }
+  .final-cta::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse 80% 60% at 50% 100%, rgba(34,197,94,0.07) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .final-inner {
+    max-width: var(--max); margin: 0 auto; padding: 100px var(--pad);
+    display: flex; justify-content: space-between; align-items: center;
+    position: relative;
+  }
+  .final-h { font-size: 56px; font-weight: 700; color: var(--fg); letter-spacing: -2px; line-height: 1.05; margin-bottom: 14px; }
+  .final-sub { font-family: var(--mono); font-size: 11px; color: var(--muted); letter-spacing: 1px; }
+  .final-right { display: flex; flex-direction: column; align-items: flex-end; gap: 14px; }
+  .btn-green {
+    background: var(--green); color: #0f0f0f;
+    font-size: 16px; font-weight: 700;
+    padding: 17px 44px; border-radius: var(--radius-md);
+    text-decoration: none; transition: opacity 0.15s;
+  }
+  .btn-green:hover { opacity: 0.88; }
+  .final-note { font-family: var(--mono); font-size: 11px; color: var(--muted); }
+
+  /* ─── FOOTER ─── */
+  footer {
+    background: var(--bg);
+    border-top: 1px solid var(--subtle);
+    padding: 56px var(--pad) 48px;
+  }
+  .footer-inner {
+    max-width: var(--max); margin: 0 auto;
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 48px; align-items: start;
+  }
+  .footer-left {}
+  .footer-logo {
+    font-size: 16px; font-weight: 700; color: var(--fg);
+    margin-bottom: 6px; display: flex; align-items: center; gap: 8px;
+  }
+  .footer-logo-icon {
+    width: 28px; height: 28px; background: var(--fg); border-radius: 6px;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .footer-logo-icon svg { width: 16px; height: 16px; }
+  .footer-copy { font-size: 12px; color: #aaa; margin-bottom: 28px; }
+  .footer-socials { display: flex; gap: 18px; align-items: center; }
+  .footer-social {
+    color: #bbb; text-decoration: none; transition: color 0.15s;
+    display: flex; align-items: center;
+  }
+  .footer-social:hover { color: var(--fg); }
+  .footer-social svg { width: 18px; height: 18px; }
+
+  .footer-right {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 32px;
+  }
+  .footer-col-head {
+    font-size: 12px; font-weight: 600; color: var(--fg);
+    margin-bottom: 14px;
+  }
+  .footer-link {
+    display: block; font-size: 13px; color: #888;
+    text-decoration: none; margin-bottom: 10px;
+    transition: color 0.15s;
+  }
+  .footer-link:hover { color: var(--fg); }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-inner">
+    <span class="nav-logo">Athlete AI</span>
+    <div class="nav-links">
+      <a href="#how">How it works</a>
+      <a href="#features">Features</a>
+      <a href="#demo">Demo</a>
+    </div>
+    <a href="#cta" class="nav-cta">Start Training →</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-left">
+    <div class="eyebrow">
+      <span class="eyebrow-dot"></span>
+      <span class="eyebrow-text">AI coaching that actually works together</span>
+    </div>
+    <h1 class="hero-h1">Train smarter.<br/>Eat right.<br/><span>Win more.</span></h1>
+    <p class="hero-sub">Athlete AI gives you two personal coaches — nutrition and training — that share information in real time. Ask one question. Get advice that considers everything.</p>
+    <div class="cta-row">
+      <a href="#cta" class="btn-primary">Start for free</a>
+      <a href="#demo" class="btn-ghost">See it in action ↓</a>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="agents-ui">
+      <!-- Titlebar -->
+      <div class="agents-titlebar">
+        <div class="agents-titlebar-dot" style="background:#ff5f57"></div>
+        <div class="agents-titlebar-dot" style="background:#febc2e"></div>
+        <div class="agents-titlebar-dot" style="background:#28c840"></div>
+        <span class="agents-titlebar-label">ATHLETE AI — AGENTS</span>
+      </div>
+
+      <!-- Beam SVG overlay — populated by JS -->
+      <svg class="beam-svg" id="beam-svg">
+        <defs>
+          <linearGradient id="beamGrad" gradientUnits="userSpaceOnUse">
+            <stop offset="0%"   stop-color="#22c55e" stop-opacity="0"/>
+            <stop offset="25%"  stop-color="#22c55e" stop-opacity="1"/>
+            <stop offset="75%"  stop-color="#4ade80" stop-opacity="1"/>
+            <stop offset="100%" stop-color="#4ade80" stop-opacity="0"/>
+          </linearGradient>
+        </defs>
+      </svg>
+
+      <div class="agents-body">
+        <!-- Nutrition Agent -->
+        <div class="agent-panel">
+          <div class="agent-panel-header">
+            <div class="agent-avatar agent-avatar-n">N</div>
+            <span class="agent-panel-name">Nutrition Agent</span>
+            <div class="agent-status">
+              <div class="agent-status-dot"></div>
+              <span class="agent-status-text">ACTIVE</span>
+            </div>
+          </div>
+          <div class="agent-chat">
+            <div class="chat-row">
+              <div class="chat-mini-avatar" style="background:rgba(255,255,255,0.07);color:var(--muted);">U</div>
+              <div class="chat-bubble chat-bubble-user">What should I eat tonight before tomorrow's session?</div>
+            </div>
+            <div class="chat-row">
+              <div class="chat-mini-avatar agent-avatar-n">N</div>
+              <div class="chat-bubble chat-bubble-ai-n">Based on 87 TSS tomorrow: 180g carbs, 3–4hr pre-sleep window. Skip high fiber.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- A2A connector -->
+        <div class="a2a-connector">
+          <div class="a2a-line"></div>
+          <div class="a2a-badge">
+            <div class="a2a-pulse"></div>
+            A2A SYNC
+          </div>
+          <div class="a2a-line"></div>
+        </div>
+
+        <!-- Training Agent -->
+        <div class="agent-panel">
+          <div class="agent-panel-header">
+            <div class="agent-avatar agent-avatar-t">T</div>
+            <span class="agent-panel-name">Training Agent</span>
+            <div class="agent-status">
+              <div class="agent-status-dot" style="background:#818cf8"></div>
+              <span class="agent-status-text">SYNCED</span>
+            </div>
+          </div>
+          <div class="agent-chat">
+            <div class="chat-row">
+              <div class="chat-mini-avatar agent-avatar-t">T</div>
+              <div class="chat-bubble chat-bubble-ai-t">Tomorrow: Speed endurance · TSS 87 · HRV 62</div>
+            </div>
+            <div class="chat-row">
+              <div class="chat-mini-avatar agent-avatar-t">T</div>
+              <div class="chat-bubble chat-bubble-ai-t">Glycogen priority flagged → shared with Nutrition</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- TECH BAR -->
+<div class="tech-bar">
+  <span class="tech-item">Trusted technology from Google</span>
+  <span class="tech-div"></span>
+  <span class="tech-item">Built for competitive athletes</span>
+  <span class="tech-div"></span>
+  <span class="tech-item">Used in decathlon preparation</span>
+</div>
+
+<!-- AGENT NETWORK -->
+<div class="network-section">
+  <div class="network-header">
+    <h2 style="font-size:42px;font-weight:700;letter-spacing:-1.5px;margin-bottom:12px;">How your coaches talk.</h2>
+    <p style="font-size:16px;color:var(--muted);max-width:480px;margin:0 auto;line-height:1.65;">Every time you ask a question, both agents share context automatically. No setup. No switching.</p>
+  </div>
+
+  <div class="network-canvas-wrap" id="net-wrap">
+    <!-- SVG beams -->
+    <svg id="network-svg">
+      <defs>
+        <linearGradient id="ng1" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#22c55e" stop-opacity="0"/><stop offset="40%" stop-color="#22c55e"/><stop offset="100%" stop-color="#4ade80" stop-opacity="0"/></linearGradient>
+        <linearGradient id="ng2" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#818cf8" stop-opacity="0"/><stop offset="40%" stop-color="#818cf8"/><stop offset="100%" stop-color="#a5b4fc" stop-opacity="0"/></linearGradient>
+        <linearGradient id="ng3" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#94a3b8" stop-opacity="0"/><stop offset="40%" stop-color="#94a3b8"/><stop offset="100%" stop-color="#cbd5e1" stop-opacity="0"/></linearGradient>
+      </defs>
+    </svg>
+
+    <!-- Left nodes: inputs -->
+    <div class="net-node" id="nn-user"    style="left:10%;top:22%">
+      <div class="net-icon">💬</div>
+      <div class="net-label">You</div>
+      <div class="net-sublabel">Ask anything</div>
+    </div>
+    <div class="net-node" id="nn-training" style="left:10%;top:52%">
+      <div class="net-icon">🏃</div>
+      <div class="net-label">Training Log</div>
+      <div class="net-sublabel">Sessions &amp; load</div>
+    </div>
+    <div class="net-node" id="nn-health"  style="left:10%;top:82%">
+      <div class="net-icon">❤️</div>
+      <div class="net-label">Health Data</div>
+      <div class="net-sublabel">HRV · Sleep · Fatigue</div>
+    </div>
+
+    <!-- Center: Athlete AI hub -->
+    <div class="net-node" id="nn-hub"     style="left:50%;top:50%">
+      <div class="net-icon hub">⚡</div>
+      <div class="net-label">Athlete AI</div>
+      <div class="net-sublabel">A2A Protocol</div>
+    </div>
+
+    <!-- Right nodes: agents -->
+    <div class="net-node" id="nn-nutrition" style="left:90%;top:28%">
+      <div class="net-icon green">🥗</div>
+      <div class="net-label">Nutrition Agent</div>
+      <div class="net-sublabel">Meals · Macros · Timing</div>
+    </div>
+    <div class="net-node" id="nn-coach"   style="left:90%;top:72%">
+      <div class="net-icon indigo">🏋️</div>
+      <div class="net-label">Training Agent</div>
+      <div class="net-sublabel">Load · Recovery · Plan</div>
+    </div>
+  </div>
+</div>
+
+<!-- PRODUCT SHOWCASE -->
+<div class="showcase">
+  <div class="showcase-eyebrow">The Nutrition Agent</div>
+  <h2 class="showcase-h">Fuel that knows your training.</h2>
+  <p class="showcase-sub">Every meal recommendation is backed by your actual training data — not a generic algorithm.</p>
+
+  <div class="showcase-stage">
+
+    <!-- Floating card: Food item -->
+    <div class="float-card fc-food">
+      <div style="font-size:20px;margin-bottom:6px;">🥗 ⭐</div>
+      <div class="fc-title">Homemade Chicken<br/>&amp; Veggie Soup</div>
+      <div class="fc-sub">285 kcal · 1 bowl</div>
+    </div>
+
+    <!-- Floating card: Nutritional Goals -->
+    <div class="float-card fc-goals">
+      <div class="fc-label"><span class="fc-label-dot"></span>Nutritional Goals</div>
+      <div class="fc-big">2,325<span> kcal</span></div>
+      <div class="fc-orange">Above target</div>
+      <div class="fc-bars">
+        <div class="fc-bar active" style="height:60%"></div>
+        <div class="fc-bar active" style="height:80%"></div>
+        <div class="fc-bar active" style="height:100%"></div>
+        <div class="fc-bar active" style="height:90%"></div>
+        <div class="fc-bar" style="height:50%"></div>
+        <div class="fc-bar" style="height:30%"></div>
+        <div class="fc-bar" style="height:20%"></div>
+      </div>
+    </div>
+
+    <!-- Floating card: Macro Balance -->
+    <div class="float-card fc-macros">
+      <div class="fc-label"><span class="fc-label-dot" style="background:#22c55e"></span>Macro Balance</div>
+      <div class="fc-macros-row">
+        <div class="fc-macro">
+          <div class="fc-macro-val" style="color:#111">67g</div>
+          <div class="fc-macro-key">Fat</div>
+        </div>
+        <div class="fc-macro">
+          <div class="fc-macro-val" style="color:#3b82f6">150g</div>
+          <div class="fc-macro-key">Carbs</div>
+        </div>
+        <div class="fc-macro">
+          <div class="fc-macro-val" style="color:#f97316">98g</div>
+          <div class="fc-macro-key">Protein</div>
+        </div>
+      </div>
+      <div class="fc-bars" style="margin-top:10px;">
+        <div class="fc-bar" style="height:50%;background:#111"></div>
+        <div class="fc-bar" style="height:70%;background:#3b82f6"></div>
+        <div class="fc-bar" style="height:90%;background:#3b82f6"></div>
+        <div class="fc-bar" style="height:100%;background:#3b82f6"></div>
+        <div class="fc-bar" style="height:80%;background:#f97316"></div>
+        <div class="fc-bar" style="height:60%;background:#f97316"></div>
+        <div class="fc-bar" style="height:40%;background:#f97316"></div>
+      </div>
+    </div>
+
+    <!-- Floating card: Chat / Food log -->
+    <div class="float-card fc-chat">
+      <div class="fc-label"><span class="fc-label-dot" style="background:#22c55e"></span>Food Log</div>
+      <div class="fc-chat-bubble">What are you eating?<br/>Breakfast waffle with 2 eggs on the side</div>
+      <div class="fc-chat-input">
+        <span>Add meal...</span>
+        <div class="fc-plus">+</div>
+      </div>
+    </div>
+
+    <!-- Phone -->
+    <div class="phone-wrap">
+      <div class="phone-screen">
+        <div class="phone-notch"></div>
+        <div class="phone-statusbar">
+          <span>9:41</span>
+          <span>▲▲▲ ᯤ ⬛</span>
+        </div>
+        <div class="phone-content">
+          <div class="phone-nav-row">
+            <span>←</span>
+            <span></span>
+            <span>···</span>
+          </div>
+          <div class="phone-title">Nutrition</div>
+          <div class="phone-date">Today ↓</div>
+          <div class="phone-ring">
+            <div class="phone-ring-inner">
+              <div class="phone-score">93</div>
+              <div class="phone-score-label">optimal</div>
+            </div>
+          </div>
+          <div class="phone-metrics">
+            <div class="phone-metric">
+              <div class="phone-metric-label">Food Quality</div>
+              <div class="phone-metric-val">92</div>
+              <div class="phone-metric-sub">Optimal</div>
+            </div>
+            <div class="phone-metric">
+              <div class="phone-metric-label">Glucose Impact</div>
+              <div class="phone-metric-val">94</div>
+              <div class="phone-metric-sub">Optimal</div>
+            </div>
+          </div>
+          <div class="phone-actions">
+            <div class="phone-action">
+              <div class="phone-action-icon">🔍</div>
+              <div class="phone-action-label">Search</div>
+            </div>
+            <div class="phone-action">
+              <div class="phone-action-icon">📷</div>
+              <div class="phone-action-label">Capture</div>
+            </div>
+            <div class="phone-action">
+              <div class="phone-action-icon">Aↄ</div>
+              <div class="phone-action-label">Describe</div>
+            </div>
+          </div>
+          <div class="phone-row">
+            <div>
+              <div class="phone-row-left">My Foods</div>
+              <div class="phone-row-sub">8 favorites · 12 recipes · 10 foods</div>
+            </div>
+            <div class="phone-row-arrow">→</div>
+          </div>
+          <div class="phone-row">
+            <div>
+              <div class="phone-row-left">Goals</div>
+              <div class="phone-row-sub">Calories · 200 kcal left</div>
+            </div>
+            <div class="phone-row-arrow">→</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- PROBLEM / SOLUTION -->
+<div class="section" id="problem">
+  <div class="section-inner">
+    <div class="section-num">02</div>
+    <h2 class="section-h">Sound familiar?</h2>
+    <div class="prob-grid">
+      <div>
+        <div class="col-head">The old way</div>
+        <div class="pain-item">Your nutritionist says eat more carbs. But they don't know you destroyed your legs yesterday.</div>
+        <div class="pain-item">Your coach plans a brutal session tomorrow. But your body is running on empty and nobody connected the dots.</div>
+        <div class="pain-item">You spend more time explaining your week to each coach than actually training.</div>
+      </div>
+      <div>
+        <div class="col-head">With Athlete AI</div>
+        <div class="gain-item">Your nutrition coach knows exactly what you trained today and adjusts your evening meal automatically.</div>
+        <div class="gain-item">Your training coach sees your energy levels and nutrition data before loading your next session.</div>
+        <div class="gain-item">Both coaches share context the moment you open the app. You just train.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- DEMO -->
+<div class="demo-section section" id="demo">
+  <div class="section-inner">
+    <div class="demo-grid">
+      <div class="demo-copy">
+        <div class="section-num">03</div>
+        <h2 class="section-h">Watch it happen.</h2>
+        <p class="demo-body-text">A real conversation. Real agents. No scripts. See what it looks like when your coaches actually talk to each other.</p>
+      </div>
+      <div class="demo-interface">
+        <div class="demo-titlebar">
+          <span class="demo-dot"></span>
+          <span class="demo-dot"></span>
+          <span class="demo-dot"></span>
+          <span class="demo-label">NUTRITION AGENT</span>
+        </div>
+        <div class="demo-body">
+          <div class="demo-user-msg">
+            <div class="demo-avatar"></div>
+            <div class="demo-bubble">I have a really tough speed session tomorrow morning. What should I eat tonight?</div>
+          </div>
+          <div class="demo-system">Nutrition agent is checking your training schedule...</div>
+          <div class="demo-ai-msg">
+            <div class="demo-ai-avatar"></div>
+            <div class="demo-ai-bubble">Based on tomorrow's high-intensity speed session and your current fatigue level, tonight focus on: a large portion of pasta or rice (around 120g dry), chicken or salmon for protein, and avoid heavy fats after 8pm. Your body needs full glycogen stores for tomorrow. Last time before a similar session you felt better after eating earlier — around 7pm.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="demo-caption" style="text-align:center;margin-top:20px;font-size:13px;color:var(--muted);font-style:italic;">That last sentence? Your agent remembered it from three weeks ago.</div>
+<div class="section" id="how">
+  <div class="section-inner">
+    <div class="section-num">04</div>
+    <h2 class="section-h">Simple for you.<br/>Powerful behind the scenes.</h2>
+    <div class="steps-grid">
+      <div class="step-col">
+        <div class="step-num">1</div>
+        <div class="step-title">Talk to your coach</div>
+        <div class="step-desc">Just message like you would a real coach. Tell it what you ate, how you feel, what's coming up. No forms, no logging apps, no spreadsheets.</div>
+      </div>
+      <div class="step-col">
+        <div class="step-num">2</div>
+        <div class="step-title">Your coaches sync automatically</div>
+        <div class="step-desc">The moment you ask a question, both agents share information. Your nutrition coach knows your training load. Your training coach knows your energy and recovery status.</div>
+      </div>
+      <div class="step-col">
+        <div class="step-num">3</div>
+        <div class="step-title">Get advice that makes sense</div>
+        <div class="step-desc">No generic meal plans. No one-size-fits-all programs. Every response considers your actual week — your sessions, your food, your fatigue, your next competition.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FEATURES CAROUSEL -->
+<div class="feat-carousel">
+  <div class="feat-carousel-header">
+    <h2>Built for Athlete Performance.</h2>
+  </div>
+
+  <div class="carousel-track">
+
+    <!-- Card 1: Cardio Load -->
+    <div class="carousel-item side">
+      <div class="carousel-card card-bg-1">
+        <div class="card-overlay"></div>
+        <div class="card-blur-edge-left"></div>
+
+        <!-- SVG graph line -->
+        <svg class="card-graph" viewBox="0 0 280 80" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+          <polyline points="0,60 40,55 80,40 120,45 160,25 200,30 240,15 280,20"
+            fill="none" stroke="rgba(255,255,255,0.7)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <polyline points="0,60 40,55 80,40 120,45 160,25 200,30 240,15 280,20 280,80 0,80"
+            fill="rgba(255,255,255,0.1)"/>
+        </svg>
+
+        <!-- Metric badge top-right -->
+        <div class="card-metric-badge" style="top:16px;right:16px;">
+          <div class="cmb-label">Weekly Load</div>
+          <div class="cmb-val">487 <span style="font-size:12px;font-weight:400;color:#888">TSS</span></div>
+          <div class="cmb-sub cmb-green">↑ 12% this week</div>
+        </div>
+
+        <!-- Bottom label -->
+        <div class="card-bottom-label">
+          <div class="cbl-big">118</div>
+          <div class="cbl-sub">Productive</div>
+        </div>
+      </div>
+      <div class="carousel-title">Balance Your Training Load</div>
+      <div class="carousel-desc">Go beyond minutes and miles. Training Load uses heart rate and effort to measure what your training actually does for your body.</div>
+    </div>
+
+    <!-- Card 2: Strength (CENTER) -->
+    <div class="carousel-item center">
+      <div class="carousel-card card-bg-2">
+        <div class="card-overlay"></div>
+
+        <!-- Timer -->
+        <div class="card-timer">
+          <div class="card-timer-digits">01:04:15</div>
+        </div>
+
+        <!-- Workout panel -->
+        <div class="card-workout-panel">
+          <div class="cwp-row">
+            <span style="font-size:11px;color:#888;">Sets</span>
+            <span style="font-size:11px;color:#888;">Reps × Weight</span>
+          </div>
+          <div class="cwp-sets">
+            <div class="cwp-set done">90 ×12</div>
+            <div class="cwp-set done">50 ×8</div>
+            <div class="cwp-set active">50 ×8</div>
+            <div class="cwp-set">1 ×8</div>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center;">
+            <div>
+              <div class="cwp-exercise">Shoulder Press</div>
+              <div class="cwp-sub">Warmup · 01:12</div>
+            </div>
+            <div class="cwp-heart">♥ 114</div>
+          </div>
+        </div>
+      </div>
+      <div class="carousel-title">Built for Strength</div>
+      <div class="carousel-desc">Whether you're lifting heavy or just getting started, Athlete AI keeps track of your strength and shows how you're progressing.</div>
+    </div>
+
+    <!-- Card 3: Body Composition -->
+    <div class="carousel-item side">
+      <div class="carousel-card card-bg-3">
+        <div class="card-overlay"></div>
+        <div class="card-blur-edge-right"></div>
+
+        <!-- SVG graph -->
+        <svg class="card-graph" viewBox="0 0 280 80" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+          <polyline points="0,20 40,25 80,30 120,28 160,35 200,40 240,38 280,45"
+            fill="none" stroke="rgba(150,120,220,0.8)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <polyline points="0,20 40,25 80,30 120,28 160,35 200,40 240,38 280,45 280,80 0,80"
+            fill="rgba(150,120,220,0.1)"/>
+        </svg>
+
+        <!-- Top-left badge -->
+        <div class="card-metric-badge" style="top:16px;left:16px;">
+          <div class="cmb-label">Weight</div>
+          <div class="cmb-val">185.4 <span style="font-size:11px;font-weight:400;color:#888">lbs</span></div>
+        </div>
+
+        <!-- Mid-right badges -->
+        <div class="card-metric-badge" style="top:50%;right:16px;transform:translateY(-50%);">
+          <div class="cmb-label">Lean Body Mass</div>
+          <div class="cmb-val" style="font-size:14px;">160.2 <span style="font-size:10px;font-weight:400;color:#888">lbs</span></div>
+          <div class="cmb-sub cmb-green">↑ stable</div>
+        </div>
+      </div>
+      <div class="carousel-title">Watch Your Body Change</div>
+      <div class="carousel-desc">Get a clearer picture of progress by monitoring body composition trends over time, from muscle gain to fat loss.</div>
+    </div>
+
+  </div>
+
+  <div class="carousel-dots">
+    <div class="carousel-dot"></div>
+    <div class="carousel-dot active"></div>
+    <div class="carousel-dot"></div>
+  </div>
+</div>
+
+<!-- FEATURES GRID -->
+<div class="feat-section section" id="features">
+  <div class="section-inner">
+    <div class="section-num">05</div>
+    <h2 class="section-h">Everything a serious athlete needs.</h2>
+    <div class="feat-grid">
+      <div class="feat-card">
+        <div class="feat-title">Two coaches, one conversation</div>
+        <div class="feat-desc">Stop repeating yourself to every coach and nutritionist. Athlete AI keeps both agents in sync so your advice is always consistent and always current.</div>
+      </div>
+      <div class="feat-card">
+        <div class="feat-title">It remembers everything</div>
+        <div class="feat-desc">Every meal. Every session. Every time you felt heavy on the track or light in the weight room. Your coaches build a picture of you over time — and get smarter every week.</div>
+      </div>
+      <div class="feat-card">
+        <div class="feat-title">Built for your sport</div>
+        <div class="feat-desc">Athlete AI understands the demands of multi-event competition. Periodization, peak weeks, recovery phases, pre-competition nutrition — it knows the difference between a preparation block and competition week.</div>
+      </div>
+      <div class="feat-card">
+        <div class="feat-title">Instant answers, any time</div>
+        <div class="feat-desc">Your coach doesn't sleep. Ask at 10pm what to eat before tomorrow's 7am session. Get a real answer in seconds, not a generic meal plan PDF from three months ago.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FINAL CTA -->
+<div class="final-cta" id="cta">
+  <div class="final-inner">
+    <div>
+      <h2 class="final-h">Your coaches<br/>are ready.</h2>
+      <p style="font-size:15px;color:var(--muted);line-height:1.7;max-width:440px;margin-top:16px;">Start your first conversation today and see what it feels like to have nutrition and training advice that actually work together.</p>
+    </div>
+    <div class="final-right">
+      <a href="#" class="btn-green">Start training smarter</a>
+      <span class="final-note">Built for competitive athletes who take their performance seriously.</span>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-left">
+      <div class="footer-logo">
+        <div class="footer-logo-icon">
+          <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M3 8 L8 3 L13 8 L8 13 Z" fill="white"/>
+          </svg>
+        </div>
+        Athlete AI
+      </div>
+      <div class="footer-copy">© athletic-management.ai, Inc. 2026</div>
+      <div class="footer-socials">
+        <!-- Instagram -->
+        <a href="#" class="footer-social" aria-label="Instagram">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+            <circle cx="12" cy="12" r="4"/>
+            <circle cx="17.5" cy="6.5" r="0.5" fill="currentColor" stroke="none"/>
+          </svg>
+        </a>
+        <!-- X / Twitter -->
+        <a href="#" class="footer-social" aria-label="X">
+          <svg viewBox="0 0 24 24" fill="currentColor">
+            <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.746l7.73-8.835L1.254 2.25H8.08l4.259 5.631 5.905-5.631Zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+          </svg>
+        </a>
+        <!-- Reddit -->
+        <a href="#" class="footer-social" aria-label="Reddit">
+          <svg viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0zm5.01 4.744c.688 0 1.25.561 1.25 1.249a1.25 1.25 0 0 1-2.498.056l-2.597-.547-.8 3.747c1.824.07 3.48.632 4.674 1.488.308-.309.73-.491 1.207-.491.968 0 1.754.786 1.754 1.754 0 .716-.435 1.333-1.01 1.614a3.111 3.111 0 0 1 .042.52c0 2.694-3.13 4.87-7.004 4.87-3.874 0-7.004-2.176-7.004-4.87 0-.183.015-.366.043-.534A1.748 1.748 0 0 1 4.028 12c0-.968.786-1.754 1.754-1.754.463 0 .898.196 1.207.49 1.207-.883 2.878-1.43 4.744-1.487l.885-4.182a.342.342 0 0 1 .14-.197.35.35 0 0 1 .238-.042l2.906.617a1.214 1.214 0 0 1 1.108-.701zM9.25 12C8.561 12 8 12.562 8 13.25c0 .687.561 1.248 1.25 1.248.687 0 1.248-.561 1.248-1.249 0-.688-.561-1.249-1.249-1.249zm5.5 0c-.687 0-1.248.561-1.248 1.25 0 .687.561 1.248 1.249 1.248.688 0 1.249-.561 1.249-1.249 0-.687-.562-1.249-1.25-1.249zm-5.466 3.99a.327.327 0 0 0-.231.094.33.33 0 0 0 0 .463c.842.842 2.484.913 2.961.913.477 0 2.105-.056 2.961-.913a.361.361 0 0 0 .029-.463.33.33 0 0 0-.464 0c-.547.533-1.684.73-2.512.73-.828 0-1.979-.196-2.512-.73a.326.326 0 0 0-.232-.095z"/>
+          </svg>
+        </a>
+        <!-- YouTube -->
+        <a href="#" class="footer-social" aria-label="YouTube">
+          <svg viewBox="0 0 24 24" fill="currentColor">
+            <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+          </svg>
+        </a>
+        <!-- Facebook -->
+        <a href="#" class="footer-social" aria-label="Facebook">
+          <svg viewBox="0 0 24 24" fill="currentColor">
+            <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+          </svg>
+        </a>
+      </div>
+    </div>
+
+    <div class="footer-right">
+      <div>
+        <div class="footer-col-head">Company</div>
+        <a href="#" class="footer-link">About us</a>
+        <a href="#" class="footer-link">Careers</a>
+        <a href="#" class="footer-link">Blog</a>
+      </div>
+      <div>
+        <div class="footer-col-head">Product</div>
+        <a href="#" class="footer-link">Download App</a>
+        <a href="#" class="footer-link">Getting started</a>
+        <a href="#" class="footer-link">Release notes</a>
+        <a href="#" class="footer-link">Roadmap</a>
+        <a href="#" class="footer-link">Beta</a>
+      </div>
+      <div>
+        <div class="footer-col-head">Resources</div>
+        <a href="#" class="footer-link">FAQ</a>
+        <a href="#" class="footer-link">Request a feature</a>
+        <a href="#" class="footer-link">Report a bug</a>
+        <a href="#" class="footer-link">Contact us</a>
+      </div>
+      <div>
+        <div class="footer-col-head">Legal</div>
+        <a href="#" class="footer-link">Terms of Service</a>
+        <a href="#" class="footer-link">Privacy Policy</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+// ─── NETWORK BEAMS ────────────────────────────────────────────
+function initNetwork() {
+  const wrap = document.getElementById('net-wrap');
+  const svg  = document.getElementById('network-svg');
+  if (!wrap || !svg) return;
+
+  // Remove old beams
+  svg.querySelectorAll('.nb-base,.nb-beam').forEach(e => e.remove());
+
+  const wRect = wrap.getBoundingClientRect();
+  const W = wRect.width, H = wRect.height;
+
+  function center(id) {
+    const el = document.getElementById(id);
+    if (!el) return null;
+    const r = el.getBoundingClientRect();
+    return { x: r.left - wRect.left + r.width/2, y: r.top - wRect.top + r.height/2 };
+  }
+
+  const hub  = center('nn-hub');
+  const user = center('nn-user');
+  const trn  = center('nn-training');
+  const hlth = center('nn-health');
+  const nutr = center('nn-nutrition');
+  const coch = center('nn-coach');
+  if (!hub) return;
+
+  // connections: [from, to, gradId, delay, strokeW, reverse]
+  const connections = [
+    [user, hub,  'ng3', 0,   1.5, false],
+    [trn,  hub,  'ng3', 0.4, 1.5, false],
+    [hlth, hub,  'ng3', 0.8, 1.5, false],
+    [hub,  nutr, 'ng1', 0.2, 2,   false],
+    [hub,  coch, 'ng2', 0.6, 2,   false],
+    [nutr, coch, 'ng1', 1.2, 1.5, false],
+    [coch, nutr, 'ng2', 1.8, 1.5, true ],
+  ];
+
+  const NS = 'http://www.w3.org/2000/svg';
+
+  connections.forEach(([from, to, grad, delay, sw, rev]) => {
+    if (!from || !to) return;
+
+    // Quadratic bezier: control point pulls toward center-x of canvas
+    const cpx = (from.x + to.x) / 2;
+    const cpy = (from.y + to.y) / 2 - 20;
+    const d = `M ${from.x},${from.y} Q ${cpx},${cpy} ${to.x},${to.y}`;
+
+    // Update gradient direction
+    const gradEl = document.getElementById(grad);
+    if (gradEl) {
+      gradEl.setAttribute('x1', from.x); gradEl.setAttribute('y1', from.y);
+      gradEl.setAttribute('x2', to.x);   gradEl.setAttribute('y2', to.y);
+    }
+
+    // Base dim path
+    const base = document.createElementNS(NS, 'path');
+    base.setAttribute('d', d);
+    base.setAttribute('stroke-width', '1');
+    base.classList.add('nb-base');
+    svg.appendChild(base);
+
+    // Animated beam
+    const beam = document.createElementNS(NS, 'path');
+    beam.setAttribute('d', d);
+    beam.setAttribute('stroke', `url(#${grad})`);
+    beam.setAttribute('stroke-width', sw);
+    beam.classList.add('nb-beam');
+    svg.appendChild(beam);
+
+    const len = beam.getTotalLength();
+    beam.style.setProperty('--nl', len + 'px');
+    beam.style.strokeDasharray = len;
+    beam.style.strokeDashoffset = rev ? -len : len;
+    beam.style.animation = `${rev ? 'netBeamRev' : 'netBeamFwd'} 2.8s cubic-bezier(0.16,1,0.3,1) ${delay}s infinite`;
+  });
+}
+
+window.addEventListener('load',   () => setTimeout(initNetwork, 200));
+window.addEventListener('resize', initNetwork);
+</script>
+
+<script>
+function initBeam() {
+  const container = document.querySelector('.agents-ui');
+  const panels = document.querySelectorAll('.agent-panel');
+  const svg = document.getElementById('beam-svg');
+  if (!container || panels.length < 2 || !svg) return;
+
+  const cRect = container.getBoundingClientRect();
+  const fromRect = panels[0].getBoundingClientRect();
+  const toRect   = panels[1].getBoundingClientRect();
+
+  // Start: bottom-center of first panel, End: top-center of second panel
+  const startX = fromRect.left - cRect.left + fromRect.width / 2;
+  const startY = fromRect.bottom - cRect.top;
+  const endX   = toRect.left - cRect.left + toRect.width / 2;
+  const endY   = toRect.top - cRect.top;
+  const midY   = (startY + endY) / 2;
+
+  const d = `M ${startX},${startY} Q ${startX},${midY} ${endX},${endY}`;
+
+  // Update gradient to follow the vertical path
+  const grad = document.getElementById('beamGrad');
+  if (grad) {
+    grad.setAttribute('x1', startX); grad.setAttribute('y1', startY);
+    grad.setAttribute('x2', endX);   grad.setAttribute('y2', endY);
+  }
+
+  // Remove old paths (on resize)
+  svg.querySelectorAll('.beam-base, .beam-animated').forEach(el => el.remove());
+
+  // Base (static dim path)
+  const base = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+  base.setAttribute('d', d);
+  base.setAttribute('stroke-width', '1.5');
+  base.classList.add('beam-base');
+  svg.appendChild(base);
+
+  // Forward beam
+  const fwd = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+  fwd.setAttribute('d', d);
+  fwd.setAttribute('stroke-width', '2');
+  fwd.classList.add('beam-animated', 'beam-forward');
+  svg.appendChild(fwd);
+
+  // Reverse beam
+  const rev = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+  rev.setAttribute('d', d);
+  rev.setAttribute('stroke-width', '2');
+  rev.classList.add('beam-animated', 'beam-reverse');
+  svg.appendChild(rev);
+
+  // Set CSS variable for dash length on each path
+  [fwd, rev].forEach(p => {
+    const len = p.getTotalLength();
+    p.style.setProperty('--beam-len', len + 'px');
+    p.style.strokeDasharray = len;
+    p.style.strokeDashoffset = len;
+  });
+}
+
+// Init after fonts/layout settle
+window.addEventListener('load', () => { setTimeout(initBeam, 200); });
+window.addEventListener('resize', initBeam);
+</script>
+
+</html>
