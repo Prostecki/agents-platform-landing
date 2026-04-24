@@ -1,0 +1,2 @@
+# Ignore HTML files in the design/wireframe folder for language statistics
+athletic-management.ai/** linguist-detectable=false

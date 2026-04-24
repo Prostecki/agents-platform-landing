@@ -1,47 +1,48 @@
 # Athlete AI — Your coaches talk to each other.
 
-**Athlete AI** — это передовая система управления тренировками для профессиональных атлетов и любителей высокого уровня. Проект представляет собой инновационную платформу, где два специализированных ИИ-агента — **по питанию** и **по тренировкам** — работают в единой связке, обмениваясь данными в режиме реального времени через протокол A2A (Agent-to-Agent).
+**Athlete AI** is a cutting-edge training management system designed for professional athletes and high-level enthusiasts. The project features an innovative platform where two specialized AI agents — **Nutrition** and **Training** — work in sync, exchanging data in real-time via the A2A (Agent-to-Agent) protocol.
 
 > [!IMPORTANT]  
-> Данная страница является концептуальным лендингом, созданным для проверки гипотезы продукта и сбора заявок в лист ожидания (Waitlist).
+> This page is a conceptual landing page created to validate product hypotheses and collect waitlist sign-ups.
 
 ---
 
-## 💎 О продукте
+## 💎 About the Product
 
-### Протокол A2A (Agent-to-Agent)
-Главная инновация Athlete AI. Когда вы задаете вопрос одному тренеру, второй автоматически получает контекст. Если план тренировок меняется, ИИ-диетолог мгновенно корректирует ваш рацион, учитывая интенсивность предстоящей нагрузки.
+### A2A Protocol (Agent-to-Agent)
+The core innovation of Athlete AI. When you ask one coach a question, the other automatically receives the context. If your training plan changes, the AI Nutritionist instantly adjusts your diet based on the intensity of the upcoming workload.
 
-### Интеллектуальная сеть агентов
-Визуальный хаб, объединяющий ваши данные о здоровье (HRV, сон, усталость), логи тренировок и советы экспертов. Это не просто чат-бот, а полноценная экосистема, которая "думает" за вас.
+### Intelligent Agent Network
+A visual hub connecting your health data (HRV, sleep, fatigue), training logs, and expert advice. It's not just a chatbot, but a complete ecosystem that "thinks" for you.
 
-### Персонализация на уровне элиты
-Каждый совет подкреплен вашими реальными показателями. ИИ помнит ваши предпочтения и реакцию организма на нагрузки трехнедельной давности, обеспечивая беспрецедентную точность рекомендаций.
-
----
-
-## ✨ Ключевые особенности лендинга
-
-- **Интерактивные демонстрации:** Живой пример диалога с ИИ-агентом, показывающий глубину понимания контекста.
-- **Современный дизайн:** Эстетика "Glassmorphism", плавная анимация соединений (Animated Beams) и премиальная типографика.
-- **Адаптивность:** Полная поддержка мобильных устройств и корректная работа во всех современных браузерах.
-- **Dual Theme:** Выверенный баланс контрастности и доступности как в темной, так и в светлой темах.
+### Elite-Level Personalization
+Every piece of advice is backed by your real performance metrics. The AI remembers your preferences and your body's response to loads from weeks ago, ensuring unprecedented precision in recommendations.
 
 ---
 
-## 🛠 Технологический стек
+## ✨ Key Landing Page Features
 
-Проект реализован на самых современных инструментах фронтенд-разработки:
-- **Framework:** Next.js 16.2.4 (App Router)
-- **Styling:** Tailwind CSS v4
-- **Animations:** Framer Motion
-- **Protocol Integration:** Model Context Protocol (MCP)
+- **Interactive Demos:** Live examples of AI agent dialogues demonstrating deep contextual understanding.
+- **Modern Design:** Glassmorphism aesthetics, smooth connection animations (Animated Beams), and premium typography.
+- **Responsive:** Full mobile support and optimized performance across all modern browsers.
+- **Dual Theme:** Perfectly balanced contrast and accessibility in both Dark and Light modes.
 
 ---
 
-## 🎯 Статус проекта
+## 🛠 Tech Stack
 
-Проект находится на стадии **валидации идеи**. Все элементы интерфейса и сценарии взаимодействия спроектированы для демонстрации финального видения продукта.
+The project is built using the latest frontend development tools:
+- **Framework:** [Next.js 16.2.4](https://nextjs.org/) (App Router)
+- **Library:** [React 19](https://react.dev/)
+- **Styling:** [Tailwind CSS v4](https://tailwindcss.com/)
+- **Animations:** [Framer Motion](https://www.framer.com/motion/)
+- **Testing:** [Playwright](https://playwright.dev/) (E2E)
+
+---
+
+## 🎯 Project Status
+
+The project is currently in the **Idea Validation** stage. All UI elements and interaction scenarios are designed to demonstrate the final vision of the product.
 
 ---
 
