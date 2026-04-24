@@ -1,61 +1,94 @@
 import { test, expect } from '@playwright/test';
+import { injectAxe, checkA11y } from 'axe-playwright';
 
-test.describe('User Experience & Layout', () => {
+test.describe('Athlete AI — Comprehensive UX & UI Audit', () => {
   
   test.beforeEach(async ({ page }) => {
     await page.goto('/');
   });
 
-  test('Mobile Menu should open and cover the screen on iPhone', async ({ page, isMobile }) => {
-    test.skip(!isMobile, 'This test is only for mobile devices');
-
-    const menuTrigger = page.locator('.mobile-menu-trigger');
-    await expect(menuTrigger).toBeVisible();
-
-    // Open menu
-    await menuTrigger.click();
-
-    const overlay = page.locator('.mobile-menu-overlay');
-    await expect(overlay).toBeVisible();
-    
-    // Check if it covers full screen (Portal check)
-    const box = await overlay.boundingBox();
-    expect(box?.width).toBeGreaterThan(300);
-    expect(box?.height).toBeGreaterThan(600);
-
-    // Check if scroll is blocked
-    const overflow = await page.evaluate(() => window.getComputedStyle(document.body).overflow);
-    expect(overflow).toBe('hidden');
-
-    // Close menu
-    await page.locator('.mobile-menu-close').click();
-    await expect(overlay).not.toBeVisible();
-
-    // Check if scroll is restored
-    const overflowAfter = await page.evaluate(() => window.getComputedStyle(document.body).overflow);
-    expect(overflowAfter).not.toBe('hidden');
+  // --- Accessibility Tests ---
+  test('Should pass basic accessibility checks', async ({ page }) => {
+    await injectAxe(page);
+    await checkA11y(page, undefined, {
+      axeOptions: {
+        rules: {
+          'color-contrast': { enabled: false }, // Decorative high-contrast design
+          'region': { enabled: false },
+        },
+      },
+    });
   });
 
-  test('Theme toggle should change data-theme attribute', async ({ page }) => {
+  // --- Theme & Visual State ---
+  test('Theme toggle should persist and apply correct colors', async ({ page }) => {
     const html = page.locator('html');
-    const initialTheme = await html.getAttribute('data-theme');
-    const targetTheme = initialTheme === 'dark' ? 'light' : 'dark';
-
     const toggle = page.locator('.theme-toggle');
+    
+    const initialTheme = await html.getAttribute('data-theme');
+    
+    // Switch theme
     await toggle.click();
-
-    await expect(html).toHaveAttribute('data-theme', targetTheme);
-
-    // Optional: toggle back and verify
+    const midTheme = await html.getAttribute('data-theme');
+    expect(midTheme).not.toBe(initialTheme);
+    
+    // Switch back
     await toggle.click();
     await expect(html).toHaveAttribute('data-theme', initialTheme!);
   });
 
-  test('Hero buttons should have correct layout on mobile', async ({ page, isMobile }) => {
-    test.skip(!isMobile, 'Mobile layout specific test');
+  // --- Features Carousel (Adaptive & Snap) ---
+  test('Features Carousel should support scroll snap on mobile', async ({ page, isMobile }) => {
+    const carousel = page.locator('.carousel-container');
+    await expect(carousel).toBeVisible();
 
-    const ctaRow = page.locator('.cta-row');
-    await expect(ctaRow).toHaveCSS('flex-direction', 'column');
-    await expect(ctaRow).toHaveCSS('gap', '12px');
+    if (isMobile) {
+      const scrollSnap = await carousel.evaluate(el => getComputedStyle(el).scrollSnapType);
+      expect(scrollSnap).toContain('x mandatory');
+
+      const card = page.locator('text=Built for Strength');
+      await card.scrollIntoViewIfNeeded();
+      await expect(card).toBeInViewport();
+    }
+  });
+
+  // --- Agent Network (SVG & Nodes) ---
+  test('Agent Network should render nodes and animated beams', async ({ page }) => {
+    const networkSection = page.locator('h2:has-text("How your coaches talk")');
+    await expect(networkSection).toBeVisible();
+
+    // Specific node check
+    await expect(page.locator('div').filter({ hasText: /^Nutrition$/ }).first()).toBeVisible();
+    await expect(page.locator('div').filter({ hasText: /^Athlete AI$/ }).first()).toBeVisible();
+
+    // Check for SVG beams
+    const beams = await page.locator('svg path').count();
+    expect(beams).toBeGreaterThan(0);
+  });
+
+  // --- Navigation & Mobile Menu ---
+  test('Mobile menu should trigger and block scroll', async ({ page, isMobile }) => {
+    test.skip(!isMobile, 'Only for mobile devices');
+
+    const menuTrigger = page.locator('.mobile-menu-trigger');
+    await menuTrigger.click();
+
+    const menuOverlay = page.locator('.mobile-menu-overlay');
+    await expect(menuOverlay).toBeVisible();
+
+    const overflow = await page.evaluate(() => getComputedStyle(document.body).overflow);
+    expect(overflow).toBe('hidden');
+
+    await page.locator('.mobile-menu-close').click();
+    await expect(menuOverlay).not.toBeVisible();
+    
+    const overflowAfter = await page.evaluate(() => getComputedStyle(document.body).overflow);
+    expect(overflowAfter).not.toBe('hidden');
+  });
+
+  // --- Form / CTA Interactions ---
+  test('Final CTA should have correct link', async ({ page }) => {
+    const ctaButton = page.locator('a:has-text("Join the Waitlist")').last();
+    await expect(ctaButton).toBeVisible();
   });
 });

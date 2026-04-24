@@ -13,7 +13,7 @@ import Footer from './components/Footer'
 
 export default function Home() {
   return (
-    <>
+    <main>
       <Nav />
       <Hero />
       <TechBar />
@@ -26,6 +26,6 @@ export default function Home() {
       <FeaturesGrid />
       <FinalCTA />
       <Footer />
-    </>
+    </main>
   )
 }

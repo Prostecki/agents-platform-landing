@@ -34,7 +34,10 @@ export default function FeaturesCarousel() {
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true, margin: "-100px" }}
-        className="flex items-end justify-start md:justify-center gap-4 md:gap-6 lg:gap-10 px-6 md:px-8 lg:px-10 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden snap-x snap-mandatory pb-8"
+        className="carousel-container flex items-end justify-start md:justify-center gap-4 md:gap-6 lg:gap-10 px-6 md:px-8 lg:px-10 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden snap-x snap-mandatory pb-8"
+        tabIndex={0}
+        role="region"
+        aria-label="Features Carousel"
       >
         {/* Card 1: Cardio/Load */}
         <motion.div variants={cardVariants} className="shrink-0 text-center w-[85vw] sm:w-[320px] lg:w-[340px] snap-center">

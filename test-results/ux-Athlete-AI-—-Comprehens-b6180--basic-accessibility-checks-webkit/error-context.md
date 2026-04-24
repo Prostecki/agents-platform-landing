@@ -1,0 +1,419 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: ux.spec.ts >> Athlete AI — Comprehensive UX & UI Audit >> Should pass basic accessibility checks
+- Location: e2e/ux.spec.ts:11:3
+
+# Error details
+
+```
+AssertionError: 1 accessibility violation was detected
+
+1 !== 0
+
+```
+
+# Page snapshot
+
+```yaml
+- generic [active] [ref=e1]:
+  - main [ref=e2]:
+    - navigation [ref=e3]:
+      - generic [ref=e4]:
+        - generic [ref=e5]: Athlete AI
+        - generic [ref=e6]:
+          - link "How it works" [ref=e7]:
+            - /url: "#how"
+          - link "Features" [ref=e8]:
+            - /url: "#features"
+          - link "Demo" [ref=e9]:
+            - /url: "#demo"
+        - generic [ref=e10]:
+          - button "Switch to dark mode" [ref=e11] [cursor=pointer]:
+            - img [ref=e13]
+          - link "Get Early Access →" [ref=e19]:
+            - /url: "#cta"
+    - generic [ref=e20]:
+      - generic [ref=e21]:
+        - generic [ref=e24]: AI coaching that actually works together
+        - heading "Train smarter. Eat right. Win more." [level=1] [ref=e25]:
+          - paragraph [ref=e26]:
+            - generic [ref=e27]: Train smarter.
+            - generic [ref=e28]: T
+            - generic [ref=e29]: r
+            - generic [ref=e30]: a
+            - generic [ref=e31]: i
+            - generic [ref=e32]: "n"
+            - generic [ref=e34]: s
+            - generic [ref=e35]: m
+            - generic [ref=e36]: a
+            - generic [ref=e37]: r
+            - generic [ref=e38]: t
+            - generic [ref=e39]: e
+            - generic [ref=e40]: r
+            - generic [ref=e41]: .
+          - text: Eat right.
+          - text: Win more.
+        - paragraph [ref=e42]: Athlete AI gives you two personal coaches — nutrition and training — that share information in real time. Ask one question. Get advice that considers everything.
+        - generic [ref=e43]:
+          - link "Join the Waitlist" [ref=e44]:
+            - /url: "#cta"
+          - link "See it in action ↓" [ref=e45]:
+            - /url: "#demo"
+      - code [ref=e54]:
+        - generic [ref=e55]: ✔ Training Agent active. Found Apple Health + Strava data.
+        - generic [ref=e56]: ✔ Nutrition Agent active. Macros calibrated to base metabolic rate.
+        - generic [ref=e57]: "ℹ A2A Protocol: Established real-time context sharing."
+        - generic [ref=e58]: Analyzing training load (TSS 124)...
+        - generic [ref=e59]:
+          - generic [ref=e60]: "[Nutrition] Suggestion:"
+          - generic [ref=e61]: 450g carbs total. High glycogen focus.
+        - generic [ref=e62]:
+          - generic [ref=e63]: "[Training] Sync:"
+          - generic [ref=e64]: HRV 64. Recovery optimal. Session locked.
+    - generic [ref=e65]:
+      - generic [ref=e66]: Trusted technology from Google
+      - generic [ref=e68]: Built for competitive athletes
+      - generic [ref=e70]: Used in decathlon preparation
+    - generic [ref=e71]:
+      - generic [ref=e72]:
+        - heading "How your coaches talk." [level=2] [ref=e73]
+        - paragraph [ref=e74]: Every time you ask a question, both agents share context automatically. No setup. No switching.
+      - generic [ref=e75]:
+        - generic [ref=e76]:
+          - generic [ref=e77]:
+            - generic [ref=e78]:
+              - generic [ref=e80]: 💬
+              - generic [ref=e81]:
+                - generic [ref=e82]: You
+                - generic [ref=e83]: Ask anything
+            - generic [ref=e84]:
+              - generic [ref=e86]: 🥗
+              - generic [ref=e87]:
+                - generic [ref=e88]: Nutrition
+                - generic [ref=e89]: Meals & Macros
+          - generic [ref=e90]:
+            - generic [ref=e91]:
+              - generic [ref=e93]: 🏃
+              - generic [ref=e94]:
+                - generic [ref=e95]: Training Log
+                - generic [ref=e96]: Sessions & Load
+            - generic [ref=e97]:
+              - generic [ref=e99]: ⚡
+              - generic [ref=e100]:
+                - generic [ref=e101]: Athlete AI
+                - generic [ref=e102]: A2A Protocol
+            - generic [ref=e103]:
+              - generic [ref=e105]: 🏋️
+              - generic [ref=e106]:
+                - generic [ref=e107]: Training Agent
+                - generic [ref=e108]: Plan & Recovery
+          - generic [ref=e109]:
+            - generic [ref=e110]:
+              - generic [ref=e112]: ❤️
+              - generic [ref=e113]:
+                - generic [ref=e114]: Health
+                - generic [ref=e115]: HRV & Recovery
+            - generic [ref=e116]:
+              - generic [ref=e118]: 📊
+              - generic [ref=e119]:
+                - generic [ref=e120]: Insights
+                - generic [ref=e121]: Real-time updates
+        - img
+        - img
+        - img
+        - img
+        - img
+        - img
+    - generic [ref=e122]:
+      - generic [ref=e123]:
+        - generic [ref=e124]: The Nutrition Agent
+        - heading "Fuel that knows your training." [level=2] [ref=e125]
+        - paragraph [ref=e126]: Every meal recommendation is backed by your actual training data — not a generic algorithm.
+      - generic [ref=e127]:
+        - generic [ref=e128]:
+          - generic [ref=e129]: 🥗 ⭐
+          - generic [ref=e130]:
+            - text: Homemade Chicken
+            - text: "& Veggie Soup"
+          - generic [ref=e131]: 285 kcal · 1 bowl
+        - generic [ref=e132]:
+          - generic [ref=e133]: Nutritional Goals
+          - generic [ref=e135]: 2,325 kcal
+          - generic [ref=e136]: Above target
+        - generic [ref=e145]:
+          - generic [ref=e146]: Macro Balance
+          - generic [ref=e148]:
+            - generic [ref=e149]:
+              - generic [ref=e150]: 67g
+              - generic [ref=e151]: Fat
+            - generic [ref=e152]:
+              - generic [ref=e153]: 150g
+              - generic [ref=e154]: Carbs
+            - generic [ref=e155]:
+              - generic [ref=e156]: 98g
+              - generic [ref=e157]: Protein
+        - generic [ref=e166]:
+          - generic [ref=e167]: Food Log
+          - generic [ref=e169]:
+            - text: What are you eating?
+            - text: Breakfast waffle with 2 eggs on the side
+          - generic [ref=e170]:
+            - generic [ref=e171]: Add meal...
+            - generic [ref=e172]: +
+        - generic [ref=e174]:
+          - generic [ref=e176]:
+            - generic [ref=e177]: 9:41
+            - generic [ref=e178]: ▲▲▲ ᯤ ⬛
+          - generic [ref=e179]:
+            - generic [ref=e180]:
+              - generic [ref=e181]: ←
+              - generic [ref=e182]: ···
+            - generic [ref=e183]: Nutrition
+            - generic [ref=e184]: Today ↓
+            - generic [ref=e186]:
+              - generic [ref=e187]: "93"
+              - generic [ref=e188]: optimal
+            - generic [ref=e189]:
+              - generic [ref=e190]:
+                - generic [ref=e191]: Food Quality
+                - generic [ref=e192]: "92"
+                - generic [ref=e193]: Optimal
+              - generic [ref=e194]:
+                - generic [ref=e195]: Glucose Impact
+                - generic [ref=e196]: "94"
+                - generic [ref=e197]: Optimal
+            - generic [ref=e198]:
+              - generic [ref=e199]:
+                - generic [ref=e200]: 🔍
+                - generic [ref=e201]: Search
+              - generic [ref=e202]:
+                - generic [ref=e203]: 📷
+                - generic [ref=e204]: Capture
+              - generic [ref=e205]:
+                - generic [ref=e206]: Aↄ
+                - generic [ref=e207]: Describe
+            - generic [ref=e208]:
+              - generic [ref=e209]:
+                - generic [ref=e210]: My Foods
+                - generic [ref=e211]: 8 favorites · 12 recipes · 10 foods
+              - generic [ref=e212]: →
+            - generic [ref=e213]:
+              - generic [ref=e214]:
+                - generic [ref=e215]: Goals
+                - generic [ref=e216]: Calories · 200 kcal left
+              - generic [ref=e217]: →
+    - generic [ref=e219]:
+      - generic [ref=e220]:
+        - generic [ref=e221]: "02"
+        - heading "Sound familiar?" [level=2] [ref=e222]
+      - generic [ref=e223]:
+        - generic [ref=e224]:
+          - generic [ref=e225]: The old way
+          - generic [ref=e226]: Your nutritionist says eat more carbs. But they don't know you destroyed your legs yesterday.
+          - generic [ref=e227]: Your coach plans a brutal session tomorrow. But your body is running on empty and nobody connected the dots.
+          - generic [ref=e228]: You spend more time explaining your week to each coach than actually training.
+        - generic [ref=e229]:
+          - generic [ref=e230]: With Athlete AI
+          - generic [ref=e231]: Your nutrition coach knows exactly what you trained today and adjusts your evening meal automatically.
+          - generic [ref=e232]: Your training coach sees your energy levels and nutrition data before loading your next session.
+          - generic [ref=e233]: Both coaches share context the moment you open the app. You just train.
+    - generic [ref=e234]:
+      - generic [ref=e236]:
+        - generic [ref=e237]:
+          - generic [ref=e238]: "03"
+          - heading "Watch it happen." [level=2] [ref=e239]
+          - paragraph [ref=e240]: A real conversation. Real agents. No scripts. See what it looks like when your coaches actually talk to each other.
+        - generic [ref=e242]:
+          - generic [ref=e247]: Nutrition Agent
+          - generic [ref=e248]:
+            - generic [ref=e251]: I have a really tough speed session tomorrow morning. What should I eat tonight?
+            - generic [ref=e252]: Nutrition agent is checking your training schedule...
+            - generic [ref=e255]: "Based on tomorrow's high-intensity speed session and your current fatigue level, tonight focus on: a large portion of pasta or rice (around 120g dry), chicken or salmon for protein, and avoid heavy fats after 8pm. Your body needs full glycogen stores for tomorrow. Last time before a similar session you felt better after eating earlier — around 7pm."
+      - generic [ref=e256]: That last sentence? Your agent remembered it from three weeks ago.
+    - generic [ref=e258]:
+      - generic [ref=e259]:
+        - generic [ref=e260]: "04"
+        - heading "Simple for you. Powerful behind the scenes." [level=2] [ref=e261]:
+          - text: Simple for you.
+          - text: Powerful behind the scenes.
+      - generic [ref=e262]:
+        - generic [ref=e263]:
+          - generic [ref=e264]: "1"
+          - generic [ref=e265]: Talk to your coach
+          - generic [ref=e266]: Just message like you would a real coach. Tell it what you ate, how you feel, what's coming up. No forms, no logging apps, no spreadsheets.
+        - generic [ref=e267]:
+          - generic [ref=e268]: "2"
+          - generic [ref=e269]: Your coaches sync automatically
+          - generic [ref=e270]: The moment you ask a question, both agents share information. Your nutrition coach knows your training load. Your training coach knows your energy and recovery status.
+        - generic [ref=e271]:
+          - generic [ref=e272]: "3"
+          - generic [ref=e273]: Get advice that makes sense
+          - generic [ref=e274]: No generic meal plans. No one-size-fits-all programs. Every response considers your actual week — your sessions, your food, your fatigue, your next competition.
+    - generic [ref=e275]:
+      - heading "Built for Athlete Performance." [level=2] [ref=e277]
+      - region "Features Carousel" [ref=e278]:
+        - generic [ref=e279]:
+          - generic [ref=e280]:
+            - generic [ref=e285]: Ready to train
+            - img [ref=e286]
+            - generic [ref=e289]:
+              - generic [ref=e290]: WEEKLY LOAD
+              - generic [ref=e291]: 487 TSS
+              - generic [ref=e292]:
+                - generic [ref=e293]: ↑ 12%
+                - generic [ref=e294]: than last week
+            - generic [ref=e295]:
+              - generic [ref=e296]: "118"
+              - generic [ref=e297]: Fitness Level
+          - heading "Balance Your Load" [level=3] [ref=e298]
+          - paragraph [ref=e299]: Training Load uses heart rate and effort to measure what your training actually does.
+        - generic [ref=e300]:
+          - generic [ref=e301]:
+            - generic [ref=e305]: Recording Session
+            - generic [ref=e306]:
+              - generic [ref=e307]: 01:04:15
+              - generic [ref=e308]: Strength Training
+            - generic [ref=e309]:
+              - generic [ref=e310]:
+                - generic [ref=e311]: Shoulder Press
+                - generic [ref=e312]:
+                  - generic [ref=e313]: ♥
+                  - text: 142 BPM
+              - generic [ref=e314]:
+                - generic [ref=e315]:
+                  - generic [ref=e316]: S1
+                  - generic [ref=e317]: "12"
+                - generic [ref=e318]:
+                  - generic [ref=e319]: S2
+                  - generic [ref=e320]: "10"
+                - generic [ref=e321]:
+                  - generic [ref=e322]: S3
+                  - generic [ref=e323]: "8"
+                - generic [ref=e324]:
+                  - generic [ref=e325]: S4
+                  - generic [ref=e326]: "8"
+              - generic [ref=e327]:
+                - generic [ref=e328]: Estimated 1RM
+                - generic [ref=e329]: 185 lbs
+          - heading "Built for Strength" [level=3] [ref=e330]
+          - paragraph [ref=e331]: Track every set, rep, and weight. Get real-time feedback on your performance.
+        - generic [ref=e332]:
+          - generic [ref=e333]:
+            - img [ref=e336]
+            - generic [ref=e339]:
+              - generic [ref=e340]: Current Trend
+              - generic [ref=e341]:
+                - generic [ref=e342]: ↑
+                - text: Leaning out
+            - generic [ref=e343]:
+              - generic [ref=e344]:
+                - generic [ref=e345]: BODY WEIGHT
+                - generic [ref=e346]: 185.4 lbs
+              - generic [ref=e347]:
+                - generic [ref=e348]: LEAN MASS
+                - generic [ref=e349]: 160.2 lbs
+          - heading "Watch Progress" [level=3] [ref=e350]
+          - paragraph [ref=e351]: Monitor body composition trends over time, from muscle gain to fat loss.
+    - generic [ref=e357]:
+      - generic [ref=e358]:
+        - generic [ref=e359]: "05"
+        - heading "Everything a serious athlete needs." [level=2] [ref=e360]
+      - generic [ref=e361]:
+        - generic [ref=e362]:
+          - generic [ref=e363]: Two coaches, one conversation
+          - generic [ref=e364]: Stop repeating yourself to every coach and nutritionist. Athlete AI keeps both agents in sync so your advice is always consistent and always current.
+        - generic [ref=e365]:
+          - generic [ref=e366]: It remembers everything
+          - generic [ref=e367]: Every meal. Every session. Every time you felt heavy on the track or light in the weight room. Your coaches build a picture of you over time — and get smarter every week.
+        - generic [ref=e368]:
+          - generic [ref=e369]: Built for your sport
+          - generic [ref=e370]: Athlete AI understands the demands of multi-event competition. Periodization, peak weeks, recovery phases, pre-competition nutrition — it knows the difference between a preparation block and competition week.
+        - generic [ref=e371]:
+          - generic [ref=e372]: Instant answers, any time
+          - generic [ref=e373]: Your coach doesn't sleep. Ask at 10pm what to eat before tomorrow's 7am session. Get a real answer in seconds, not a generic meal plan PDF from three months ago.
+    - generic [ref=e375]:
+      - generic [ref=e376]:
+        - heading "Be the first to know." [level=2] [ref=e377]:
+          - text: Be the first
+          - text: to know.
+        - paragraph [ref=e378]: Join our exclusive waitlist and be the first to experience the future of AI coaching. Get early access to insights and launch updates.
+      - generic [ref=e379]:
+        - link "Join the Waitlist" [ref=e380]:
+          - /url: "#"
+        - generic [ref=e381]: Built for competitive athletes who take their performance seriously.
+    - generic [ref=e383]:
+      - generic [ref=e384]:
+        - generic [ref=e385]:
+          - generic [ref=e386]:
+            - img [ref=e388]
+            - text: Athlete AI
+          - paragraph [ref=e390]: The world's most advanced AI training management system for elite athletes. Your coaches talk to each other.
+        - generic [ref=e392]:
+          - generic [ref=e393]:
+            - generic [ref=e394]: Stay Updated
+            - paragraph [ref=e395]: Get the latest training insights and product updates.
+          - generic [ref=e396]:
+            - textbox "Enter your email" [ref=e397]
+            - button "Join Waitlist →" [ref=e398] [cursor=pointer]
+          - generic [ref=e399]:
+            - generic [ref=e400]:
+              - img "Avatar 1" [ref=e401]
+              - img "Avatar 2" [ref=e402]
+              - img "Avatar 3" [ref=e403]
+              - img "Avatar 4" [ref=e404]
+              - img [ref=e406]
+            - generic [ref=e411]: Join 2,400+ athletes already on the list
+        - generic [ref=e412]:
+          - link "Instagram" [ref=e413]:
+            - /url: "#"
+            - img [ref=e414]
+          - link "X" [ref=e418]:
+            - /url: "#"
+            - img [ref=e419]
+          - link "YouTube" [ref=e421]:
+            - /url: "#"
+            - img [ref=e422]
+      - generic [ref=e424]:
+        - generic [ref=e425]:
+          - generic [ref=e426]: Company
+          - link "About us" [ref=e427]:
+            - /url: "#"
+          - link "Careers" [ref=e428]:
+            - /url: "#"
+          - link "Blog" [ref=e429]:
+            - /url: "#"
+        - generic [ref=e430]:
+          - generic [ref=e431]: Product
+          - link "Download App" [ref=e432]:
+            - /url: "#"
+          - link "Getting started" [ref=e433]:
+            - /url: "#"
+          - link "Roadmap" [ref=e434]:
+            - /url: "#"
+        - generic [ref=e435]:
+          - generic [ref=e436]: Resources
+          - link "FAQ" [ref=e437]:
+            - /url: "#"
+          - link "Support" [ref=e438]:
+            - /url: "#"
+          - link "Contact us" [ref=e439]:
+            - /url: "#"
+        - generic [ref=e440]:
+          - generic [ref=e441]: Legal
+          - link "Terms" [ref=e442]:
+            - /url: "#"
+          - link "Privacy" [ref=e443]:
+            - /url: "#"
+      - generic [ref=e444]:
+        - generic [ref=e445]: © athletic-management.ai, Inc. 2026
+        - generic [ref=e446]: All systems operational
+  - button "Open Next.js Dev Tools" [ref=e453] [cursor=pointer]:
+    - img [ref=e454]
+  - alert [ref=e459]
+```
