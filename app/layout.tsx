@@ -18,6 +18,10 @@ export const metadata: Metadata = {
   title: "Athlete AI — Your coaches talk to each other.",
   description:
     "Athlete AI gives you two personal coaches — nutrition and training — that share information in real time.",
+  icons: {
+    icon: "/icon.svg",
+    apple: "/apple-icon.svg",
+  },
 };
 
 const antiFlash = `(function(){try{var t=localStorage.getItem('theme');var d=window.matchMedia('(prefers-color-scheme:dark)').matches;document.documentElement.dataset.theme=t||(d?'dark':'light')}catch(e){}})()`

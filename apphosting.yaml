@@ -10,3 +10,5 @@ env:
     secret: FIREBASE_CLIENT_EMAIL
   - variable: FIREBASE_PRIVATE_KEY
     secret: FIREBASE_PRIVATE_KEY
+  - variable: FIREBASE_DATABASE_ID
+    secret: FIREBASE_DATABASE_ID
