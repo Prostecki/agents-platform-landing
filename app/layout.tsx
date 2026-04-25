@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Geist_Mono, Space_Mono } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
@@ -23,6 +23,12 @@ export const metadata: Metadata = {
     apple: "/apple-icon.svg",
   },
 };
+
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  viewportFit: 'cover',
+}
 
 const antiFlash = `(function(){try{var t=localStorage.getItem('theme');var d=window.matchMedia('(prefers-color-scheme:dark)').matches;document.documentElement.dataset.theme=t||(d?'dark':'light')}catch(e){}})()`
 
