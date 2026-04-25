@@ -97,6 +97,7 @@
     --muted: #334155;
     --subtle: rgba(0,0,0,0.06);
     --green-text: #15803d;
+    --fg-on-light: #0f172a;
 
     --red-bg: rgba(220, 38, 38, 0.05);
     --red-border: rgba(220, 38, 38, 0.2);

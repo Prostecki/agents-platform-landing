@@ -82,7 +82,7 @@ export default function Hero() {
               shimmerColor="rgba(255,255,255,0.7)"
               borderRadius="12px"
             >
-              <span className="text-[#13151f] font-bold text-[15px]">Join the Waitlist</span>
+              <span className="text-[var(--fg-on-light)] font-bold text-[15px]">Join the Waitlist</span>
             </ShimmerButton>
           </a>
           <a href="#demo" className="w-full sm:w-auto border border-subtle text-muted text-sm py-[14px] px-[30px] rounded-md no-underline transition-[border-color] hover:border-muted hover:text-fg text-center active:scale-[0.98]">See it in action ↓</a>
@@ -135,7 +135,7 @@ export default function Hero() {
             >
               <p className="text-[12px] font-bold text-muted mb-2 ml-12 uppercase tracking-wide">Nutrition Coach</p>
               <div className="flex items-end gap-3">
-                <div className="w-9 h-9 rounded-full bg-green/20 border border-green/30 flex items-center justify-center text-[18px] flex-shrink-0 shadow-md">🥗</div>
+                <div className="w-9 h-9 rounded-full bg-green/20 border border-green/30 flex items-center justify-center text-[18px] flex-shrink-0 shadow-md" aria-hidden="true">🥗</div>
                 <div className="bg-bg border border-subtle rounded-2xl rounded-bl-sm px-4 pt-3 pb-4 flex-1 flex flex-col gap-2.5 shadow-[0_4px_12px_rgba(0,0,0,0.15)]">
                   <motion.span
                     initial={{ opacity: 0, scale: 0.85 }}
@@ -187,7 +187,7 @@ export default function Hero() {
             >
               <p className="text-[12px] font-bold text-muted mb-2 ml-12 uppercase tracking-wide">Training Coach</p>
               <div className="flex items-end gap-3">
-                <div className="w-9 h-9 rounded-full bg-indigo-base/20 border border-indigo-base/30 flex items-center justify-center text-[18px] flex-shrink-0 shadow-md">🏃</div>
+                <div className="w-9 h-9 rounded-full bg-indigo-base/20 border border-indigo-base/30 flex items-center justify-center text-[18px] flex-shrink-0 shadow-md" aria-hidden="true">🏃</div>
                 <div className="border border-indigo-subtle bg-indigo-subtle/5 rounded-2xl rounded-bl-sm px-4 py-3 flex-1 shadow-[0_4px_12px_rgba(0,0,0,0.15)]">
                   <p className="text-[13px] leading-relaxed text-fg">
                     Good call on the early dinner. Tomorrow is a light 40-min easy run — nothing intense. Sleep matters more than carb-loading tonight.

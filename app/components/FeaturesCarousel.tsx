@@ -51,7 +51,7 @@ export default function FeaturesCarousel() {
               <span className="text-[10px] font-bold text-white uppercase tracking-wider">Ready to train</span>
             </div>
 
-            <svg className="absolute bottom-0 left-0 right-0 h-32 opacity-40" viewBox="0 0 340 120" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+            <svg className="absolute bottom-0 left-0 right-0 h-32 opacity-40" viewBox="0 0 340 120" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
               <path d="M0,80 Q85,70 170,40 T340,20" fill="none" stroke="white" strokeWidth="3" strokeLinecap="round" />
               <path d="M0,80 Q85,70 170,40 T340,20 V120 H0 Z" fill="white" fillOpacity="0.1" />
             </svg>
@@ -99,8 +99,8 @@ export default function FeaturesCarousel() {
               </div>
               <div className="grid grid-cols-4 gap-2 mb-4">
                 {[12, 10, 8, 8].map((reps, i) => (
-                  <div key={i} className={`rounded-lg p-2 text-center transition-colors ${i === 2 ? 'bg-green text-[#13151f]' : 'bg-subtle text-fg'}`}>
-                    <div className={`text-[9px] mb-0.5 ${i === 2 ? 'text-[#13151f]/70' : 'text-fg/60'}`}>S{i+1}</div>
+                  <div key={i} className={`rounded-lg p-2 text-center transition-colors ${i === 2 ? 'bg-green text-[var(--fg-on-light)]' : 'bg-subtle text-fg'}`}>
+                    <div className={`text-[9px] mb-0.5 ${i === 2 ? 'text-[var(--fg-on-light)]/70' : 'text-fg/60'}`}>S{i+1}</div>
                     <div className="text-[12px] font-bold">{reps}</div>
                   </div>
                 ))}
@@ -123,7 +123,7 @@ export default function FeaturesCarousel() {
             {/* Grid Pattern */}
             <div className="absolute inset-0 opacity-10" style={{backgroundImage: 'radial-gradient(circle, white 1px, transparent 1px)', backgroundSize: '24px 24px'}}></div>
 
-            <svg className="absolute bottom-0 left-0 right-0 h-32 opacity-30" viewBox="0 0 340 120" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+            <svg className="absolute bottom-0 left-0 right-0 h-32 opacity-30" viewBox="0 0 340 120" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
               <path d="M0,100 L40,95 L80,85 L120,88 L160,70 L200,65 L240,55 L280,58 L340,40" fill="none" stroke="#9678dc" strokeWidth="3" strokeLinecap="round" />
               <path d="M0,100 L40,95 L80,85 L120,88 L160,70 L200,65 L240,55 L280,58 L340,40 V120 H0 Z" fill="#9678dc" fillOpacity="0.1" />
             </svg>

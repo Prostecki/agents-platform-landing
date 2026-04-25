@@ -21,7 +21,7 @@ export default function Nav() {
         <div className="flex items-center gap-12">
           <Link href="/" className="text-xl font-bold text-fg tracking-tighter flex items-center gap-2">
             <div className="w-8 h-8 bg-fg rounded-lg flex items-center justify-center">
-              <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-4 h-4">
+              <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" aria-hidden="true">
                 <path d="M3 8 L8 3 L13 8 L8 13 Z" fill="var(--bg)" />
               </svg>
             </div>
@@ -42,7 +42,7 @@ export default function Nav() {
                 borderRadius="8px" 
                 className="h-10" // Just height, padding is inside
               >
-                <span className="text-[#13151f] font-bold text-[13px]">Join Waitlist</span>
+                <span className="text-[var(--fg-on-light)] font-bold text-[13px]">Join Waitlist</span>
               </ShimmerButton>
             </Link>
           </div>

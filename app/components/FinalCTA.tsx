@@ -84,7 +84,7 @@ export default function FinalCTA() {
                   borderRadius="10px"
                   className="shrink-0 disabled:opacity-50"
                 >
-                  <span className="text-[#13151f] font-bold text-[13px] md:text-[14px] whitespace-nowrap">
+                  <span className={`font-bold text-[13px] md:text-[14px] whitespace-nowrap ${isPending ? "" : "text-[var(--fg-on-light)]"}`}>
                     {isPending ? 'Processing...' : 'Lock Access'}
                   </span>
                 </ShimmerButton>

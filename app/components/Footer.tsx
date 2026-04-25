@@ -17,7 +17,7 @@ export default function Footer() {
           <div className="flex flex-col gap-4">
             <div className="text-[20px] font-bold text-fg flex items-center gap-3">
               <div className="flex w-9 h-9 bg-fg rounded-xl items-center justify-center">
-                <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-4 h-4">
+                <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" aria-hidden="true">
                   <path d="M3 8 L8 3 L13 8 L8 13 Z" fill="var(--bg)" />
                 </svg>
               </div>
