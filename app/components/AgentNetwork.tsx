@@ -135,9 +135,9 @@ export default function AgentNetwork() {
                 <div className="relative flex flex-col gap-5 p-6 md:p-8">
                   <span className="text-2xl md:text-3xl">{card.icon}</span>
 
-                  <span className="text-muted font-mono uppercase tracking-[0.15em] text-[10px]">
+                  <div className="font-mono text-muted uppercase tracking-[0.15em] text-[10px]">
                     {card.label}
-                  </span>
+                  </div>
 
                   <h3 className="text-fg font-bold leading-[1.3] text-lg md:text-xl lg:text-[22px]">
                     {card.headline}

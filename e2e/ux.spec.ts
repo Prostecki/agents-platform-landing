@@ -54,7 +54,7 @@ test.describe('Athlete AI — Comprehensive UX & UI Audit', () => {
 
   // --- Agent Network (SVG & Nodes) ---
   test('Agent Network should render nodes and animated beams', async ({ page }) => {
-    const networkSection = page.locator('h2:has-text("How your coaches talk")');
+    const networkSection = page.locator('h2:has-text("What changes when your coaches actually talk")');
     await expect(networkSection).toBeVisible();
 
     // Specific node check

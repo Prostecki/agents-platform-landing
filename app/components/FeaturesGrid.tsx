@@ -66,7 +66,7 @@ export default function FeaturesGrid() {
               variants={itemVariants} 
               className="group border border-subtle rounded-2xl p-6 md:p-8 lg:p-[32px_36px] bg-bg/20 hover:bg-bg/40 transition-all duration-300 hover:shadow-card hover:-translate-y-1 cursor-default"
             >
-              <div className="text-lg font-bold text-fg mb-2.5 group-hover:text-green-text transition-colors duration-300">{feature.title}</div>
+              <h3 className="text-lg font-bold text-fg mb-2.5 group-hover:text-green-text transition-colors duration-300">{feature.title}</h3>
               <div className="text-sm text-muted leading-[1.7]">{feature.desc}</div>
             </motion.div>
           ))}
