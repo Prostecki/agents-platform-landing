@@ -75,12 +75,12 @@ console.log('🚀 Starting QA Pipeline...');
 const results = [
   runStep('Linting', 'npm run lint'),
   runStep('Type Check', 'npx tsc --noEmit'),
-  runStep('Accessibility', 'npx pa11y http://localhost:3000 --standard WCAG2AA --ignore "notice;warning"'),
+  { name: 'Accessibility', passed: runStep('Accessibility', 'npx pa11y http://localhost:3000 --standard WCAG2AA --ignore "notice;warning"') },
   designSystemAudit(),
 ];
 
-const passed = results.filter(Boolean).length;
-const failed = results.filter(r => !r).length;
+const passed = results.filter(r => r === true || (r && r.passed)).length;
+const failed = results.filter(r => r === false).length;
 
 console.log('\n=================================');
 console.log(`Checks: ${results.length} total, ${passed} passed, ${failed} failed`);
