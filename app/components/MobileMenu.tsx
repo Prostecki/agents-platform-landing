@@ -26,33 +26,30 @@ const menuItems = [
 
 export default function MobileMenu() {
   const [isOpen, setIsOpen] = useState(false)
-  const [mounted, setMounted] = useState(false)
-
-  useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    setMounted(true)
-    return () => setMounted(false)
-  }, [])
 
   useEffect(() => {
     if (isOpen) {
-      // iOS Safari requires position:fixed on body to prevent scroll-through
-      const scrollY = window.scrollY
-      document.body.style.overflow = 'hidden'
-      document.body.style.position = 'fixed'
-      document.body.style.top = `-${scrollY}px`
-      document.body.style.width = '100%'
-    } else {
-      const scrollY = document.body.style.top
-      document.body.style.overflow = ''
-      document.body.style.position = ''
-      document.body.style.top = ''
-      document.body.style.width = ''
-      if (scrollY) window.scrollTo(0, -parseInt(scrollY, 10))
-    }
-  }, [isOpen])
+      // Get original body padding
+      const originalPaddingRight = document.body.style.paddingRight;
 
-  if (!mounted) return null
+      // Calculate scrollbar width
+      const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
+      
+      // Apply styles
+      document.body.style.overflow = 'hidden';
+      document.body.style.paddingRight = `${scrollbarWidth}px`;
+
+      // Set data attribute for CSS targeting
+      document.body.dataset.scrollLocked = 'true';
+      
+      // Cleanup function
+      return () => {
+        document.body.style.overflow = '';
+        document.body.style.paddingRight = originalPaddingRight;
+        delete document.body.dataset.scrollLocked;
+      };
+    }
+  }, [isOpen]);
 
   return (
     <div className="md:hidden">

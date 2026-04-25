@@ -110,12 +110,12 @@ export default function FinalCTA() {
           )}
           
           <div className="mt-4 text-[12px] text-green-text/80 font-medium italic">
-            * All premium features included for first 5,000 members.
+            * All premium features included for the first 100 members.
           </div>
           
           <div className="mt-10 flex flex-col items-center gap-4">
             <AvatarCircles avatarUrls={avatarUrls} />
-            <span className="text-[13px] text-muted font-medium">Join 2,400+ elite athletes securing their spot</span>
+            <span className="text-[13px] text-muted font-medium">Join elite athletes already securing their spot</span>
           </div>
         </motion.div>
       </div>
