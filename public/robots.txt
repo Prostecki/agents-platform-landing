@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://athlete-ai.tech/sitemap.xml

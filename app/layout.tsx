@@ -17,7 +17,24 @@ const spaceMono = Space_Mono({
 export const metadata: Metadata = {
   title: "Athlete AI — Your coaches talk to each other.",
   description:
-    "Athlete AI gives you two personal coaches — nutrition and training — that share information in real time.",
+    "Athlete AI gives you two personal coaches — nutrition and training — that share information in real time. Optimized for elite performance.",
+  metadataBase: new URL('https://athlete-ai.tech'),
+  alternates: {
+    canonical: '/',
+  },
+  openGraph: {
+    title: "Athlete AI — Your coaches talk to each other.",
+    description: "Personal nutrition and training coaches that share information in real time.",
+    url: 'https://athlete-ai.tech',
+    siteName: 'Athlete AI',
+    locale: 'en_US',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: "Athlete AI — Your coaches talk to each other.",
+    description: "Personal nutrition and training coaches that share information in real time.",
+  },
   icons: {
     icon: "/icon.svg",
     apple: "/apple-icon.svg",
@@ -44,9 +61,6 @@ export default function RootLayout({
       data-theme="dark"
       suppressHydrationWarning
     >
-      <head>
-        <title>Athlete AI — Your coaches talk to each other.</title>
-      </head>
       <body>
         <Script
           id="theme-init"

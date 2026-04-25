@@ -77,7 +77,7 @@ export default function Footer() {
         </div>
 
         <div className="flex flex-col sm:flex-row justify-between items-center gap-4 border-t border-subtle pt-8">
-          <div className="text-[13px] text-muted">© athletic-management.ai, Inc. {new Date().getFullYear()}</div>
+          <div className="text-[13px] text-muted">© athlete-ai.tech, Inc. {new Date().getFullYear()}</div>
           <div className="flex items-center gap-2 text-xs text-muted font-mono">
             <span className="w-1.5 h-1.5 bg-green rounded-full shadow-[0_0_8px_var(--color-green)]"></span>
             All systems operational

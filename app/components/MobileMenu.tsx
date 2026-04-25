@@ -136,7 +136,7 @@ export default function MobileMenu() {
 
               <div className="text-center">
                 <span className="text-[11px] font-mono text-muted uppercase tracking-wider opacity-60">
-                  © athletic-management.ai 2026
+                  © athlete-ai.tech 2026
                 </span>
               </div>
             </motion.div>
