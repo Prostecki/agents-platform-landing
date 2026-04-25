@@ -99,7 +99,32 @@ export default function AgentNetwork() {
     <section ref={sectionRef} id="a2a" className="bg-bg border-b border-subtle overflow-hidden">
       <div className="w-full min-h-screen flex flex-col justify-center max-w-[1600px] mx-auto px-pad py-16 md:py-24">
 
-        <div className="flex flex-col md:flex-row items-center gap-16 md:gap-20 lg:gap-32">
+        <div className="flex flex-col md:flex-row-reverse items-center gap-16 md:gap-20 lg:gap-32">
+
+          {/* Right: Header + progress dots */}
+          <div className="w-full md:w-[50%] lg:w-[45%] flex flex-col md:items-start items-center md:text-left text-center">
+            <h2 className="text-[32px] md:text-[40px] lg:text-[56px] font-bold tracking-[-1.5px] lg:tracking-[-2.5px] leading-[1.05] mb-6 text-fg">
+              What changes when your coaches actually talk.
+            </h2>
+            <p className="text-[16px] md:text-[18px] lg:text-[20px] text-muted leading-[1.6] mb-12 max-w-[480px]">
+              The secret to peak performance isn&apos;t just more data — it&apos;s context. See how A2A synchronizes your team.
+            </p>
+
+            {/* Progress dots */}
+            <div ref={dotsRef} className="flex gap-3" aria-hidden="true">
+              {scenarios.map((_, i) => (
+                <span
+                  key={i}
+                  className="an-dot inline-block w-2 h-2 rounded-full bg-green"
+                  style={{
+                    opacity: i === 0 ? 1 : 0.3,
+                    transition: "opacity 0.2s, transform 0.2s",
+                    transform: i === 0 ? "scale(1.5)" : "scale(1)",
+                  }}
+                />
+              ))}
+            </div>
+          </div>
 
           {/* Left: Card stack */}
           <div
@@ -165,31 +190,6 @@ export default function AgentNetwork() {
                 </div>
               </div>
             ))}
-          </div>
-
-          {/* Right: Header + progress dots */}
-          <div className="w-full md:w-[50%] lg:w-[45%] flex flex-col md:items-start items-center md:text-left text-center">
-            <h2 className="text-[32px] md:text-[40px] lg:text-[56px] font-bold tracking-[-1.5px] lg:tracking-[-2.5px] leading-[1.05] mb-6 text-fg">
-              What changes when your coaches actually talk.
-            </h2>
-            <p className="text-[16px] md:text-[18px] lg:text-[20px] text-muted leading-[1.6] mb-12 max-w-[480px]">
-              The secret to peak performance isn&apos;t just more data — it&apos;s context. See how A2A synchronizes your team.
-            </p>
-
-            {/* Progress dots */}
-            <div ref={dotsRef} className="flex gap-3" aria-hidden="true">
-              {scenarios.map((_, i) => (
-                <span
-                  key={i}
-                  className="an-dot inline-block w-2 h-2 rounded-full bg-green"
-                  style={{
-                    opacity: i === 0 ? 1 : 0.3,
-                    transition: "opacity 0.2s, transform 0.2s",
-                    transform: i === 0 ? "scale(1.5)" : "scale(1)",
-                  }}
-                />
-              ))}
-            </div>
           </div>
 
         </div>

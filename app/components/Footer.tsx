@@ -52,25 +52,25 @@ export default function Footer() {
         {/* Links Grid */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-10 border-t border-subtle pt-16">
           <div className="flex flex-col gap-4">
-            <h4 className="text-[13px] font-bold text-fg uppercase tracking-[0.5px] mb-1">Company</h4>
+            <h3 className="text-[13px] font-bold text-fg uppercase tracking-[0.5px] mb-1">Company</h3>
             <a href="#" className="text-sm text-muted no-underline transition-colors hover:text-fg">About us</a>
             <a href="#" className="text-sm text-muted no-underline transition-colors hover:text-fg">Careers</a>
             <a href="#" className="text-sm text-muted no-underline transition-colors hover:text-fg">Blog</a>
           </div>
           <div className="flex flex-col gap-4">
-            <h4 className="text-[13px] font-bold text-fg uppercase tracking-[0.5px] mb-1">Product</h4>
+            <h3 className="text-[13px] font-bold text-fg uppercase tracking-[0.5px] mb-1">Product</h3>
             <a href="#" className="text-sm text-muted no-underline transition-colors hover:text-fg">Download App</a>
             <a href="#" className="text-sm text-muted no-underline transition-colors hover:text-fg">Getting started</a>
             <a href="#" className="text-sm text-muted no-underline transition-colors hover:text-fg">Roadmap</a>
           </div>
           <div className="flex flex-col gap-4">
-            <h4 className="text-[13px] font-bold text-fg uppercase tracking-[0.5px] mb-1">Resources</h4>
+            <h3 className="text-[13px] font-bold text-fg uppercase tracking-[0.5px] mb-1">Resources</h3>
             <a href="#" className="text-sm text-muted no-underline transition-colors hover:text-fg">FAQ</a>
             <a href="#" className="text-sm text-muted no-underline transition-colors hover:text-fg">Support</a>
             <a href="#" className="text-sm text-muted no-underline transition-colors hover:text-fg">Contact us</a>
           </div>
           <div className="flex flex-col gap-4">
-            <h4 className="text-[13px] font-bold text-fg uppercase tracking-[0.5px] mb-1">Legal</h4>
+            <h3 className="text-[13px] font-bold text-fg uppercase tracking-[0.5px] mb-1">Legal</h3>
             <a href="#" className="text-sm text-muted no-underline transition-colors hover:text-fg">Terms</a>
             <a href="#" className="text-sm text-muted no-underline transition-colors hover:text-fg">Privacy</a>
           </div>
