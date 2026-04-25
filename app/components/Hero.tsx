@@ -82,7 +82,7 @@ export default function Hero() {
               shimmerColor="rgba(255,255,255,0.7)"
               borderRadius="12px"
             >
-              <span className="text-[var(--fg-on-light)] font-bold text-[15px]">Join the Waitlist</span>
+              <span className="text-bg font-bold text-[15px]">Join the Waitlist</span>
             </ShimmerButton>
           </a>
           <a href="#demo" className="w-full sm:w-auto border border-subtle text-muted text-sm py-[14px] px-[30px] rounded-md no-underline transition-[border-color] hover:border-muted hover:text-fg text-center active:scale-[0.98]">See it in action ↓</a>
