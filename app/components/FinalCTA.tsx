@@ -32,7 +32,7 @@ export default function FinalCTA() {
         >
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-green/10 border border-green/20 text-green-text font-mono text-[10px] uppercase tracking-wider shadow-sm">
             <span className="w-1 h-1 rounded-full bg-green animate-pulse" />
-            First 100 Athletes
+            First 20 Athletes
           </div>
 
           <h2 className="text-[36px] md:text-[48px] lg:text-[64px] font-bold text-fg tracking-tight leading-[1.1] max-w-4xl">
@@ -41,7 +41,7 @@ export default function FinalCTA() {
           </h2>
           
           <p className="text-[16px] md:text-[18px] text-muted max-w-[600px] leading-relaxed">
-            We&apos;re in beta. The first 100 athletes get full access to every feature — including the ones that will cost money at launch. No credit card. No catch. Just get in.
+            We&apos;re in beta. The first 20 athletes get full access to every feature — including the ones that will cost money at launch. No credit card. No catch. Just get in.
           </p>
         </motion.div>
 
@@ -110,7 +110,7 @@ export default function FinalCTA() {
           )}
           
           <div className="mt-4 text-[12px] text-green-text/80 font-medium italic">
-            * All premium features included for the first 100 members.
+            * All premium features included for the first 20 members.
           </div>
           
           <div className="mt-10 flex flex-col items-center gap-4">
