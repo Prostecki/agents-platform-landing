@@ -42,7 +42,7 @@ export default function Nav() {
                 borderRadius="8px" 
                 className="h-10" // Just height, padding is inside
               >
-                <span className="text-bg font-bold text-[13px]">Join Waitlist</span>
+                <span className="text-[#13151f] font-bold text-[13px]">Join Waitlist</span>
               </ShimmerButton>
             </Link>
           </div>

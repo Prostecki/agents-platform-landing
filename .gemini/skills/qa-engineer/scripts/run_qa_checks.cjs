@@ -24,7 +24,7 @@ function runStep(name, command) {
 
 function designSystemAudit() {
   console.log(`\n--- Running: Design System Audit ---`);
-  const componentDir = path.join(__dirname, '../../../app');
+  const componentDir = path.join(process.cwd(), 'app');
   const hardcodedColors = /(?<!var\()#[0-9a-fA-F]{6}\b/g;
   const violations = [];
 
