@@ -1,4 +1,12 @@
 # Specification for Firebase App Hosting
 # More info: https://firebase.google.com/docs/app-hosting/configure
-kind: "AppHosting"
+kind: "AppStack"
 schemaVersion: "v1"
+
+env:
+  - variable: FIREBASE_PROJECT_ID
+    secret: FIREBASE_PROJECT_ID
+  - variable: FIREBASE_CLIENT_EMAIL
+    secret: FIREBASE_CLIENT_EMAIL
+  - variable: FIREBASE_PRIVATE_KEY
+    secret: FIREBASE_PRIVATE_KEY
