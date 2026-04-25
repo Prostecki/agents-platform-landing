@@ -34,7 +34,9 @@ export default function RootLayout({
       data-theme="dark"
       suppressHydrationWarning
     >
-      <head />
+      <head>
+        <title>Athlete AI — Your coaches talk to each other.</title>
+      </head>
       <body>
         <Script
           id="theme-init"
