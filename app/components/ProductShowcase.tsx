@@ -42,22 +42,22 @@ export default function ProductShowcase() {
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true, margin: "-100px" }}
-        className="relative flex flex-col lg:inline-block items-center w-full lg:w-[700px] min-h-[500px] lg:h-[620px] gap-8 lg:gap-0"
+        className="relative flex flex-col items-center w-full lg:inline-block lg:w-[700px] lg:h-[620px] gap-6 lg:gap-0"
       >
-        {/* Floating cards - Shown in grid on mobile, absolute on desktop */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:block gap-4 w-full max-w-[500px] lg:max-w-none">
-          <motion.div 
+        {/* Floating cards - 2-col grid on mobile, absolute on desktop */}
+        <div className="grid grid-cols-2 lg:block gap-3 w-full max-w-[400px] mx-auto lg:max-w-none">
+          <motion.div
             variants={cardVariants}
-            className="lg:absolute bg-bg-white/96 border border-subtle rounded-2xl shadow-card p-[14px_16px] z-[3] text-left w-full lg:w-40 lg:top-[30px] lg:left-5"
+            className="lg:absolute bg-bg-white/96 border border-subtle rounded-2xl shadow-card p-[14px_16px] z-[3] text-left lg:w-40 lg:top-[30px] lg:left-5"
           >
             <div className="text-[20px] mb-1.5">🥗 ⭐</div>
             <div className="text-xs font-bold text-fg mb-0.5 leading-[1.3]">Homemade Chicken<br />&amp; Veggie Soup</div>
             <div className="text-[10px] text-muted">285 kcal · 1 bowl</div>
           </motion.div>
 
-          <motion.div 
+          <motion.div
             variants={cardVariants}
-            className="lg:absolute bg-bg-white/96 border border-subtle rounded-2xl shadow-card p-[14px_16px] z-[3] text-left w-full lg:w-[168px] lg:top-[60px] lg:right-4"
+            className="lg:absolute bg-bg-white/96 border border-subtle rounded-2xl shadow-card p-[14px_16px] z-[3] text-left lg:w-[168px] lg:top-[60px] lg:right-4"
           >
             <div className="text-[9px] text-muted mb-1.5 flex items-center gap-1">
               <span className="w-[5px] h-[5px] rounded-full bg-indigo-base"></span>Nutritional Goals
@@ -75,9 +75,9 @@ export default function ProductShowcase() {
             </div>
           </motion.div>
 
-          <motion.div 
+          <motion.div
             variants={cardVariants}
-            className="lg:absolute bg-bg-white/96 border border-subtle rounded-2xl shadow-card p-[14px_16px] z-[3] text-left w-full lg:w-[156px] lg:top-[300px] lg:left-[10px]"
+            className="lg:absolute bg-bg-white/96 border border-subtle rounded-2xl shadow-card p-[14px_16px] z-[3] text-left lg:w-[156px] lg:top-[300px] lg:left-[10px]"
           >
             <div className="text-[9px] text-muted mb-1.5 flex items-center gap-1">
               <span className="w-[5px] h-[5px] rounded-full bg-green"></span>Macro Balance
@@ -107,9 +107,9 @@ export default function ProductShowcase() {
             </div>
           </motion.div>
 
-          <motion.div 
+          <motion.div
             variants={cardVariants}
-            className="lg:absolute bg-bg-white/96 border border-subtle rounded-2xl shadow-card p-[14px_16px] z-[3] text-left w-full lg:w-[164px] lg:bottom-5 lg:right-4"
+            className="lg:absolute bg-bg-white/96 border border-subtle rounded-2xl shadow-card p-[14px_16px] z-[3] text-left lg:w-[164px] lg:bottom-5 lg:right-4"
           >
             <div className="text-[9px] text-muted mb-1.5 flex items-center gap-1">
               <span className="w-[5px] h-[5px] rounded-full bg-green"></span>Food Log
@@ -144,12 +144,26 @@ export default function ProductShowcase() {
               </div>
               <div className="text-lg font-bold text-center mb-0.5 text-fg">Nutrition</div>
               <div className="text-[11px] text-muted text-center mb-4">Today ↓</div>
-              <div className="w-[100px] h-[100px] rounded-full border-[8px] border-subtle mx-auto mb-2.5 flex items-center justify-center bg-[conic-gradient(var(--indigo-base)_0%_72%,var(--subtle)_72%_100%)]">
-                <div className="w-[76px] h-[76px] rounded-full bg-bg-white flex flex-col items-center justify-center">
+              <div className="relative w-[100px] h-[100px] mx-auto mb-2.5">
+                {/* r=40, circumference=251.33, 93% fill=233.7 — Fat:49.8 Carbs:111.3 Protein:72.6 */}
+                <svg width="100" height="100" viewBox="0 0 100 100" style={{transform: 'rotate(-90deg)'}}>
+                  <circle cx="50" cy="50" r="40" fill="none" stroke="rgba(255,255,255,0.07)" strokeWidth="8"/>
+                  <circle cx="50" cy="50" r="40" fill="none" stroke="#f97316" strokeWidth="8" strokeLinecap="round" strokeDasharray="49.8 251.33" strokeDashoffset="0"/>
+                  <circle cx="50" cy="50" r="40" fill="none" stroke="#6366f1" strokeWidth="8" strokeLinecap="round" strokeDasharray="111.3 251.33" strokeDashoffset="-49.8"/>
+                  <circle cx="50" cy="50" r="40" fill="none" stroke="#22c55e" strokeWidth="8" strokeLinecap="round" strokeDasharray="72.6 251.33" strokeDashoffset="-161.1"/>
+                </svg>
+                <div className="absolute inset-0 flex flex-col items-center justify-center">
                   <div className="text-2xl font-bold text-fg leading-none">93</div>
                   <div className="text-[9px] text-muted">optimal</div>
                 </div>
               </div>
+              {/* Macro ratio bar */}
+              <div className="flex rounded-full overflow-hidden h-[5px] mb-3 mx-1 gap-[2px]">
+                <div className="rounded-full" style={{flex: 67, background: 'var(--color-orange)'}}></div>
+                <div className="rounded-full" style={{flex: 150, background: 'var(--color-indigo-base)'}}></div>
+                <div className="rounded-full" style={{flex: 98, background: 'var(--color-green)'}}></div>
+              </div>
+
               <div className="grid grid-cols-2 gap-1.5 mb-2.5">
                 <div className="bg-bg/5 dark:bg-white/5 border border-subtle rounded-[10px] p-[8px_10px] text-left">
                   <div className="text-[8px] text-muted mb-0.5">Food Quality</div>
