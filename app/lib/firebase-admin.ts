@@ -2,6 +2,12 @@ import admin from 'firebase-admin';
 
 if (!admin.apps.length) {
   try {
+    console.log('Initializing Firebase Admin with:', {
+      projectId: process.env.FIREBASE_PROJECT_ID ? 'EXISTS' : 'MISSING',
+      clientEmail: process.env.FIREBASE_CLIENT_EMAIL ? 'EXISTS' : 'MISSING',
+      privateKey: process.env.FIREBASE_PRIVATE_KEY ? 'EXISTS' : 'MISSING',
+    });
+
     admin.initializeApp({
       credential: admin.credential.cert({
         projectId: process.env.FIREBASE_PROJECT_ID,
