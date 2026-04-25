@@ -20,24 +20,24 @@ export default function FeaturesGrid() {
 
   const features = [
     {
-      title: "Two coaches, one conversation",
-      desc: "Stop repeating yourself to every coach and nutritionist. Athlete AI keeps both agents in sync so your advice is always consistent and always current."
+      title: "Two coaches, zero gaps",
+      desc: "Your nutritionist and training coach share everything — load, recovery, upcoming races. You never have to explain your week twice."
     },
     {
       title: "It remembers everything",
-      desc: "Every meal. Every session. Every time you felt heavy on the track or light in the weight room. Your coaches build a picture of you over time — and get smarter every week."
+      desc: "Every meal. Every session. Every morning you felt heavy, every week you peaked. Your coaches build a picture of you that gets sharper over time."
     },
     {
       title: "Built for any discipline",
-      desc: "Athlete AI understands the demands of every sport. From endurance and strength to team-based periodization, competition phases, and peak performance windows — it adapts to your specific goals."
+      desc: "Track, field, cycling, swimming, team sports — Athlete AI knows the difference between a taper week and a loading block. Your program is yours, not a template."
     },
     {
       title: "Instant answers, any time",
-      desc: "Your coach doesn't sleep. Ask at 10pm what to eat before tomorrow's 7am session. Get a real answer in seconds, not a generic meal plan PDF from three months ago."
+      desc: "It's 10pm. Race at 8am. Ask what to eat tonight — get a real answer that knows your body, not a generic PDF from three months ago."
     },
     {
       title: "Global athletic support",
-      desc: "Athlete AI is multi-lingual. Connect with your coaches in 50+ languages. Speak naturally, record voice notes, or type in your native tongue — they understand athletic context perfectly."
+      desc: "50+ languages, voice notes, or text. Your coaches understand athletic context no matter how you communicate — or what language you think in after a hard session."
     }
   ]
 

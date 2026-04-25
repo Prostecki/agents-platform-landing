@@ -36,7 +36,7 @@ export default function Hero() {
 
         <h1 className="text-[40px] md:text-[52px] lg:text-[66px] font-bold leading-[1.02] tracking-[-1.5px] md:tracking-[-2px] lg:tracking-[-2.5px] mb-[22px] text-fg">
           <TextAnimate animation="blurInUp" by="word" delay={0.3}>
-            Train smarter.
+            Your coaches
           </TextAnimate>
           <motion.span
             initial={{ opacity: 0, y: 20 }}
@@ -44,7 +44,7 @@ export default function Hero() {
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.5 }}
           >
-            Eat right.
+            finally see
           </motion.span>
           <br />
           <motion.span
@@ -54,7 +54,7 @@ export default function Hero() {
             transition={{ duration: 0.6, delay: 0.7 }}
             className="text-green-text opacity-90 block sm:inline"
           >
-            Win more.
+            the full picture.
           </motion.span>
         </h1>
 
@@ -65,7 +65,7 @@ export default function Hero() {
           transition={{ duration: 0.6, delay: 0.4 }}
           className="text-[15px] md:text-[16px] lg:text-[17px] text-muted leading-[1.65] mb-10 max-w-[440px]"
         >
-          Athlete AI gives you two personal coaches — nutrition and training — that share information in real time. Ask one question. Get advice that considers everything.
+          Most athletes split their lives between a training coach and a nutritionist who&apos;ve never met. Athlete AI connects them. Ask one question the night before a race — and get an answer that knows your legs, your food, and your next start time.
         </motion.p>
 
         <motion.div

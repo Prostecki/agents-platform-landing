@@ -111,10 +111,10 @@ export default function Demo() {
                   className="flex justify-end"
                 >
                   <div className="bg-[#1e3a5f] text-white rounded-2xl rounded-tr-sm px-4 py-3 max-w-[85%] shadow-[0_4px_15px_rgba(0,0,0,0.2)]">
-                    <TextAnimate 
+                    <TextAnimate
                       variants={typingVariants}
-                      by="character" 
-                      once 
+                      by="word"
+                      once
                       delay={0.8}
                       duration={1.0}
                       className="text-[13.5px] leading-relaxed block"
@@ -136,10 +136,10 @@ export default function Demo() {
                     <div className="w-9 h-9 rounded-full bg-indigo-base/10 border border-indigo-base/20 flex items-center justify-center text-[18px] flex-shrink-0 shadow-md">🏃</div>
                     <div className="border border-indigo-subtle bg-indigo-subtle/5 rounded-2xl rounded-tl-sm px-4 py-3 flex-1 flex flex-col gap-3 shadow-[0_4px_12px_rgba(0,0,0,0.15)]">
                       <div className="text-[13.5px] leading-relaxed text-fg m-0 min-h-[1.5em]">
-                        <TextAnimate 
+                        <TextAnimate
                           variants={typingVariants}
-                          by="character" 
-                          once 
+                          by="word"
+                          once
                           delay={2.5}
                           duration={0.8}
                         >
@@ -184,25 +184,16 @@ export default function Demo() {
                       </motion.span>
 
                       <div className="text-[13.5px] leading-relaxed text-fg m-0 min-h-[3em]">
-                        <span className="relative inline">
-                          <motion.span
-                            initial={{ scaleX: 0 }}
-                            whileInView={{ scaleX: 1 }}
-                            viewport={{ once: true }}
-                            transition={{ duration: 0.55, delay: 6.0, ease: [0.22, 1, 0.36, 1] }}
-                            style={{ transformOrigin: 'left' }}
-                            className="absolute inset-y-[-2px] -inset-x-1 bg-green/10 rounded pointer-events-none"
-                          />
-                          <TextAnimate 
-                            variants={typingVariants}
-                            by="character" 
-                            once 
-                            delay={4.6}
-                            duration={1.5}
-                          >
-                            Synchronized with Training Coach. Since intensity is down, I&apos;ve reduced your carb intake and added a high-antioxidant smoothie to your lunch to speed up recovery.
-                          </TextAnimate>
-                        </span>
+                        <TextAnimate
+                          variants={typingVariants}
+                          by="word"
+                          as="span"
+                          once
+                          delay={4.6}
+                          duration={1.5}
+                        >
+                          Synchronized with Training Coach. Since intensity is down, I&apos;ve reduced your carb intake and added a high-antioxidant smoothie to your lunch to speed up recovery.
+                        </TextAnimate>
                       </div>
                     </div>
                   </div>

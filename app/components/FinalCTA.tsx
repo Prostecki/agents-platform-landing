@@ -32,16 +32,16 @@ export default function FinalCTA() {
         >
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-green/10 border border-green/20 text-green-text font-mono text-[10px] uppercase tracking-wider shadow-sm">
             <span className="w-1 h-1 rounded-full bg-green animate-pulse" />
-            Founding Member Program
+            First 100 Athletes
           </div>
 
           <h2 className="text-[36px] md:text-[48px] lg:text-[64px] font-bold text-fg tracking-tight leading-[1.1] max-w-4xl">
-            Start as a founder.<br />
-            <span className="text-muted opacity-80">Lead as an athlete.</span>
+            You&apos;re early.<br />
+            <span className="text-muted opacity-80">That&apos;s the whole advantage.</span>
           </h2>
           
           <p className="text-[16px] md:text-[18px] text-muted max-w-[600px] leading-relaxed">
-            Our Beta phase offers full access to professional features that will soon require a premium subscription. Join now to lock in your early-access status and keep the edge for free.
+            We&apos;re in beta. The first 100 athletes get full access to every feature — including the ones that will cost money at launch. No credit card. No catch. Just get in.
           </p>
         </motion.div>
 
@@ -115,7 +115,7 @@ export default function FinalCTA() {
           
           <div className="mt-10 flex flex-col items-center gap-4">
             <AvatarCircles avatarUrls={avatarUrls} />
-            <span className="text-[13px] text-muted font-medium">Join elite athletes already securing their spot</span>
+            <span className="text-[13px] text-muted font-medium">Athletes already on the list</span>
           </div>
         </motion.div>
       </div>

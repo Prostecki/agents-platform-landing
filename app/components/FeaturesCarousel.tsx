@@ -27,7 +27,7 @@ export default function FeaturesCarousel() {
         transition={{ duration: 0.6 }}
         className="text-center px-pad mb-14"
       >
-        <h2 className="text-[28px] md:text-[36px] lg:text-[42px] font-bold tracking-[-1px] lg:tracking-[-1.5px] leading-[1.08] text-fg">Built for Athlete Performance.</h2>
+        <h2 className="text-[28px] md:text-[36px] lg:text-[42px] font-bold tracking-[-1px] lg:tracking-[-1.5px] leading-[1.08] text-fg">For anyone who takes their training seriously.</h2>
       </motion.div>
       <motion.div 
         variants={containerVariants}

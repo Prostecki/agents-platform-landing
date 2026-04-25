@@ -108,7 +108,7 @@ export default function AgentNetwork() {
               What changes when your coaches actually talk.
             </h2>
             <p className="text-[16px] md:text-[18px] lg:text-[20px] text-muted leading-[1.6] mb-12 max-w-[480px]">
-              The secret to peak performance isn&apos;t just more data — it&apos;s context. See how A2A synchronizes your team.
+              Most coaches work in silos. Here&apos;s what happens when they don&apos;t.
             </p>
 
             {/* Progress dots */}

@@ -40,17 +40,17 @@ export default function HowItWorks() {
           <motion.div variants={stepVariants} className="pr-0 md:pr-14 border-r-0 md:border-r border-b md:border-b-0 border-subtle mr-0 md:mr-14 mb-9 md:mb-0 pb-9 md:pb-0">
             <div className="text-[48px] lg:text-[64px] font-bold text-subtle leading-none mb-5 tracking-[-2px]">1</div>
             <h3 className="text-[18px] lg:text-[20px] font-bold text-fg mb-2.5">Talk to your coach</h3>
-            <div className="text-sm text-muted leading-[1.7]">Just message like you would a real coach. Tell it what you ate, how you feel, what&apos;s coming up. No forms, no logging apps, no spreadsheets.</div>
+            <div className="text-sm text-muted leading-[1.7]">Message like you&apos;re texting your coach after a session. &ldquo;Heavy legs, race Saturday, skipped lunch.&rdquo; That&apos;s enough. No forms, no logging apps, no spreadsheets.</div>
           </motion.div>
           <motion.div variants={stepVariants} className="pr-0 md:pr-14 border-r-0 md:border-r border-b md:border-b-0 border-subtle mr-0 md:mr-14 mb-9 md:mb-0 pb-9 md:pb-0">
             <div className="text-[48px] lg:text-[64px] font-bold text-subtle leading-none mb-5 tracking-[-2px]">2</div>
             <h3 className="text-[18px] lg:text-[20px] font-bold text-fg mb-2.5">Your coaches sync automatically</h3>
-            <div className="text-sm text-muted leading-[1.7]">The moment you ask a question, both agents share information. Your nutrition coach knows your training load. Your training coach knows your energy and recovery status.</div>
+            <div className="text-sm text-muted leading-[1.7]">The moment you send that message, both coaches compare notes. Nutrition sees your training load. Training sees your recovery status. No repeat explanations, ever.</div>
           </motion.div>
           <motion.div variants={stepVariants} className="pb-0">
             <div className="text-[48px] lg:text-[64px] font-bold text-subtle leading-none mb-5 tracking-[-2px]">3</div>
             <h3 className="text-[18px] lg:text-[20px] font-bold text-fg mb-2.5">Get advice that makes sense</h3>
-            <div className="text-sm text-muted leading-[1.7]">No generic meal plans. No one-size-fits-all programs. Every response considers your actual week — your sessions, your food, your fatigue, your next competition.</div>
+            <div className="text-sm text-muted leading-[1.7]">You get an answer that knows it&apos;s 3 days before your race, you ran an easy 8km this morning, and skipped breakfast. Not a template. Not a guess.</div>
           </motion.div>
         </motion.div>
       </div>
