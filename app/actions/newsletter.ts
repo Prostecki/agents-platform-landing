@@ -11,7 +11,13 @@ const EmailSchema = z.object({
     .max(255, 'Email is too long'),
 });
 
-export async function subscribeToNewsletter(formData: FormData) {
+type ActionState = {
+  error?: string;
+  success?: boolean;
+  message?: string;
+} | null;
+
+export async function subscribeToNewsletter(prevState: ActionState, formData: FormData) {
   const email = formData.get('email');
   
   // Simulated delay for UI (optional)
