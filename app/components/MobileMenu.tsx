@@ -5,22 +5,22 @@ import { motion, AnimatePresence } from 'framer-motion'
 
 const menuItems = [
   { 
-    name: 'How it works', 
+    name: 'Your Coaches', 
+    href: '#a2a', 
+    icon: '👥', 
+    sub: 'Your personal AI staff' 
+  },
+  { 
+    name: 'In Action', 
+    href: '#demo', 
+    icon: '🎬', 
+    sub: 'Experience the flow' 
+  },
+  { 
+    name: 'The Process', 
     href: '#how', 
     icon: '⚡', 
-    sub: 'The A2A protocol explained' 
-  },
-  { 
-    name: 'Features', 
-    href: '#features', 
-    icon: '🛠️', 
-    sub: 'Training & Nutrition tools' 
-  },
-  { 
-    name: 'Live Demo', 
-    href: '#demo', 
-    icon: '📱', 
-    sub: 'Watch agents in action' 
+    sub: 'How you interact daily' 
   }
 ]
 
@@ -121,7 +121,7 @@ export default function MobileMenu() {
               </div>
               
               <a href="#cta" className="mobile-cta-btn" onClick={() => setIsOpen(false)}>
-                Get Early Access →
+                Join the Waitlist
               </a>
 
               <div className="text-center">

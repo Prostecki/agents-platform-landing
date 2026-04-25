@@ -41,15 +41,27 @@
 }
 
 @layer base {
+  @keyframes shimmer-spin {
+    0% { transform: rotate(0deg) scale(2); }
+    100% { transform: rotate(360deg) scale(2); }
+  }
+...
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
   :root {
     --bg: #13151f;
     --bg-white: #1c1f2e;
     --fg: #e8e6f0;
-    --muted: #6b6f82;
+    --muted: #94a3b8;
     --subtle: rgba(255,255,255,0.07);
     --green-text: #4ade80;
+    
+    --red-bg: rgba(239, 68, 68, 0.07);
+    --red-border: rgba(239, 68, 68, 0.4);
+    --red-text: rgba(239, 68, 68, 0.85);
+
+    --shadow-card: 0 16px 40px rgba(0,0,0,0.35);
+    --shadow-soft: 0 8px 24px rgba(0,0,0,0.25);
 
     --max: 1200px;
     --pad: 80px;
@@ -82,14 +94,20 @@
     --bg: #f8fafc;
     --bg-white: #ffffff;
     --fg: #0f172a;
-    --muted: #475569;
+    --muted: #334155;
     --subtle: rgba(0,0,0,0.06);
     --green-text: #15803d;
+
+    --red-bg: rgba(220, 38, 38, 0.05);
+    --red-border: rgba(220, 38, 38, 0.2);
+    --red-text: #b91c1c;
+
+    --shadow-card: 0 16px 40px rgba(0,0,0,0.1);
 
     --color-bg: #f8fafc;
     --color-bg-white: #ffffff;
     --color-fg: #0f172a;
-    --color-muted: #475569;
+    --color-muted: #334155;
     --color-subtle: rgba(0,0,0,0.06);
     --color-green-text: #15803d;
 

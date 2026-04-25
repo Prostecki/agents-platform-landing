@@ -16,7 +16,7 @@ export default function TechBar() {
       <span className="w-10 md:w-[1px] h-[1px] md:h-4 bg-white/10 dark:bg-white/10 data-[theme=light]:bg-black/12"></span>
       <span className="font-mono text-[11px] text-muted tracking-[0.5px]">Built for competitive athletes</span>
       <span className="w-10 md:w-[1px] h-[1px] md:h-4 bg-white/10 dark:bg-white/10 data-[theme=light]:bg-black/12"></span>
-      <span className="font-mono text-[11px] text-muted tracking-[0.5px]">Used in decathlon preparation</span>
+      <span className="font-mono text-[11px] text-muted tracking-[0.5px]">Tested in professional training environments</span>
     </motion.div>
   )
 }

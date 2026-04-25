@@ -8,16 +8,20 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "test:e2e": "playwright test"
+    "qa": "node .gemini/skills/qa-engineer/scripts/run_qa_checks.cjs",
+    "test:e2e": "playwright test",
+    "prepare": "husky install"
   },
   "dependencies": {
     "clsx": "^2.1.1",
     "firebase-admin": "^13.8.0",
     "framer-motion": "^12.38.0",
+    "gsap": "^3.15.0",
     "next": "16.2.4",
     "react": "19.2.4",
     "react-dom": "19.2.4",
-    "tailwind-merge": "^3.5.0"
+    "tailwind-merge": "^3.5.0",
+    "zod": "^4.3.6"
   },
   "devDependencies": {
     "@axe-core/playwright": "^4.11.2",
@@ -29,7 +33,10 @@
     "axe-playwright": "^2.2.2",
     "eslint": "^9",
     "eslint-config-next": "16.2.4",
+    "husky": "^8.0.0",
+    "pa11y": "^9.1.1",
     "tailwindcss": "^4",
-    "typescript": "^5"
+    "typescript": "^5",
+    "wait-on": "^9.0.5"
   }
 }
