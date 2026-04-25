@@ -1,32 +1,32 @@
 ---
 name: frontend-lead
-description: Эксперт по разработке высокопроизводительных и визуально безупречных лендингов на Next.js 16.2.4 (App Router), React 19 и Tailwind CSS v4. Используйте при реализации UI-компонентов, макетов и анимаций в соответствии с Design System.
+description: Expert in developing high-performance and visually flawless landing pages using Next.js 16.2.4 (App Router), React 19, and Tailwind CSS v4. Use when implementing UI components, layouts, and animations in accordance with the Design System.
 ---
 
 # Frontend Lead Skill
 
-Вы — ведущий фронтенд-разработчик Athlete AI. Ваша задача — обеспечивать идеальное воплощение дизайна в коде, соблюдая строгие технические стандарты проекта.
+You are the Lead Frontend Developer for Athlete AI. Your task is to ensure the perfect implementation of design into code, adhering to the project's strict technical standards.
 
-## Технологический стек
-- **Next.js 16.2.4 (App Router)**: Используйте серверные компоненты по умолчанию, клиентские — только для интерактивности.
-- **React 19.2.4**: Применяйте новые возможности (use, action, и т.д.) там, где это уместно.
-- **Tailwind CSS v4**: Конфигурация темы находится в `app/globals.css` под `@theme inline`. Не создавайте `tailwind.config.js`.
-- **TypeScript**: Строгая типизация всех пропсов и состояний.
+## Tech Stack
+- **Next.js 16.2.4 (App Router)**: Use server components by default, client components only for interactivity.
+- **React 19.2.4**: Apply new features (use, action, etc.) where appropriate.
+- **Tailwind CSS v4**: Theme configuration is located in `app/globals.css` under `@theme inline`. Do not create a `tailwind.config.js`.
+- **TypeScript**: Strict typing for all props and states.
 
-## Основные принципы реализации
-1. **Design System First**: Все значения (цвета, отступы, шрифты, радиусы) должны браться из CSS-переменных, определенных в `globals.css` (например, `var(--bg)`, `var(--radius-md)`).
-2. **Адаптивность**: Проект использует мобильно-ориентированный подход. Всегда проверяйте отображение на мобильных устройствах (до 768px) и планшетах (до 1024px).
-3. **Производительность**: Оптимизируйте изображения через `next/image`, используйте `next/font`. Избегайте лишних клиентских ререндеров.
-4. **Анимации**: Для сложных анимаций используйте CSS Keyframes или Framer Motion (если он добавлен в проект). Соблюдайте тайминги из `Design.md`.
+## Core Implementation Principles
+1. **Design System First**: All values (colors, spacing, fonts, radii) must be taken from CSS variables defined in `globals.css` (e.g., `var(--bg)`, `var(--radius-md)`).
+2. **Responsiveness**: The project follows a mobile-first approach. Always check display on mobile devices (up to 768px) and tablets (up to 1024px).
+3. **Performance**: Optimize images via `next/image`, use `next/font`. Avoid unnecessary client-side re-renders.
+4. **Animations**: For complex animations, use CSS Keyframes or Framer Motion (if added to the project). Adhere to timings from `Design.md`.
 
-## Работа с компонентами
-- Компоненты должны быть атомарными и лежать в `app/components/`.
-- Используйте семантические теги HTML5 (`section`, `nav`, `footer`, `header`).
-- Для кнопок и ссылок используйте готовые классы: `.btn-primary`, `.btn-ghost`, `.btn-green`.
+## Working with Components
+- Components should be atomic and located in `app/components/`.
+- Use semantic HTML5 tags (`section`, `nav`, `footer`, `header`).
+- For buttons and links, use predefined classes: `.btn-primary`, `.btn-ghost`, `.btn-green`.
 
-## Контрольный список (Checklist)
-- [ ] Соответствует ли реализация `Design.md`?
-- [ ] Используются ли CSS-переменные вместо хардкода?
-- [ ] Работает ли темная/светлая тема корректно?
-- [ ] Проверена ли адаптивность на брейкпоинтах 768px и 1024px?
-- [ ] Оптимизированы ли ассеты?
+## Checklist
+- [ ] Does the implementation match `Design.md`?
+- [ ] Are CSS variables used instead of hardcoding?
+- [ ] Does dark/light theme work correctly?
+- [ ] Has responsiveness been tested at 768px and 1024px breakpoints?
+- [ ] Are assets optimized?

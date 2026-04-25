@@ -1,27 +1,27 @@
 # Athlete AI Platform — Dev Journal
 
-## День 1 (продолжение) — Суббота, 18 апреля 2026
+## Day 1 (continued) — Saturday, April 18, 2026
 
-**Цель:** Поднять Training агента и разобраться с env переменными.
+**Goal:** Set up Training agent and handle environment variables.
 
-**Результат:** ✅ Оба агента работают и отвечают по своим системным промптам.
-
----
-
-## Что построил
-
-- Training Agent на FastAPI + Google ADK + Gemini 2.5 Flash
-- Страница `/training` с чат-интерфейсом (зелёный акцент)
-- API route `/api/training/chat` в Next.js
-- Решил проблему с загрузкой `.env` переменных раз и навсегда
+**Result:** ✅ Both agents are running and responding according to their system prompts.
 
 ---
 
-## Итоговая структура агентов
+## What I Built
+
+- Training Agent using FastAPI + Google ADK + Gemini 2.5 Flash
+- `/training` page with chat interface (green accent)
+- API route `/api/training/chat` in Next.js
+- Solved the `.env` variable loading issue once and for all
+
+---
+
+## Final Agent Structure
 
 ```
 apps/agents/
-  .venv/                  ← одно общее окружение для обоих агентов
+  .venv/                  ← one shared environment for both agents
   nutrition_agent/
     agent.py
     .env
@@ -32,33 +32,33 @@ apps/agents/
     requirements.txt
 ```
 
-**Порты:**
+**Ports:**
 - Nutrition Agent → `http://localhost:8000`
 - Training Agent → `http://localhost:8001`
 
 ---
 
-## Главная битва дня — переменные окружения
+## Main Battle of the Day — Environment Variables
 
-### Проблема
-`ValueError: No API key was provided` — агент не видел `.env` файл.
+### Problem
+`ValueError: No API key was provided` — the agent couldn't see the `.env` file.
 
-### Почему это происходило
-`load_dotenv()` без аргументов ищет `.env` в **текущей директории откуда запущен uvicorn**, а не в папке где лежит `agent.py`.
+### Why This Was Happening
+`load_dotenv()` without arguments looks for `.env` in the **current directory where uvicorn was started**, not in the folder where `agent.py` is located.
 
-Если запускаешь из `apps/agents/training_agent` — находит. Если из другого места — нет.
+If you run it from `apps/agents/training_agent` — it finds it. If from anywhere else — it doesn't.
 
-### Что не сработало
+### What Didn't Work
 ```python
-load_dotenv()  # ищет в cwd, не надёжно
+load_dotenv()  # looks in cwd, unreliable
 ```
 
 ```python
-load_dotenv(find_dotenv())  # тоже не стабильно
+load_dotenv(find_dotenv())  # also unstable
 ```
 
-### Что сработало — правильное решение
-Использовать `__file__` чтобы всегда находить `.env` рядом с `agent.py`:
+### What Worked — The Proper Solution
+Use `__file__` to always find `.env` next to `agent.py`:
 
 ```python
 from dotenv import load_dotenv
@@ -68,14 +68,14 @@ env_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), '.env')
 load_dotenv(dotenv_path=env_path)
 ```
 
-`__file__` — это абсолютный путь к текущему Python файлу. `dirname` берёт его папку. Результат — `.env` всегда ищется рядом с `agent.py` независимо от того откуда запускается uvicorn.
+`__file__` is the absolute path to the current Python file. `dirname` gets its folder. Result — `.env` is always searched next to `agent.py` regardless of where uvicorn is started from.
 
-### Правило
-> Всегда используй `os.path.abspath(__file__)` для поиска файлов рядом с текущим скриптом. Никогда не полагайся на `cwd`.
+### Rule
+> Always use `os.path.abspath(__file__)` to find files next to the current script. Never rely on `cwd`.
 
 ---
 
-## Финальный шаблон agent.py
+## Final agent.py Template
 
 ```python
 from dotenv import load_dotenv
@@ -154,45 +154,45 @@ def health():
 
 ---
 
-## Команды для запуска обоих агентов
+## Commands to Run Both Agents
 
 ```bash
-# Терминал 1 — Nutrition Agent
+# Terminal 1 — Nutrition Agent
 cd apps/agents/nutrition_agent
 source ../.venv/bin/activate
 uvicorn agent:app --reload --port 8000
 
-# Терминал 2 — Training Agent
+# Terminal 2 — Training Agent
 cd apps/agents/training_agent
 source ../.venv/bin/activate
 uvicorn agent:app --reload --port 8001
 
-# Терминал 3 — Next.js
+# Terminal 3 — Next.js
 pnpm dev
 ```
 
 ---
 
-## Итог дня
+## Day Summary
 
-| Что сделано | Статус |
-|-------------|--------|
-| Turborepo монорепо | ✅ |
+| What was done | Status |
+|---------------|--------|
+| Turborepo monorepo | ✅ |
 | Next.js App Router | ✅ |
-| Clerk авторизация | ✅ |
-| Dashboard страница | ✅ |
+| Clerk authentication | ✅ |
+| Dashboard page | ✅ |
 | Nutrition Agent (FastAPI + ADK) | ✅ |
 | Training Agent (FastAPI + ADK) | ✅ |
-| Оба агента отвечают по системным промптам | ✅ |
-| Решена проблема с .env | ✅ |
+| Both agents respond according to system prompts | ✅ |
+| Solved .env issue | ✅ |
 
-## Что дальше (День 2)
+## What's Next (Day 2)
 
-- [ ] Shared User Profile в Firestore
-- [ ] Оба агента читают/пишут общий профиль
-- [ ] Агент тренировок знает о питании и наоборот
-- [ ] UI рефактор с shadcn/ui + тёмная тема
+- [ ] Shared User Profile in Firestore
+- [ ] Both agents read/write shared profile
+- [ ] Training Agent knows about nutrition and vice versa
+- [ ] UI refactor with shadcn/ui + dark theme
 
 ---
 
-*Время работы: ~5 часов | Самая позитивная сессия — два живых агента за один день.*
+*Work time: ~5 hours | Most positive session — two live agents in one day.*

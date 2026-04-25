@@ -1,46 +1,46 @@
 # Athlete AI Platform — Dev Journal
 
-## День 1 — Суббота, 18 апреля 2026
+## Day 1 — Saturday, April 18, 2026
 
-**Цель дня:** Поднять монорепо, авторизацию и первого AI агента с нуля.
+**Goal of the day:** Set up monorepo, authentication, and the first AI agent from scratch.
 
-**Результат:** ✅ Все три цели выполнены за один вечер.
-
----
-
-## Что построил сегодня
-
-- Монорепо на **Turborepo** с Next.js внутри
-- Авторизация через **Clerk** (Google + Email)
-- Dashboard страница с приветствием пользователя
-- Чат-интерфейс **Nutrition Agent**
-- Python сервис на **FastAPI + Google ADK + Gemini 2.5 Flash**
-- Связка Next.js → FastAPI → ADK → Gemini — всё работает
+**Result:** ✅ All three goals achieved in one evening.
 
 ---
 
-## Стек
+## What I Built Today
 
-| Слой | Технология |
+- Monorepo using **Turborepo** with Next.js inside
+- Authentication via **Clerk** (Google + Email)
+- Dashboard page with user greeting
+- **Nutrition Agent** chat interface
+- Python service on **FastAPI + Google ADK + Gemini 2.5 Flash**
+- Connection Next.js → FastAPI → ADK → Gemini — everything works
+
+---
+
+## Stack
+
+| Layer | Technology |
 |------|-----------|
-| Монорепо | Turborepo + pnpm |
+| Monorepo | Turborepo + pnpm |
 | Frontend | Next.js 16 App Router |
 | Auth | Clerk |
 | API (TS) | Next.js Route Handlers |
-| AI сервис | FastAPI + Google ADK |
+| AI Service | FastAPI + Google ADK |
 | LLM | Gemini 2.5 Flash via Vertex AI |
 | Credentials | Application Default Credentials (ADC) |
 
 ---
 
-## Ошибки которые я сделал и как их исправил
+## Errors I Made and How I Fixed Them
 
-### 1. Middleware не редиректил на авторизацию
-**Что случилось:** Clerk был установлен, но страница открывалась без авторизации.
+### 1. Middleware did not redirect to authentication
+**What happened:** Clerk was installed, but the page opened without authentication.
 
-**Причина:** Базовый `clerkMiddleware()` не защищает роуты автоматически — нужно явно указать какие роуты защищать.
+**Reason:** The basic `clerkMiddleware()` does not protect routes automatically — you need to explicitly specify which routes to protect.
 
-**Решение:**
+**Solution:**
 ```ts
 import { clerkMiddleware, createRouteMatcher } from '@clerk/nextjs/server'
 
@@ -53,18 +53,18 @@ export default clerkMiddleware(async (auth, request) => {
 })
 ```
 
-**Урок:** Всегда явно определяй публичные и защищённые роуты в middleware.
+**Lesson:** Always explicitly define public and protected routes in middleware.
 
 ---
 
-### 2. API route возвращал 404
-**Что случилось:** `POST /api/nutrition/chat` отдавал 404.
+### 2. API route returned 404
+**What happened:** `POST /api/nutrition/chat` returned 404.
 
-**Причина 1:** Файл назывался `route.tsx` вместо `route.ts`. Next.js не подхватывает `.tsx` для API routes.
+**Reason 1:** The file was named `route.tsx` instead of `route.ts`. Next.js does not pick up `.tsx` for API routes.
 
-**Причина 2:** Файл `page.tsx` для страницы `/nutrition` лежал не в папке `nutrition` а прямо в `app/`.
+**Reason 2:** The `page.tsx` file for the `/nutrition` page was in the `app/` folder instead of the `nutrition` folder.
 
-**Правильная структура:**
+**Correct structure:**
 ```
 app/
   api/
@@ -72,75 +72,75 @@ app/
       chat/
         route.ts      ← API endpoint
   nutrition/
-    page.tsx          ← страница /nutrition
+    page.tsx          ← page /nutrition
   dashboard/
     page.tsx
 ```
 
-**Урок:** В Next.js App Router структура папок = URL структура. Файл должен лежать в папке с именем роута.
+**Lesson:** In Next.js App Router, the folder structure = URL structure. The file must be in the folder with the route name.
 
 ---
 
-### 3. Python сервис не видел зависимости
-**Что случилось:** `Cannot find module google.adk.agents.llm_agent`
+### 3. Python service couldn't see dependencies
+**What happened:** `Cannot find module google.adk.agents.llm_agent`
 
-**Причина:** VS Code использовал системный Python вместо `.venv` — пакеты были установлены в виртуальное окружение но не в системный интерпретатор.
+**Reason:** VS Code used the system Python instead of `.venv` — packages were installed in the virtual environment but not in the system interpreter.
 
-**Решение:**
+**Solution:**
 1. `Cmd + Shift + P` → `Python: Select Interpreter`
-2. Выбрать интерпретатор из `.venv` папки
-3. Или указать путь вручную: `.venv/bin/python`
+2. Select the interpreter from the `.venv` folder
+3. Or specify the path manually: `.venv/bin/python`
 
-**Урок:** Всегда проверяй что активирован правильный интерпретатор. Признак правильного — `(.venv)` в начале строки терминала.
+**Lesson:** Always check that the correct interpreter is activated. The sign of the correct one is `(.venv)` at the beginning of the terminal line.
 
 ---
 
-### 4. Uvicorn не мог найти `main` модуль
-**Что случилось:** `Could not import module "main"`
+### 4. Uvicorn couldn't find the `main` module
+**What happened:** `Could not import module "main"`
 
-**Причина:** Запускал `uvicorn main:app` из неправильной папки — не из той где лежит `main.py`.
+**Reason:** Ran `uvicorn main:app` from the wrong folder — not the one where `main.py` is located.
 
-**Решение:**
+**Solution:**
 ```bash
-cd apps/agents/nutrition_agent  # сначала зайти в папку с main.py
+cd apps/agents/nutrition_agent  # go to the folder with main.py first
 uvicorn main:app --reload --port 8000
 ```
 
-**Урок:** uvicorn ищет модуль в текущей директории. Всегда запускай из папки где лежит файл.
+**Lesson:** uvicorn searches for the module in the current directory. Always run from the folder where the file is located.
 
 ---
 
-### 5. No API key — агент не мог подключиться к Vertex AI
-**Что случилось:** `ValueError: No API key was provided`
+### 5. No API key — agent couldn't connect to Vertex AI
+**What happened:** `ValueError: No API key was provided`
 
-**Причина:** `.env` файл не загружался, и ADK не мог найти credentials для Vertex AI.
+**Reason:** The `.env` file was not loading, and ADK couldn't find credentials for Vertex AI.
 
-**Решение:** Использовать Application Default Credentials вместо API ключа:
+**Solution:** Use Application Default Credentials instead of an API key:
 ```bash
 gcloud auth application-default login
-gcloud config set project твой-project-id
+gcloud config set project your-project-id
 ```
 
-ADK автоматически подхватывает ADC — не нужен никакой API ключ в коде.
+ADK automatically picks up ADC — no API key is needed in the code.
 
-**Урок:** На GCP всегда используй ADC вместо API ключей. Это безопаснее и проще — не нужно управлять ключами в коде.
+**Lesson:** On GCP, always use ADC instead of API keys. It's safer and easier — no need to manage keys in the code.
 
 ---
 
-### 6. Как читать длинный traceback
-**Что узнал:** Stack trace читается **снизу вверх**.
-- Внизу — настоящая причина ошибки
-- Вверху — где в твоём коде она проявилась
-- Середина — внутренности библиотек (обычно не важна)
+### 6. How to read a long traceback
+**What I learned:** Stack trace is read **from bottom to top**.
+- Bottom — the actual cause of the error
+- Top — where in your code it manifested
+- Middle — library internals (usually not important)
 
-**Пример:** В traceback на 80 строк настоящая ошибка была последней:
+**Example:** In an 80-line traceback, the actual error was the last one:
 ```
 ValueError: No API key was provided.
 ```
 
 ---
 
-## Архитектура которую реализую
+## Architecture I'm Implementing
 
 ```
 Browser (Next.js + Clerk)
@@ -156,30 +156,30 @@ Gemini 2.5 Flash (Vertex AI)
 
 ---
 
-## Что дальше (День 2)
+## What's Next (Day 2)
 
-- [ ] Создать Training Agent по той же схеме
-- [ ] Реализовать Shared User Profile в Firestore
-- [ ] Оба агента читают/пишут общий контекст
-- [ ] Агент тренировок знает о питании и наоборот
+- [ ] Create Training Agent using the same scheme
+- [ ] Implement Shared User Profile in Firestore
+- [ ] Both agents read/write shared context
+- [ ] Training Agent knows about nutrition and vice versa
 
 ---
 
-## Команды которые понадобятся завтра
+## Commands Needed Tomorrow
 
 ```bash
-# Запуск всего монорепо
+# Run the entire monorepo
 pnpm dev
 
-# Запуск Python агента
+# Run the Python agent
 cd apps/agents/nutrition_agent
 source .venv/bin/activate
 uvicorn main:app --reload --port 8000
 
-# Если нужно переавторизоваться в GCP
+# If you need to re-authenticate in GCP
 gcloud auth application-default login
 ```
 
 ---
 
-*Время работы: ~3 часа | Стек: Turborepo, Next.js, Clerk, FastAPI, Google ADK, Gemini 2.5*
+*Work time: ~3 hours | Stack: Turborepo, Next.js, Clerk, FastAPI, Google ADK, Gemini 2.5*
