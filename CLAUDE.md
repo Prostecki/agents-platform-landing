@@ -12,7 +12,14 @@ npm run build    # production build
 npm run lint     # ESLint
 ```
 
-No test suite is configured yet.
+E2E tests run via Playwright against a live dev server:
+
+```bash
+npm run test:e2e              # run all Playwright tests (Chromium, WebKit, Mobile Safari)
+npx playwright test e2e/ux.spec.ts  # run a single spec
+```
+
+A QA audit script also runs via `npm run qa` (wraps Playwright + pa11y accessibility checks).
 
 ## Stack
 
@@ -21,6 +28,9 @@ No test suite is configured yet.
 - **Tailwind CSS v4** — configured via `@tailwindcss/postcss` (not the classic `tailwind.config.js`). Customize design tokens in `app/globals.css` using `@theme { ... }` (no `inline` keyword).
 - **TypeScript**
 - **Firebase Admin SDK** — Firestore is used server-side via `app/lib/firebase-admin.ts`. Credentials come from `FIREBASE_PROJECT_ID`, `FIREBASE_CLIENT_EMAIL`, and `FIREBASE_PRIVATE_KEY` env vars.
+- **framer-motion** and **gsap** — animation libraries available globally; `magicui/` primitives wrap these for section-level use.
+- **Zod v4** — used for Server Action input validation (see `app/actions/newsletter.ts`).
+- **Deployment** — Firebase App Hosting via `apphosting.yaml`.
 
 ## Architecture
 
@@ -30,7 +40,7 @@ Single-page marketing/landing site for an AI athletic coaching app. `app/page.ts
 
 **Component layout:**
 - `app/components/` — all section components (one file per section, named after the section)
-- `app/components/magicui/` — third-party-style animation primitives (`AnimatedBeam`, `Terminal`, `TextAnimate`) used by section components
+- `app/components/magicui/` — animation primitives: `animated-beam.tsx`, `light-rays.tsx`, `shimmer-button.tsx`, `terminal.tsx`, `text-animate.tsx`
 - `app/lib/utils.ts` — exports `cn()` (clsx/tailwind-merge helper); import from `@/app/lib/utils`
 - `app/lib/firebase-admin.ts` — singleton Firebase Admin init, exports `db` and `admin`
 
@@ -51,3 +61,12 @@ Single-page marketing/landing site for an AI athletic coaching app. `app/page.ts
 ### Components
 - Client components that need browser APIs (localStorage, matchMedia) use the `mounted` guard pattern (render `null` or hidden until `useEffect` fires) to avoid hydration mismatches — see `ThemeToggle.tsx`.
 - `AgentNetwork.tsx` uses `AnimatedBeam` from `magicui/` — beams require both a `containerRef` on the wrapping div and `fromRef`/`toRef` on node divs.
+
+## Git hooks
+
+- **pre-commit**: runs `npm run lint` (ESLint must pass before committing)
+- **pre-push**: runs `npm run qa` (full QA audit including Playwright + pa11y)
+
+## Server Action conventions
+
+`subscribeToNewsletter` in `app/actions/newsletter.ts` uses the `useActionState` pattern — it accepts `(prevState, formData)` and returns `{ success?, error?, message? } | null`. New Server Actions should follow this same shape. Honeypot field name is `website`.

@@ -43,8 +43,8 @@ export const ShimmerButton = React.forwardRef<
         {...props}
       >
         {/* 1. The Shimmer Layer (Spinning Light) */}
-        <div 
-          className="absolute inset-[-150%] pointer-events-none"
+        <div
+          className="shimmer-spin-layer absolute inset-[-150%] pointer-events-none"
           style={{
             background: `conic-gradient(from 0deg, transparent 40%, ${shimmerColor} 50%, transparent 60%)`,
             animation: `shimmer-spin ${shimmerDuration} linear infinite`,

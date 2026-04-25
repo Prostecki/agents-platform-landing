@@ -35,7 +35,7 @@ export default function Hero() {
         </motion.div>
 
         <h1 className="text-[40px] md:text-[52px] lg:text-[66px] font-bold leading-[1.02] tracking-[-1.5px] md:tracking-[-2px] lg:tracking-[-2.5px] mb-[22px] text-fg">
-          <TextAnimate animation="blurInUp" by="character" delay={0.3}>
+          <TextAnimate animation="blurInUp" by="word" delay={0.3}>
             Train smarter.
           </TextAnimate>
           <motion.span

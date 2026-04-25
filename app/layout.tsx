@@ -1,17 +1,13 @@
 import type { Metadata, Viewport } from "next";
-import { Geist_Mono, Space_Mono } from "next/font/google";
+import { Space_Mono } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
 
 const spaceMono = Space_Mono({
   variable: "--font-space-mono",
   weight: ["400", "700"],
   subsets: ["latin"],
+  display: "swap",
 });
 
 export const metadata: Metadata = {
@@ -57,7 +53,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${geistMono.variable} ${spaceMono.variable}`}
+      className={spaceMono.variable}
       data-theme="dark"
       suppressHydrationWarning
     >

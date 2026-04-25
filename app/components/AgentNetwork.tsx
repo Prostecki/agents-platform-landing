@@ -30,12 +30,14 @@ const scenarios = [
   },
 ];
 
-// Diagonal resting tilt — every card sits at this angle when active
-const REST = { rotationX: 7, rotationY: -18, scale: 1, y: 0, opacity: 1 };
-// Cards wait far above viewport — hidden until their animation starts
-const WAIT = { rotationX: 18, rotationY: -6, scale: 1.04, y: -800, opacity: 0 };
-// Active card exits downward and tilts deeper
-const EXIT = { rotationX: 3, rotationY: -32, scale: 0.85, y: 200, opacity: 0 };
+const REST_3D = { rotationX: 7, rotationY: -18, scale: 1, y: 0, opacity: 1 };
+const WAIT_3D = { rotationX: 18, rotationY: -6, scale: 1.04, y: -800, opacity: 0 };
+const EXIT_3D = { rotationX: 3, rotationY: -32, scale: 0.85, y: 200, opacity: 0 };
+
+// Flat states for mobile — no 3D matrix recalc on every scroll tick
+const REST_FLAT = { rotationX: 0, rotationY: 0, scale: 1, y: 0, opacity: 1 };
+const WAIT_FLAT = { rotationX: 0, rotationY: 0, scale: 1, y: -60, opacity: 0 };
+const EXIT_FLAT = { rotationX: 0, rotationY: 0, scale: 0.95, y: 60, opacity: 0 };
 
 const SCROLL_PER_CARD = 720;
 
@@ -48,12 +50,16 @@ export default function AgentNetwork() {
     const dotsEl = dotsRef.current;
     if (!section || !dotsEl) return;
 
+    const isMobile = window.matchMedia('(max-width: 768px)').matches;
+    const REST = isMobile ? REST_FLAT : REST_3D;
+    const WAIT = isMobile ? WAIT_FLAT : WAIT_3D;
+    const EXIT = isMobile ? EXIT_FLAT : EXIT_3D;
+
     const ctx = gsap.context(() => {
       const cards = gsap.utils.toArray<HTMLElement>(".an-card", section);
       const dots = gsap.utils.toArray<HTMLElement>(".an-dot", dotsEl);
       const n = cards.length;
 
-      // Initial state
       gsap.set(cards[0], { ...REST, zIndex: 10 });
       cards.slice(1).forEach((card) => {
         gsap.set(card, { ...WAIT, zIndex: 1 });
@@ -79,15 +85,10 @@ export default function AgentNetwork() {
       });
 
       cards.forEach((card, i) => {
-        // Exit animation for current card
-        if (i < n - 1) {
-          tl.to(card, { ...EXIT, duration: 1 }, i);
-        }
-        
-        // Entrance animation for next card
+        if (i < n - 1) tl.to(card, { ...EXIT, duration: 1 }, i);
         if (i > 0) {
-          tl.set(card, { zIndex: 20 }, i - 1) // Bring to front
-            .to(card, { ...REST, duration: 1 }, i - 1); // Animate from WAIT (opacity 0) to REST (opacity 1)
+          tl.set(card, { zIndex: 20 }, i - 1)
+            .to(card, { ...REST, duration: 1 }, i - 1);
         }
       });
     }, section);
@@ -128,8 +129,8 @@ export default function AgentNetwork() {
 
           {/* Left: Card stack */}
           <div
-            className="w-full md:w-[50%] lg:w-[55%] flex-shrink-0"
-            style={{ display: "grid", perspective: "1200px", overflow: "visible" }}
+            className="w-full md:w-[50%] lg:w-[55%] flex-shrink-0 an-card-stack"
+            style={{ display: "grid", overflow: "visible" }}
           >
             {scenarios.map((card, i) => (
               <div

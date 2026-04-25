@@ -1,13 +1,17 @@
 'use client'
 
-import React, { useRef } from 'react'
+import React, { useRef, useEffect } from 'react'
 import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion'
 import { TextAnimate } from '@/app/components/magicui/text-animate'
 
 export default function Demo() {
   const cardRef = useRef<HTMLDivElement>(null)
-  
-  // 3D Tilt values
+  const hasPointer = useRef(false)
+
+  useEffect(() => {
+    hasPointer.current = window.matchMedia('(pointer: fine)').matches
+  }, [])
+
   const x = useMotionValue(0)
   const y = useMotionValue(0)
 
@@ -18,14 +22,10 @@ export default function Demo() {
   const rotateY = useTransform(mouseXSpring, [-0.5, 0.5], ["-10deg", "10deg"])
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (!cardRef.current) return
+    if (!hasPointer.current || !cardRef.current) return
     const rect = cardRef.current.getBoundingClientRect()
-    const width = rect.width
-    const height = rect.height
-    const mouseX = e.clientX - rect.left
-    const mouseY = e.clientY - rect.top
-    const xPct = mouseX / width - 0.5
-    const yPct = mouseY / height - 0.5
+    const xPct = (e.clientX - rect.left) / rect.width - 0.5
+    const yPct = (e.clientY - rect.top) / rect.height - 0.5
     x.set(xPct)
     y.set(yPct)
   }

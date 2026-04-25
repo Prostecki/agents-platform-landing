@@ -7,7 +7,7 @@
   --color-bg: #13151f;
   --color-bg-white: #1c1f2e;
   --color-fg: #e8e6f0;
-  --color-muted: #6b6f82;
+  --color-muted: #94a3b8;
   --color-subtle: rgba(255, 255, 255, 0.07);
   
   --color-green: #22c55e;
@@ -44,6 +44,10 @@
   @keyframes shimmer-spin {
     0% { transform: rotate(0deg) scale(2); }
     100% { transform: rotate(360deg) scale(2); }
+  }
+
+  @media (max-width: 768px), (prefers-reduced-motion: reduce) {
+    .shimmer-spin-layer { animation: none !important; transform: rotate(-30deg) scale(2); }
   }
 
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -163,6 +167,16 @@
 
   @media (max-width: 768px) {
     .nav-cta-desktop { display: none; }
+    /* Remove GPU-heavy backdrop-blur on mobile nav — use opaque bg instead */
+    nav.backdrop-blur-xl, nav[class*="backdrop-blur"] {
+      backdrop-filter: none !important;
+      -webkit-backdrop-filter: none !important;
+      background-color: rgba(19,21,31,0.97) !important;
+    }
+    [data-theme="light"] nav.backdrop-blur-xl,
+    [data-theme="light"] nav[class*="backdrop-blur"] {
+      background-color: rgba(248,250,252,0.97) !important;
+    }
   }
 
   /* ─── MOBILE MENU ─── */
@@ -202,15 +216,11 @@
   }
 
   [data-theme="light"] .mobile-menu-overlay {
-    background: rgba(248, 250, 252, 0.98);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
+    background: rgb(248, 250, 252);
   }
 
   [data-theme="dark"] .mobile-menu-overlay {
-    background: rgba(19, 21, 31, 0.98);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
+    background: rgb(19, 21, 31);
   }
 
   .mobile-menu-content {
@@ -427,6 +437,11 @@
   .tech-item { font-family: var(--mono); font-size: 11px; color: var(--muted); letter-spacing: 0.5px; }
   .tech-div { width: 1px; height: 16px; background: rgba(255,255,255,0.1); }
 
+  /* ─── AGENT NETWORK CARD STACK ─── */
+  @media (min-width: 769px) {
+    .an-card-stack { perspective: 1200px; }
+  }
+
   /* ─── NETWORK ─── */
   .network-section {
     background: var(--bg); border-bottom: 1px solid var(--subtle);
@@ -571,6 +586,13 @@
   .step-desc { font-size: 14px; color: var(--muted); line-height: 1.7; }
 
   /* ─── FEATURES CAROUSEL ─── */
+  @media (max-width: 768px) {
+    /* 6 backdrop-blur layers at once is too expensive on mobile GPU */
+    .carousel-container [class*="backdrop-blur"] {
+      backdrop-filter: none !important;
+      -webkit-backdrop-filter: none !important;
+    }
+  }
   .feat-carousel { background: var(--bg-white); border-bottom: 1px solid var(--subtle); padding: 96px 0 80px; overflow: hidden; }
   .feat-carousel-header { text-align: center; padding: 0 var(--pad); margin-bottom: 56px; }
   .feat-carousel-header h2 { font-size: 42px; font-weight: 700; letter-spacing: -1.5px; line-height: 1.08; }
