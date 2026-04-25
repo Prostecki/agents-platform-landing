@@ -3,8 +3,12 @@
 import { motion } from 'framer-motion'
 import AvatarCircles from './AvatarCircles'
 import { ShimmerButton } from './magicui/shimmer-button'
+import { useActionState } from 'react'
+import { subscribeToNewsletter } from '@/app/actions/newsletter'
 
 export default function FinalCTA() {
+  const [state, action, isPending] = useActionState(subscribeToNewsletter, null);
+
   const avatarUrls = [
     "https://avatars.githubusercontent.com/u/16860528",
     "https://avatars.githubusercontent.com/u/20110627",
@@ -48,27 +52,55 @@ export default function FinalCTA() {
           transition={{ duration: 0.6, delay: 0.2 }}
           className="mt-12 w-full max-w-lg"
         >
-          {/* Form: Force row on all screens, use overflow-hidden for rounded edges */}
-          <form 
-            className="flex flex-row gap-2 p-1.5 rounded-2xl bg-bg border border-subtle shadow-card" 
-            onSubmit={(e) => e.preventDefault()}
-          >
-            <input 
-              type="email" 
-              placeholder="Enter email" 
-              aria-label="Email address for waitlist"
-              className="flex-1 bg-transparent border-none outline-none px-3 py-2.5 text-[14px] md:text-[15px] text-fg placeholder:text-muted/50 min-w-0"
-              required 
-            />
-            <ShimmerButton 
-              background="var(--fg)"
-              shimmerColor="rgba(255,255,255,0.7)"
-              borderRadius="10px"
-              className="shrink-0"
+          {state?.success ? (
+            <motion.div 
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              className="p-8 rounded-2xl bg-green/5 border border-green/20 text-center shadow-sm"
             >
-              <span className="text-bg font-bold text-[13px] md:text-[14px] whitespace-nowrap">Lock Access</span>
-            </ShimmerButton>
-          </form>
+              <div className="text-green-text font-bold text-xl mb-2">🎉 {state.message}</div>
+              <p className="text-sm text-muted">Welcome to the future of training.</p>
+            </motion.div>
+          ) : (
+            <>
+              <form action={action} className="flex flex-row gap-2 p-1.5 rounded-2xl bg-bg border border-subtle shadow-card">
+                {/* Honeypot field for bot protection */}
+                <input type="text" name="website" tabIndex={-1} autoComplete="off" className="hidden" aria-hidden="true" />
+                
+                <input 
+                  type="email" 
+                  name="email"
+                  placeholder="Enter email" 
+                  aria-label="Email address for waitlist"
+                  className="flex-1 bg-transparent border-none outline-none px-3 py-2.5 text-[14px] md:text-[15px] text-fg placeholder:text-muted/50 min-w-0"
+                  required 
+                  disabled={isPending}
+                />
+                <ShimmerButton 
+                  type="submit"
+                  disabled={isPending}
+                  background="var(--fg)"
+                  shimmerColor="rgba(255,255,255,0.7)"
+                  borderRadius="10px"
+                  className="shrink-0 disabled:opacity-50"
+                >
+                  <span className="text-[#13151f] font-bold text-[13px] md:text-[14px] whitespace-nowrap">
+                    {isPending ? 'Processing...' : 'Lock Access'}
+                  </span>
+                </ShimmerButton>
+              </form>
+
+              {state?.error && (
+                <motion.div 
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="mt-3 text-red-500 text-[13px] font-medium"
+                >
+                  ⚠️ {state.error}
+                </motion.div>
+              )}
+            </>
+          )}
           
           <div className="mt-4 text-[12px] text-green-text/80 font-medium italic">
             * All premium features included for first 5,000 members.

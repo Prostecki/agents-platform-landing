@@ -121,7 +121,7 @@ export default function MobileMenu() {
               </div>
               
               <a href="#cta" className="mobile-cta-btn" onClick={() => setIsOpen(false)}>
-                Join the Waitlist
+                <span className="text-[#13151f]">Join the Waitlist</span>
               </a>
 
               <div className="text-center">

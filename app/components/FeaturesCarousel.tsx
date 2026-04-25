@@ -99,8 +99,8 @@ export default function FeaturesCarousel() {
               </div>
               <div className="grid grid-cols-4 gap-2 mb-4">
                 {[12, 10, 8, 8].map((reps, i) => (
-                  <div key={i} className={`rounded-lg p-2 text-center transition-colors ${i === 2 ? 'bg-green text-bg' : 'bg-subtle text-fg'}`}>
-                    <div className={`text-[9px] mb-0.5 ${i === 2 ? 'text-bg/70' : 'opacity-60'}`}>S{i+1}</div>
+                  <div key={i} className={`rounded-lg p-2 text-center transition-colors ${i === 2 ? 'bg-green text-[#13151f]' : 'bg-subtle text-fg'}`}>
+                    <div className={`text-[9px] mb-0.5 ${i === 2 ? 'text-[#13151f]/70' : 'text-fg/60'}`}>S{i+1}</div>
                     <div className="text-[12px] font-bold">{reps}</div>
                   </div>
                 ))}
