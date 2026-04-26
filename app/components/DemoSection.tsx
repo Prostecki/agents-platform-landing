@@ -163,7 +163,7 @@ function MacFrame({ innerRef }: { innerRef: React.RefObject<HTMLDivElement | nul
             Absolutely — I’ve <strong>coordinated with your training schedule</strong>. Since you have a 
             high-intensity interval session tomorrow at 8:00 AM, increasing your complex 
             carbohydrate intake by 400–500g tonight will ensure your muscle glycogen 
-            stores are fully topped up for <strong>peak performance</strong>. I've also adjusted your 
+            stores are fully topped up for <strong>peak performance</strong>. I&apos;ve also adjusted your 
             morning pre-workout snack to be more easily digestible.
           </div>
         </div>
@@ -190,7 +190,7 @@ function MacFrame({ innerRef }: { innerRef: React.RefObject<HTMLDivElement | nul
             </div>
           ))}
           <div style={S.agentMsg('#3B82F6')}>
-            Agreed. Based on your current fatigue levels (7/10), I've scheduled a 
+            Agreed. Based on your current fatigue levels (7/10), I&apos;ve scheduled a 
             10-minute active mobility and CNS priming session for tomorrow morning. 
             I’ve already <strong>synced this with your nutrition coach</strong> to ensure your breakfast 
             macros provide the <strong>necessary energy without causing GI distress</strong>.
@@ -307,7 +307,7 @@ function IPhoneFrame({ innerRef }: { innerRef: React.RefObject<HTMLDivElement | 
                 <span style={{ fontSize: '11px', fontWeight: 600, color: 'var(--muted)' }}>Training Coach</span>
               </div>
               <div style={{ borderLeft: '2px solid #3B82F6', paddingLeft: 8, fontSize: '12px', color: 'var(--fg)', lineHeight: 1.45 }}>
-                Log noted. I've <strong>moved your aerobic session</strong> to tomorrow morning. <strong>Recovery is now the priority.</strong>
+                Log noted. I&apos;ve <strong>moved your aerobic session</strong> to tomorrow morning. <strong>Recovery is now the priority.</strong>
               </div>
             </div>
 
