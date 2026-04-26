@@ -34,7 +34,7 @@ A QA audit script also runs via `npm run qa` (wraps Playwright + pa11y accessibi
 
 ## Architecture
 
-Single-page marketing/landing site for an AI athletic coaching app. `app/page.tsx` composes all sections in order: `Nav → Hero → TechBar → AgentNetwork → ProductShowcase → ProblemSolution → Demo → HowItWorks → FeaturesCarousel → FeaturesGrid → FinalCTA → Footer`.
+Single-page marketing/landing site for an AI athletic coaching app. `app/page.tsx` composes all sections in order: `Nav → Hero → FinalCTA → TechBar → ProblemSolution → ImageDivider → HowItWorks → FeaturesGrid → Footer`.
 
 **Backend surface:** one Server Action at `app/actions/newsletter.ts` — handles email subscription, writes to Firestore `subscribers` collection.
 
@@ -61,7 +61,6 @@ Single-page marketing/landing site for an AI athletic coaching app. `app/page.ts
 
 ### Components
 - Client components that need browser APIs (localStorage, matchMedia) use the `mounted` guard pattern (render `null` or hidden until `useEffect` fires) to avoid hydration mismatches — see `ThemeToggle.tsx`.
-- `AgentNetwork.tsx` uses `AnimatedBeam` from `magicui/` — beams require both a `containerRef` on the wrapping div and `fromRef`/`toRef` on node divs.
 
 ## Design system
 
@@ -71,7 +70,6 @@ Single-page marketing/landing site for an AI athletic coaching app. `app/page.ts
 
 Playwright tests in `e2e/ux.spec.ts` bind to these CSS class names — renaming them breaks tests:
 - `.theme-toggle` — theme toggle button
-- `.carousel-container` — features carousel wrapper
 - `.mobile-menu-trigger` / `.mobile-menu-overlay` / `.mobile-menu-close` — mobile nav
 
 ## Theme anti-flash

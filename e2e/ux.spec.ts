@@ -37,35 +37,6 @@ test.describe('Athlete AI — Comprehensive UX & UI Audit', () => {
     await expect(html).toHaveAttribute('data-theme', initialTheme!);
   });
 
-  // --- Features Carousel (Adaptive & Snap) ---
-  test('Features Carousel should support scroll snap on mobile', async ({ page, isMobile }) => {
-    const carousel = page.locator('.carousel-container');
-    await expect(carousel).toBeVisible();
-
-    if (isMobile) {
-      const scrollSnap = await carousel.evaluate(el => getComputedStyle(el).scrollSnapType);
-      expect(scrollSnap).toContain('x mandatory');
-
-      const card = page.locator('text=Built for Strength');
-      await card.scrollIntoViewIfNeeded();
-      await expect(card).toBeInViewport();
-    }
-  });
-
-  // --- Agent Network (SVG & Nodes) ---
-  test('Agent Network should render nodes and animated beams', async ({ page }) => {
-    const networkSection = page.locator('h2:has-text("What changes when your coaches actually talk")');
-    await expect(networkSection).toBeVisible();
-
-    // Specific node check
-    await expect(page.locator('div').filter({ hasText: /^Nutrition$/ }).first()).toBeVisible();
-    await expect(page.locator('div').filter({ hasText: /^Athlete AI$/ }).first()).toBeVisible();
-
-    // Check for SVG beams
-    const beams = await page.locator('svg path').count();
-    expect(beams).toBeGreaterThan(0);
-  });
-
   // --- Navigation & Mobile Menu ---
   test('Mobile menu should trigger and block scroll', async ({ page, isMobile }) => {
     test.skip(!isMobile, 'Only for mobile devices');
