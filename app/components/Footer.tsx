@@ -1,16 +1,8 @@
 'use client'
 
-import { motion } from 'framer-motion'
-
 export default function Footer() {
   return (
-    <motion.footer 
-      initial={{ opacity: 0 }}
-      whileInView={{ opacity: 1 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.8 }}
-      className="bg-bg border-t border-subtle p-[80px_var(--pad)_48px]"
-    >
+    <footer className="bg-bg border-t border-subtle p-[80px_var(--pad)_48px]">
       <div className="max-w-[var(--max)] mx-auto flex flex-col gap-16">
         {/* Brand Section */}
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-10">
@@ -23,8 +15,8 @@ export default function Footer() {
               </div>
               Athlete AI
             </div>
-            <p className="text-[15px] text-muted leading-[1.6] max-w-[360px]">
-              The world&apos;s most advanced AI training management system for elite athletes.
+            <p className="text-[13px] text-muted leading-[1.6] max-w-[320px] font-mono">
+              Built by a decathlete who got tired of coaches that didn&apos;t talk to each other.
             </p>
           </div>
 
@@ -84,6 +76,6 @@ export default function Footer() {
           </div>
         </div>
       </div>
-    </motion.footer>
+    </footer>
   )
 }

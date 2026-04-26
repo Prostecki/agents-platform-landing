@@ -43,6 +43,7 @@ Single-page marketing/landing site for an AI athletic coaching app. `app/page.ts
 - `app/components/magicui/` — animation primitives: `animated-beam.tsx`, `light-rays.tsx`, `shimmer-button.tsx`, `terminal.tsx`, `text-animate.tsx`
 - `app/lib/utils.ts` — exports `cn()` (clsx/tailwind-merge helper); import from `@/app/lib/utils`
 - `app/lib/firebase-admin.ts` — singleton Firebase Admin init, exports `db` and `admin`
+- `app/sitemap.ts` — auto-generates `sitemap.xml`; update when adding new routes
 
 ## Key conventions
 
@@ -61,6 +62,21 @@ Single-page marketing/landing site for an AI athletic coaching app. `app/page.ts
 ### Components
 - Client components that need browser APIs (localStorage, matchMedia) use the `mounted` guard pattern (render `null` or hidden until `useEffect` fires) to avoid hydration mismatches — see `ThemeToggle.tsx`.
 - `AgentNetwork.tsx` uses `AnimatedBeam` from `magicui/` — beams require both a `containerRef` on the wrapping div and `fromRef`/`toRef` on node divs.
+
+## Design system
+
+`Design.md` is the canonical reference for colors, typography scale, spacing, component specs, and copy guidelines. Consult it before making any visual changes. The `athletic-management.ai/` directory contains original wireframes and HTML mockups — background context only, not part of the Next.js build.
+
+## E2E selector contract
+
+Playwright tests in `e2e/ux.spec.ts` bind to these CSS class names — renaming them breaks tests:
+- `.theme-toggle` — theme toggle button
+- `.carousel-container` — features carousel wrapper
+- `.mobile-menu-trigger` / `.mobile-menu-overlay` / `.mobile-menu-close` — mobile nav
+
+## Theme anti-flash
+
+`app/layout.tsx` injects an inline `<Script strategy="beforeInteractive">` that reads `localStorage('theme')` and sets `document.documentElement.dataset.theme` before hydration. This is why `<html>` carries `suppressHydrationWarning` and always renders `data-theme="dark"` on the server. Do not move or defer this script.
 
 ## Git hooks
 

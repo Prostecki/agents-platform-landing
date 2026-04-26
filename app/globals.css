@@ -213,6 +213,12 @@
     display: flex;
     flex-direction: column;
     overflow: hidden;
+    animation: menu-in 0.15s ease-out;
+  }
+
+  @keyframes menu-in {
+    from { opacity: 0; }
+    to   { opacity: 1; }
   }
 
   [data-theme="light"] .mobile-menu-overlay {
