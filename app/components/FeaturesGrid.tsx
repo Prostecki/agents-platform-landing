@@ -35,7 +35,6 @@ export default function FeaturesGrid() {
         viewport={{ once: true }}
         transition={{ duration: 0.4 }}
       >
-        <div className="font-mono text-[11px] text-muted tracking-[1px] mb-2 uppercase">05 — Platform Core</div>
         <h2 className="text-[30px] md:text-[36px] lg:text-[42px] font-bold tracking-[-1px] lg:tracking-[-1.5px] leading-[1.08] mb-8 lg:mb-12 text-fg">Everything a serious athlete needs.</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
           {features.map((feature) => (

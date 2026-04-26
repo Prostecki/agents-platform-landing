@@ -1,5 +1,6 @@
 import Nav from './components/Nav'
 import Hero from './components/Hero'
+import DemoSection from './components/DemoSection'
 import TechBar from './components/TechBar'
 import ProblemSolution from './components/ProblemSolution'
 import ImageDivider from './components/ImageDivider'
@@ -32,6 +33,7 @@ export default function Home() {
       <main className="pt-16">
         <Nav />
         <Hero />
+        <DemoSection />
         <TechBar />
         <ProblemSolution />
         <ImageDivider />

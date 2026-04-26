@@ -751,6 +751,26 @@
   transform: translateX(22px);
 }
 
+/* ─── DEMO SECTION FRAMES ─── */
+@layer components {
+  .demo-frames {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 32px;
+  }
+  .demo-mac { flex: 1; }
+  .demo-iphone { flex: none; }
+  .demo-mobile-fallback { display: none; }
+
+  @media (max-width: 1024px) {
+    .demo-mac { display: none !important; }
+    .demo-iphone { display: block !important; margin: 0 auto; }
+    .demo-frames { display: flex; justify-content: center; width: 100%; }
+    .demo-mobile-fallback { display: none !important; }
+  }
+}
+
 /* ─── RESPONSIVE ─── */
 @layer components {
   @media (max-width: 1024px) {
