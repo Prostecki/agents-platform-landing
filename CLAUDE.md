@@ -34,13 +34,13 @@ A QA audit script also runs via `npm run qa` (wraps Playwright + pa11y accessibi
 
 ## Architecture
 
-Single-page marketing/landing site for an AI athletic coaching app. `app/page.tsx` composes all sections in order: `Nav → Hero → FinalCTA → TechBar → ProblemSolution → ImageDivider → HowItWorks → FeaturesGrid → Footer`.
+Single-page marketing/landing site for an AI athletic coaching app. `app/page.tsx` composes all sections in order: `Nav → Hero → DemoSection → TechBar → ProblemSolution → ImageDivider → HowItWorks → FeaturesGrid → FinalCTA → Footer`.
 
 **Backend surface:** one Server Action at `app/actions/newsletter.ts` — handles email subscription, writes to Firestore `subscribers` collection.
 
 **Component layout:**
-- `app/components/` — all section components (one file per section, named after the section)
-- `app/components/magicui/` — animation primitives: `animated-beam.tsx`, `light-rays.tsx`, `shimmer-button.tsx`, `terminal.tsx`, `text-animate.tsx`
+- `app/components/` — all section components (one file per section, named after the section); also `MobileMenu.tsx` (rendered inside `Nav.tsx`) and `AvatarCircles.tsx` (used by `Hero.tsx`)
+- `app/components/magicui/` — animation primitives: `iphone.tsx`, `light-rays.tsx`, `shimmer-button.tsx`, `terminal.tsx`, `text-animate.tsx`
 - `app/lib/utils.ts` — exports `cn()` (clsx/tailwind-merge helper); import from `@/app/lib/utils`
 - `app/lib/firebase-admin.ts` — singleton Firebase Admin init, exports `db` and `admin`
 - `app/sitemap.ts` — auto-generates `sitemap.xml`; update when adding new routes
@@ -57,7 +57,7 @@ Single-page marketing/landing site for an AI athletic coaching app. `app/page.ts
 ### Theming
 - Theme is controlled by `data-theme="dark"|"light"` on `<html>`, toggled by `ThemeToggle.tsx` which persists to `localStorage`.
 - Light theme overrides are in `[data-theme="light"] { ... }` blocks in `globals.css`. Do **not** use Tailwind's `dark:` class strategy.
-- Font is Space Mono (monospace, loaded in `app/layout.tsx`) for `--font-mono`, and SF Pro / system sans-serif for `--font-sans`.
+- Font is Space Mono (monospace, loaded in `app/layout.tsx`) as `--font-space-mono`, and SF Pro / system sans-serif for `--font-sans`.
 
 ### Components
 - Client components that need browser APIs (localStorage, matchMedia) use the `mounted` guard pattern (render `null` or hidden until `useEffect` fires) to avoid hydration mismatches — see `ThemeToggle.tsx`.
