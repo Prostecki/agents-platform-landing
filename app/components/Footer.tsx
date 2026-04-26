@@ -41,39 +41,8 @@ export default function Footer() {
           </div>
         </div>
 
-        {/* Links Grid */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-10 border-t border-subtle pt-16">
-          <div className="flex flex-col gap-4">
-            <h3 className="text-[13px] font-bold text-fg uppercase tracking-[0.5px] mb-1">Company</h3>
-            <a href="#" className="text-sm text-muted no-underline transition-colors hover:text-fg">About us</a>
-            <a href="#" className="text-sm text-muted no-underline transition-colors hover:text-fg">Careers</a>
-            <a href="#" className="text-sm text-muted no-underline transition-colors hover:text-fg">Blog</a>
-          </div>
-          <div className="flex flex-col gap-4">
-            <h3 className="text-[13px] font-bold text-fg uppercase tracking-[0.5px] mb-1">Product</h3>
-            <a href="#" className="text-sm text-muted no-underline transition-colors hover:text-fg">Download App</a>
-            <a href="#" className="text-sm text-muted no-underline transition-colors hover:text-fg">Getting started</a>
-            <a href="#" className="text-sm text-muted no-underline transition-colors hover:text-fg">Roadmap</a>
-          </div>
-          <div className="flex flex-col gap-4">
-            <h3 className="text-[13px] font-bold text-fg uppercase tracking-[0.5px] mb-1">Resources</h3>
-            <a href="#" className="text-sm text-muted no-underline transition-colors hover:text-fg">FAQ</a>
-            <a href="#" className="text-sm text-muted no-underline transition-colors hover:text-fg">Support</a>
-            <a href="#" className="text-sm text-muted no-underline transition-colors hover:text-fg">Contact us</a>
-          </div>
-          <div className="flex flex-col gap-4">
-            <h3 className="text-[13px] font-bold text-fg uppercase tracking-[0.5px] mb-1">Legal</h3>
-            <a href="#" className="text-sm text-muted no-underline transition-colors hover:text-fg">Terms</a>
-            <a href="#" className="text-sm text-muted no-underline transition-colors hover:text-fg">Privacy</a>
-          </div>
-        </div>
-
-        <div className="flex flex-col sm:flex-row justify-between items-center gap-4 border-t border-subtle pt-8">
-          <div className="text-[13px] text-muted">© athlete-ai.tech, Inc. {new Date().getFullYear()}</div>
-          <div className="flex items-center gap-2 text-xs text-muted font-mono">
-            <span className="w-1.5 h-1.5 bg-green rounded-full shadow-[0_0_8px_var(--color-green)]"></span>
-            All systems operational
-          </div>
+        <div className="border-t border-subtle pt-8">
+          <div className="text-[13px] text-muted font-mono">© athlete-ai.tech 2026 · Currently in development</div>
         </div>
       </div>
     </footer>

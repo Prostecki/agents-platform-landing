@@ -32,12 +32,12 @@ export default function Home() {
       <main className="pt-16">
         <Nav />
         <Hero />
-        <FinalCTA />
         <TechBar />
         <ProblemSolution />
         <ImageDivider />
         <HowItWorks />
         <FeaturesGrid />
+        <FinalCTA />
         <Footer />
       </main>
     </>

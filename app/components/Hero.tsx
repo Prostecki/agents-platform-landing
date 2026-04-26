@@ -28,9 +28,9 @@ export default function Hero() {
         </div>
 
         <h1 className="text-[40px] md:text-[52px] lg:text-[66px] font-bold leading-[1.02] tracking-[-1.5px] md:tracking-[-2px] lg:tracking-[-2.5px] mb-4 text-fg">
-          Your coaches finally see
+          Your coaches talk to each other.
           <br />
-          <span className="text-green-text opacity-90 block sm:inline">the full picture.</span>
+          <span className="text-green-text opacity-90 block sm:inline">Finally.</span>
         </h1>
 
         <div className="inline-flex items-center gap-2 font-mono text-[11px] text-muted tracking-[0.3px] mb-6">
