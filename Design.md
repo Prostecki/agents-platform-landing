@@ -1,13 +1,13 @@
 # Athlete AI — Design System
 
-> Design documentation for the Athlete AI landing page. Use this as a reference for any new pages, components, or UI extensions.
+> Design documentation for the Athlete AI landing page. Use this as a reference for any new pages, components, or UI extensions. Reflects the **actual implemented state** of the codebase.
 
 ---
 
 ## Brand
 
 **Product name:** Athlete AI  
-**Domain:** athletic-management.ai  
+**Domain:** athlete-ai.tech  
 **Tagline:** "Your coaches talk to each other."  
 **Voice:** Direct, performance-oriented, human. No jargon, no fluff. Write like a smart coach, not a SaaS company.
 
@@ -15,41 +15,70 @@
 
 ## Color Palette
 
-### Core Tokens
+### Core Tokens (CSS Variables)
 
-| Token | Value | Usage |
-|---|---|---|
-| `--bg` | `#13151f` | Page background (deep slate-navy) |
-| `--bg-white` | `#1c1f2e` | Elevated surface (cards, panels, sections) |
-| `--fg` | `#e8e6f0` | Primary text, headings |
-| `--muted` | `#6b6f82` | Secondary text, labels, captions |
-| `--subtle` | `rgba(255,255,255,0.07)` | Borders, dividers |
+Defined in `app/globals.css` under `:root` and `@theme`. Use `var(--token)` everywhere — never hardcode hex values.
+
+| Token | Value (dark) | Value (light) | Usage |
+|---|---|---|---|
+| `--bg` | `#13151f` | `#f8fafc` | Page background |
+| `--bg-white` | `#1c1f2e` | `#ffffff` | Elevated surfaces (cards, sections) |
+| `--fg` | `#e8e6f0` | `#0f172a` | Primary text, headings |
+| `--muted` | `#b0bece` | `#334155` | Secondary text, labels, captions |
+| `--subtle` | `rgba(255,255,255,0.07)` | `rgba(0,0,0,0.06)` | Borders, dividers |
+| `--green-text` | `#4ade80` | `#15803d` | Green text on dark/light backgrounds |
+
+> **Note:** `--muted` is `#b0bece` in the implementation (lighter than the old `#6b6f82`).
 
 ### Accent — Green (Nutrition Agent)
 
 | Token | Value | Usage |
 |---|---|---|
-| `--green` | `#22c55e` | Primary accent, CTAs, active states |
-| `--green-bg` | `rgba(34,197,94,0.10)` | Tinted backgrounds |
-| `--green-border` | `rgba(34,197,94,0.22)` | Tinted borders |
-| `--green-text` | `#4ade80` | Green text on dark backgrounds |
+| `--color-green` / `--green` | `#22c55e` | Primary accent, CTAs, active states |
+| `--color-green-bg` | `rgba(34,197,94,0.10)` | Tinted backgrounds |
+| `--color-green-border` | `rgba(34,197,94,0.22)` | Tinted borders |
+| `--color-green-text` / `--green-text` | `#4ade80` (dark) / `#15803d` (light) | Green text |
 
-### Accent — Indigo (Training Agent)
+### Accent — Indigo / Blue (Training Agent)
 
-| Color | Value | Usage |
+The training agent uses **blue (`#3B82F6`)** in the actual demo, not pure indigo.
+
+| Token | Value | Usage |
 |---|---|---|
-| Indigo base | `#6366f1` | Training agent accent |
-| Indigo light | `#818cf8` | Status dots, text on dark |
-| Indigo subtle | `rgba(99,102,241,0.12)` | Chat bubbles, tinted backgrounds |
-| Indigo text | `#a5b4fc` / `#c7d2fe` | Text in indigo containers |
+| `--color-indigo-base` | `#6366f1` | Indigo accent (generic) |
+| `--color-indigo-light` | `#818cf8` | Status dots, text on dark |
+| `--color-indigo-subtle` | `rgba(99,102,241,0.12)` | Tinted backgrounds |
+| `--color-indigo-text` | `#a5b4fc` | Text in indigo containers |
+| `--color-blue` | `#3b82f6` | Training agent accent in Demo/DemoSection |
 
 ### Semantic
 
-| Color | Value | Usage |
+| Token | Value | Usage |
 |---|---|---|
-| Orange | `#f97316` | Warning, "above target" states |
+| `--color-orange` | `#f97316` | Warning, "above target" states |
+| Amber | `#F59E0B` | Fatigue / recovery indicators |
 | Red | `#ef4444` | Heart rate, alerts |
-| Purple graph | `rgba(150,120,220,0.8)` | Body composition graph lines |
+| `--color-purple` | `#9678dc` | Body composition graph (unused in current UI) |
+
+### Demo Surface Variables
+
+| Token | Value (dark) | Value (light) |
+|---|---|---|
+| `--demo-surface` | `#0f0f0f` | `#f0f2f5` |
+| `--demo-bar` | `#1a1a1a` | `#e4e6ea` |
+| `--demo-dot` | `#333333` | `#bcc0c9` |
+| `--demo-msg-bg` | `#1e1e1e` | `#e9eaec` |
+| `--demo-msg-text` | `#cccccc` | `#374151` |
+| User bubble bg | `#1e3a5f` | — |
+| User bubble text | `#e8f4fd` | — |
+
+### macOS Traffic Lights
+
+| Name | Value |
+|---|---|
+| Red | `#FF5F57` |
+| Yellow | `#FFBD2E` |
+| Green | `#27C840` |
 
 ---
 
@@ -57,33 +86,30 @@
 
 ### Fonts
 
-| Role | Family | Fallback |
+| Role | Family | CSS Variable |
 |---|---|---|
-| **Primary (UI)** | SF Pro Display / SF Pro Text | `-apple-system, BlinkMacSystemFont, sans-serif` |
-| **Monospace** | Space Mono | `monospace` |
+| **Primary (UI)** | SF Pro Display / SF Pro Text | `var(--font-sans)` → `-apple-system, BlinkMacSystemFont, sans-serif` |
+| **Monospace** | Space Mono (Google Fonts) | `var(--font-mono)` → `var(--font-space-mono)` |
 
-### Scale
+### Type Scale
 
-| Name | Size | Weight | Usage |
-|---|---|---|---|
-| Hero H1 | `66px` | 700 | Page hero headline |
-| Section H2 | `42px` | 700 | Section headings |
-| Showcase H2 | `46px` | 700 | Product showcase headline |
-| Final CTA H2 | `56px` | 700 | CTA block headline |
-| Step title | `20px` | 700 | How-it-works step names |
-| Feature title | `18px` | 700 | Feature card titles |
-| Body large | `17–18px` | 400 | Hero subtitle, main body |
-| Body | `15px` | 400 | Demo copy, pain/gain items |
-| Body small | `13–14px` | 400 | Card descriptions, links |
-| Label / Mono | `10–11px` | 400 | Section numbers, tags, badges |
-| Micro | `9–10px` | 400 | Captions, status text |
-
-### Letter Spacing
-
-- Hero headlines: `-2.5px` to `-3px`
-- Section headings: `-1.5px`
-- Mono labels: `+0.5px` to `+1.5px` (uppercase)
-- Default body: `0`
+| Name | Size | Weight | Letter-spacing | Usage |
+|---|---|---|---|---|
+| Hero H1 | `40px` → `52px` → `66px` (mobile→tablet→desktop) | 700 | `-1.5px` → `-2px` → `-2.5px` | Page hero headline |
+| Section H2 | `30px` → `36px` → `42px` | 700 | `-1px` → `-1.5px` | Section headings |
+| Final CTA H2 | `36px` → `48px` → `64px` | 700 | `tracking-tight` | CTA section |
+| Demo H2 | `32px` → `42px` | 700 | `-1.5px` | Demo section |
+| Step number | `48px` → `64px` | 700 | `-2px` | Large ghost numerals (1, 2, 3) |
+| Step title | `18px` → `20px` | 700 | — | How-it-works step names |
+| Feature title | `18px` | 700 | — | Feature card titles (`text-lg`) |
+| Body large | `15px` → `16px` → `17px` | 400 | — | Hero subtitle |
+| Body | `15px` | 400 | — | Pain/gain copy, step descriptions |
+| Body small | `13–14px` | 400 | — | General body, footer links |
+| Label / Mono | `10–11px` | 400 | `+0.5px` to `+1.5px` | Eyebrow badges, section labels, tech bar |
+| Micro | `9–10px` | 400 | — | Card sub-labels, status text |
+| Nav logo | `text-xl` / `20px` | 700 | `tracking-tighter` | |
+| Nav links | `13px` | 500 | — | |
+| Footer copy | `13px` | 400 | — | `font-mono` |
 
 ---
 
@@ -91,48 +117,55 @@
 
 ### Grid
 
-- **Max content width:** `1200px`
-- **Page padding (horizontal):** `80px`
-- **Section vertical padding:** `96px` top/bottom
-- **Reduced section padding (print):** `72px`
+- **Max content width:** `1200px` (`--max`)
+- **Page horizontal padding:** `80px` desktop / `48px` tablet (769–1024px) / `24px` mobile (`--pad`)
+- **Section vertical padding:** `96px` desktop / `64px` mobile (`section-inner`)
+- **Hero vertical padding:** `80px` → `120px` (mobile → desktop)
 
 ### Border Radius
 
 | Token | Value | Usage |
 |---|---|---|
-| `--radius-sm` | `8px` | Buttons, small badges |
-| `--radius-md` | `12px` | Buttons (primary CTA), panels |
-| `--radius-lg` | `16px` | Feature cards, floating cards |
-| `20px` | — | Agent UI window, network icons |
+| `--radius-sm` | `8px` | Inputs, small buttons, nav CTA |
+| `--radius-md` | `12px` | Primary CTA buttons, form inputs |
+| `--radius-lg` | `16px` | Feature cards |
+| `20px` | — | Eyebrow badges, mobile nav items |
 | `24px` | — | Carousel cards |
-| `50%` | — | Circular icons, status dots |
+| `14px` | — | Mobile CTA button (`rounded-[14px]`) |
+| `50%` | — | Circular icons, status dots, avatar circles |
 
 ### Common Gaps
 
-- Nav link gap: `36px`
-- Hero grid gap: `0` (split by border)
-- Two-column section gap: `48–80px`
-- Three-column step gap: `56px` margin + border
-- Feature card grid gap: `20px`
-- Agent chat gap: `7px`
+- Nav internal gap (logo+links): `gap-12` (48px)
+- Nav link gap: `gap-8` (32px)
+- Hero CTA row gap: `gap-4` (16px)
+- Section heading bottom margin: `mb-12` (48px)
+- Feature card grid gap: `gap-5` (20px)
+- Demo grid gap: `gap-8` (32px)
+- Footer sections gap: `gap-16` (64px)
+- Footer social gap: `gap-6` (24px)
 
 ---
 
 ## Borders & Surfaces
 
-All borders use `rgba(255,255,255, ...)` on dark backgrounds — never solid opaque borders.
+All borders in dark mode use `rgba(255,255,255, ...)` — never solid opaque borders.
 
 | Surface | Border | Background |
 |---|---|---|
-| Page default | — | `--bg` (#13151f) |
-| Elevated card | `1px solid rgba(255,255,255,0.07)` | `--bg-white` (#1c1f2e) |
-| Agent panel | `1px solid rgba(255,255,255,0.07)` | `rgba(255,255,255,0.03)` |
-| Agent header | `1px solid rgba(255,255,255,0.05)` | — |
-| Chat bubble (user) | `1px solid rgba(255,255,255,0.06)` | `rgba(255,255,255,0.07)` |
-| Chat bubble (N) | `1px solid rgba(34,197,94,0.15)` | `rgba(34,197,94,0.12)` |
-| Chat bubble (T) | `1px solid rgba(99,102,241,0.15)` | `rgba(99,102,241,0.12)` |
-| Floating card | `1px solid rgba(255,255,255,0.08)` | `rgba(28,31,46,0.96)` |
-| Demo interface | `1px solid rgba(255,255,255,0.05)` | `#0f0f0f` |
+| Page | — | `var(--bg)` |
+| Elevated card | `1px solid var(--subtle)` | `var(--bg-white)` |
+| Demo Mac frame | `1px solid var(--subtle)` | `var(--bg)` |
+| Demo card | `0.5px solid var(--subtle)` | `var(--bg-white)` |
+| iPhone chat area | `0.5px solid var(--subtle)` | `var(--bg-white)` |
+| Agent panel header | `1px solid rgba(255,255,255,0.05)` | — |
+| Chat bubble (user) | none | `#1e3a5f` |
+| Chat bubble (N) | left `2px solid #22C55E` | — |
+| Chat bubble (T) | left `2px solid #3B82F6` | — |
+| Eyebrow badge | `1px solid var(--green-border)` | `var(--green-bg)` |
+| Feature card | `1px solid var(--subtle)` | `var(--bg)/20` |
+| Feature card (hover) | — | `var(--bg)/40` |
+| CTA email form | `1px solid var(--subtle)` | `var(--bg)` |
 
 ---
 
@@ -140,47 +173,66 @@ All borders use `rgba(255,255,255, ...)` on dark backgrounds — never solid opa
 
 ### Navigation
 
-- Height: `64px`
-- `position: sticky`, `backdrop-filter: blur(12px)`
-- Background: `rgba(19,21,31,0.88)` (semi-transparent)
-- Logo: 15px, weight 700
-- Links: 13px, `--muted` color
-- CTA button: `--fg` background, `--bg` text, `--radius-sm`
+**Behavior:** Fixed, `top-0`, `z-[100]`. Transitions from transparent (`h-20`) to blurred (`h-16`) on scroll past 20px.
+
+```css
+/* Scrolled state */
+background: rgba(19,21,31,0.80);  /* bg/80 */
+backdrop-filter: blur(24px);       /* backdrop-blur-xl */
+border-bottom: 1px solid var(--subtle);
+height: 64px;
+
+/* Unscrolled state */
+background: transparent;
+height: 80px;
+```
+
+- **Logo:** `text-xl`, 700, `tracking-tighter` + `32×32px` `bg-fg rounded-lg` diamond SVG icon
+- **Nav links (desktop, ≥lg):** `13px`, `font-medium`, `var(--muted)`, hover → `var(--fg)`. Links: Features, How it works, Demo
+- **Nav CTA:** `ShimmerButton` (hidden on mobile), `borderRadius="8px"`, `h-10`
+- **Theme toggle:** Visible in nav at all breakpoints
+- **Mobile:** Hamburger trigger (≥md hidden) → `MobileMenu` overlay
 
 ---
 
-### Buttons
+### ShimmerButton
 
-**Primary**
-```css
-background: var(--fg);        /* #e8e6f0 */
-color: var(--bg);             /* #13151f */
-font-size: 14px; font-weight: 700;
-padding: 14px 30px;
-border-radius: var(--radius-md);  /* 12px */
+Custom Magic UI component from `app/components/magicui/shimmer-button.tsx`.
+
+Used for:
+- Nav "Join Waitlist" CTA → `background` default (dark shimmer), `borderRadius="8px"`, `h-10`
+- Hero "Join the Waitlist" → `background="var(--fg)"`, `shimmerColor="rgba(255,255,255,0.7)"`, `borderRadius="12px"`
+- CTA "Lock Access" (submit) → same as Hero
+
+```tsx
+<ShimmerButton
+  background="var(--fg)"
+  shimmerColor="rgba(255,255,255,0.7)"
+  borderRadius="12px"
+>
+  <span className="text-bg font-bold text-[15px]">Join the Waitlist</span>
+</ShimmerButton>
 ```
 
-**Ghost**
+---
+
+### Ghost Button
+
 ```css
-border: 1px solid rgba(255,255,255,0.14);
+border: 1px solid var(--subtle);
 color: var(--muted);
 font-size: 14px;
 padding: 14px 30px;
-border-radius: var(--radius-md);
-```
-
-**Green CTA (final)**
-```css
-background: var(--green);    /* #22c55e */
-color: #0f0f0f;
-font-size: 16px; font-weight: 700;
-padding: 17px 44px;
-border-radius: var(--radius-md);
+border-radius: var(--radius-md);  /* 12px */
+/* hover: */ border-color: var(--muted); color: var(--fg);
+/* active: */ transform: scale(0.98);
 ```
 
 ---
 
 ### Eyebrow / Badge
+
+Used in Hero and CTA section:
 
 ```css
 display: inline-flex; align-items: center; gap: 7px;
@@ -188,117 +240,221 @@ background: var(--green-bg);
 border: 1px solid var(--green-border);
 border-radius: 20px;
 padding: 5px 14px;
-font-family: var(--mono); font-size: 10px;
-color: var(--green-text); letter-spacing: 0.5px;
 ```
-Preceded by a `7px` green dot (`border-radius: 50%`).
+
+```tsx
+<div className="inline-flex items-center gap-[7px] bg-green-bg border border-green-border rounded-[20px] py-[5px] px-[14px] mb-7">
+  <span className="w-[7px] h-[7px] rounded-full bg-green" />
+  <span className="font-mono text-[10px] text-green-text tracking-[0.5px]">
+    AI coaching that actually works together
+  </span>
+</div>
+```
+
+CTA variant uses `rounded-full`, `px-3 py-1`, `text-green/20` border, `animate-pulse` on dot.
 
 ---
 
-### Section Number
+### Mobile Menu
 
+Full-screen overlay (`position: fixed`, `100dvh`, `z-999`). Slides in with `opacity` animation.
+
+- **Nav items:** `border border-subtle rounded-2xl bg-bg-white` cards with 44×44px icon and label+subtitle
+- **Footer:** social icons (40px circles) + full-width CTA button `(56px, bg-fg, rounded-[14px])`
+- **Safe area:** Uses `env(safe-area-inset-top)` and `env(safe-area-inset-bottom)` padding
+
+---
+
+## Section Structure
+
+| Order | Component | ID | Background | Notes |
+|---|---|---|---|---|
+| 1 | Nav | — | Transparent → `bg/80 blur-xl` | Fixed overlay |
+| 2 | Hero | — | `var(--bg)` + dot grid | Centered single-column, LightRays |
+| 3 | DemoSection | `#demo` | `var(--bg)` | MacFrame + IPhoneFrame side-by-side |
+| 4 | TechBar | — | `var(--bg-white)` | Mono text bar |
+| 5 | ProblemSolution | `#problem` | `var(--bg)` | 2-col pain/gain |
+| 6 | ImageDivider | — | — | Visual break |
+| 7 | HowItWorks | `#how` | `var(--bg)` | 3-col steps, right-aligned h2 |
+| 8 | FeaturesGrid | `#features` | `var(--bg-white)` | 2×2 feature cards |
+| 9 | FinalCTA | `#cta` | `var(--bg-white)` | Email waitlist form |
+| 10 | Footer | — | `var(--bg)` | Brand + socials + copyright |
+
+---
+
+## Hero Section
+
+**Layout:** Centered single-column (max-width `680px`), `py-[80px]` → `py-[120px]`.
+
+**Background:**
 ```css
-font-family: var(--mono);
-font-size: 11px;
-color: var(--muted);
-letter-spacing: 1px;
-margin-bottom: 8px;
+background-image: radial-gradient(circle, #ffffff15 1px, transparent 1px);
+background-size: 24px 24px;
 ```
-Pattern: `01`, `02`, `03` ... placed above section headings.
+
+**Animated overlay:** `<LightRays>` with `color="rgba(34, 197, 94, 0.35)"`, `count={8}`, `speed={10}`.
+
+**H1:**
+```
+"Your coaches talk to each other."
+"Finally." (green-text, opacity-90)
+```
+Font: `40px` → `52px` → `66px`, weight 700, tracking `-1.5px` → `-2px` → `-2.5px`.
+
+**CTA group:** ShimmerButton (primary) + ghost link "See it in action ↓"
+**Below CTA:** `"No credit card. No catch. First 20 athletes free."` — `12px`, `font-mono`, `text-muted`
 
 ---
 
-### Agent UI Panel
+## Demo Section
 
-A window-chrome card containing two agent sub-panels with a beam connector between them.
+**ID:** `#demo`  
+**Layout:** Centered header + side-by-side device frames (`demo-frames`)
 
-**Window frame**
-- `border-radius: 20px`
-- `border: 1px solid rgba(255,255,255,0.09)`
-- `background: --bg-white`
-- `box-shadow: 0 24px 64px rgba(0,0,0,0.35), 0 1px 0 rgba(255,255,255,0.06) inset`
+**Headline:** `"Performance intelligence, synchronized."` (green-text on "synchronized.")
 
-**Titlebar**
-- macOS-style traffic lights: `#ff5f57` / `#febc2e` / `#28c840`
-- Label in mono 10px, `--muted`
+**MacFrame** (`demo-mac`):
+- `border-radius: 12px`, `border: 1px solid var(--subtle)`, `bg: var(--bg)`
+- macOS chrome: 40px titlebar, `bg-bg-white`, traffic light dots `[#FF5F57, #FFBD2E, #27C840]`
+- URL pill: `athlete-ai.tech` in mono 11px
+- 46px app nav: logo + tabs (Dashboard, Nutrition, Training) + MK avatar
+- 4 metric cards (2340 cal / 142g protein / 7/10 fatigue / 18d competition)
+- 2-column chat panels: Nutrition Coach (green) + Training Coach (blue)
+- Hidden at ≤1024px via `.demo-mac { display: none }`
 
-**Agent sub-panel**
-- Avatar: `22×22px`, `border-radius: 6px`
-- N avatar: green tint; T avatar: indigo tint
-- Status dot: `5px` circle
+**IPhoneFrame** (`demo-iphone`):
+- Uses `<Iphone>` Magic UI component, width `270px`
+- Content: status bar → app header → 2 metric cards → chat thread → tab bar
+- Tab icons: `⊞ Dashboard` (active, green) / `🥗 Nutrition` / `🏃 Training`
 
-**A2A Connector**
-- Dashed gradient line: `linear-gradient(to right, transparent, rgba(34,197,94,0.3), transparent)`
-- Badge: green tint pill, mono 9px
-- Animated beam SVG overlay (JS-driven `stroke-dashoffset`)
-
----
-
-### Animated Beam
-
-Used in two places: Agent UI (hero) and Network diagram.
-
-- SVG path drawn via JS using `getBoundingClientRect()`
-- Quadratic bezier: `M x1,y1 Q cpx,cpy x2,y2`
-- Base path: `stroke: rgba(255,255,255,0.05)`, `stroke-width: 1`
-- Beam path: animated gradient stroke, `stroke-width: 1.5–2`
-- Animation: `stroke-dashoffset` from `pathLength → 0`
-- Duration: `2.4–2.8s`, `cubic-bezier(0.16, 1, 0.3, 1)` (easeOutExpo)
-- Bidirectional: forward + reverse with `1.2s` delay offset
-
-**Green gradient (Nutrition):** `#22c55e → #4ade80`  
-**Indigo gradient (Training):** `#818cf8 → #a5b4fc`  
-**Slate gradient (inputs):** `#94a3b8 → #cbd5e1`
+**Entrance animation:** Both frames start at `opacity: 0`, `translateY(30px)` + slight 3D `rotateY`. Triggered via `IntersectionObserver` at 10% threshold.
 
 ---
 
-### Network / Hub Diagram
+## TechBar
 
-Hub-and-spoke layout with 6 nodes:
-
-| Position | Node | Color |
-|---|---|---|
-| Left × 3 | You, Training Log, Health Data | Neutral (`--bg-white`) |
-| Center | Athlete AI (hub) | Green glow ring |
-| Right top | Nutrition Agent | Green tint |
-| Right bottom | Training Agent | Indigo tint |
-
-Node icons: `52px` circles (hub `72px`), emoji icons, `border-radius: 50%`  
-Hub glow: `box-shadow: 0 0 0 8px rgba(34,197,94,0.06), 0 0 40px rgba(34,197,94,0.15)`
+```tsx
+<div className="bg-bg-white border-b border-subtle p-[18px] flex items-center justify-center gap-10">
+  <span className="font-mono text-[11px] text-muted tracking-[0.5px]">Trusted technology from Google</span>
+  <span className="w-px h-4 bg-white/10" />
+  <span className="font-mono text-[11px] text-muted tracking-[0.5px]">Built for competitive athletes</span>
+  <span className="w-px h-4 bg-white/10" />
+  <span className="font-mono text-[11px] text-muted tracking-[0.5px]">Built in public · Follow the journey</span>
+</div>
+```
 
 ---
 
-### Feature Cards
+## Problem / Solution Section
 
+**Headline:** `"Sound familiar?"` — right-to-left feeling, no section number.
+
+**Layout:** `grid-cols-2` with `gap-10 lg:gap-12`.
+
+**Left column — "The old way":**
+- Header: `font-mono text-[10px] uppercase tracking-[1.5px] text-muted` + `border-b border-subtle`
+- Items: `text-[15px] text-muted leading-[1.6] pl-[18px] border-l-2 border-subtle mb-4`
+
+**Right column — "With Athlete AI":**
+- Header: same mono style as left
+- Items: `text-[15px] text-fg leading-[1.6] pl-[18px] border-l-2 border-green mb-4`
+
+---
+
+## How It Works Section
+
+**Headline:** `"Simple for you. Powerful behind the scenes."` — right-aligned (`text-right`).
+
+**Layout:** `grid-cols-1 md:grid-cols-3 gap-0`.
+
+**Step columns:**
+- Ghost number: `text-[48px] lg:text-[64px] font-bold text-subtle tracking-[-2px]` (uses CSS var `--subtle` as color = very dim white)
+- Title: `text-[18px] lg:text-[20px] font-bold text-fg`
+- Description: `text-sm text-muted leading-[1.7]`
+
+**Step connector (desktop only):** Dashed vertical `border-l border-dashed border-subtle` with `›` arrow centered, positioned `absolute -right-7`.
+
+**Steps:**
+1. "Talk to your coach" — text your coach casually
+2. "Your coaches sync automatically" — A2A in real time
+3. "Get advice that makes sense" — context-aware answer
+
+---
+
+## Features Grid Section
+
+**Headline:** `"Everything a serious athlete needs."`
+
+**Layout:** `grid-cols-1 md:grid-cols-2 gap-5`
+
+**Card style:**
 ```css
 border: 1px solid var(--subtle);
-border-radius: var(--radius-lg);  /* 16px */
-padding: 32px 36px;
-background: transparent;  /* inherits section bg */
-```
-
----
-
-### Floating Cards (Showcase)
-
-```css
-background: rgba(28,31,46,0.96);
-border: 1px solid rgba(255,255,255,0.08);
 border-radius: 16px;
-box-shadow: 0 8px 32px rgba(0,0,0,0.45);
-padding: 14px 16px;
+padding: 32px 36px;
+background: var(--bg)/20;
+/* hover: */ background: var(--bg)/40; box-shadow: var(--shadow-card); translateY(-4px);
 ```
+
+**Features (icons are emoji):**
+| Icon | Title |
+|---|---|
+| 🤝 | Two coaches, zero gaps |
+| 🧠 | It remembers everything |
+| ⚡ | Instant answers, any time |
+| 🌍 | Global athletic support |
+
+Card title turns `text-green-text` on hover.
 
 ---
 
-### Demo Interface
+## Final CTA Section
 
-Dark terminal-style UI card:
-- Background: `#0f0f0f`
-- Titlebar: `#1a1a1a`, three `#333` dots
-- User bubble: `#1e1e1e`, text `#ccc`
-- System message: `#0f2a1f` bg, `#4ade80` text (mono)
-- AI bubble: `#0f1f17` bg, `#86efac` text, green border
+**ID:** `#cta`  
+**Background:** `var(--bg-white)` + radial green glow + bottom gradient line
+```css
+background: radial-gradient(circle at 50% 50%, var(--green-bg), transparent 70%);
+opacity: 0.4;
+```
+
+**Eyebrow:** `"First 20 Athletes"` — `rounded-full`, `bg-green/10 border-green/20`, `animate-pulse` dot
+
+**H2:**
+```
+"You're early."
+"That's the whole advantage." (text-muted, opacity-80)
+```
+Font: `36px` → `48px` → `64px`, weight 700, `tracking-tight`.
+
+**Subtitle:** `16px` → `18px`, `text-muted`, `max-w-[600px]`
+
+**Email form:** Inline flex row, `p-1.5 rounded-2xl bg-bg border border-subtle shadow-card`
+- Input: `flex-1 bg-transparent`, `text-fg`, `placeholder:text-muted/50`
+- Submit: `ShimmerButton` with `background="var(--fg)"`, text `"Lock Access"`
+
+**Success state:** `p-8 rounded-2xl bg-green/5 border border-green/20`
+
+**Footer of form:**
+- Footnote: `"* All premium features included for the first 20 members."` — `12px text-green-text/80 italic`
+- `<AvatarCircles>` + label `"Mark and 9 others already on the list"` — `13px text-muted font-medium`
+
+---
+
+## Footer
+
+**Layout:** `flex-col gap-16`  
+**Top section:** `flex-row justify-between items-center gap-10`
+
+**Brand:**
+- Logo: `20px font-bold text-fg` + `36×36px bg-fg rounded-xl` icon (same diamond SVG)
+- Tagline (mono): `"Built by a decathlete who got tired of coaches that didn't talk to each other."`
+
+**Socials:** Instagram, X, YouTube — `text-muted hover:text-fg hover:scale-110`, SVG icons 20×20px
+
+**Bottom:** `border-t border-subtle pt-8`
+- Copyright: `text-[13px] text-muted font-mono` — `"© athlete-ai.tech 2026 · Currently in development"`
+
+> **Note:** Current footer is minimal — no 4-column link grid. The old Design.md described a future state.
 
 ---
 
@@ -306,78 +462,118 @@ Dark terminal-style UI card:
 
 | Usage | Value |
 |---|---|
-| Agent UI (hero) | `0 24px 64px rgba(0,0,0,0.35)` |
-| Demo interface | `0 24px 60px rgba(0,0,0,0.18)` |
-| Floating cards | `0 8px 32px rgba(0,0,0,0.45)` |
-| Workout panel | `0 8px 32px rgba(0,0,0,0.50)` |
-| Network hub glow | `0 0 40px rgba(34,197,94,0.15)` |
-| Metric badge | `0 4px 20px rgba(0,0,0,0.45)` |
+| Card hover / shadow-card | `0 16px 40px rgba(0,0,0,0.35)` |
+| Shadow soft | `0 8px 24px rgba(0,0,0,0.25)` |
+| MacFrame | `0 20px 60px rgba(0,0,0,0.25)` |
+| IPhoneFrame | `filter: drop-shadow(0 20px 40px rgba(0,0,0,0.45))` |
+| CTA form | `var(--shadow-card)` |
 
 ---
 
-## Section Structure
+## Animations
 
-| # | Section | Background | Notes |
-|---|---|---|---|
-| — | Nav | `rgba(19,21,31,0.88)` | Sticky, blur |
-| Hero | Train smarter / Eat right | `--bg` | Split grid, agents UI right |
-| — | Social proof bar | `--bg-white` | Mono text, centered |
-| — | Agent Network | `--bg` | Hub-and-spoke + beams |
-| — | Product Showcase | `--bg-white` | Phone mockup + floating cards |
-| 02 | Sound familiar? | `--bg` | 2-col pain/gain |
-| 03 | Watch it happen | `--bg-white` | Demo interface |
-| 04 | Simple for you | `--bg` | 3-col steps |
-| — | Built for Performance | `--bg-white` | 3-card carousel |
-| 05 | Everything a serious athlete needs | `--bg-white` | 2×2 feature grid |
-| — | Your coaches are ready | `--bg-white` | CTA + radial green glow |
-| — | Footer | `--bg` | 2-col: logo+social / 4 link columns |
+### Framer Motion (page-wide)
+
+All sections use `motion.div` with:
+```tsx
+initial={{ opacity: 0 }}
+whileInView={{ opacity: 1 }}
+viewport={{ once: true }}
+transition={{ duration: 0.4 }}
+```
+
+Some sections (demo, hero) use `y: 20` offset on `initial`.
+
+### shimmer-spin
+
+Used internally in `ShimmerButton`. Paused on mobile and `prefers-reduced-motion`.
+
+```css
+@keyframes shimmer-spin {
+  0% { transform: rotate(0deg) scale(2); }
+  100% { transform: rotate(360deg) scale(2); }
+}
+```
+
+### Pulse
+
+```css
+@keyframes pulse {
+  0% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.2); opacity: 0.7; }
+  100% { transform: scale(1); opacity: 1; }
+}
+```
+
+Used for status dots in the eyebrow/CTA badge.
+
+### Demo Entrance
+
+MacFrame: `perspective(1200px) rotateY(-3deg) translateY(30px)` → neutral  
+IPhoneFrame: `perspective(1200px) rotateY(3deg) translateY(30px)` → neutral, `200ms` delay  
+Easing: `ease-out`, duration `0.8s`
+
+### LightRays (Hero)
+
+Custom component in `app/components/magicui/light-rays.tsx`:
+- `color="rgba(34, 197, 94, 0.35)"`, `count={8}`, `speed={10}`
+- Disabled/static on mobile and `prefers-reduced-motion`
 
 ---
 
-## Gradients & Backgrounds
+## Light / Dark Theme
 
-**Radial green glow (CTA)**
-```css
-radial-gradient(ellipse 80% 60% at 50% 100%, rgba(34,197,94,0.07) 0%, transparent 70%)
-```
+Toggled via `data-theme="light"` on `<html>`. Controlled by `ThemeToggle` client component.
 
-**Hero right panel ambient**
-```css
-radial-gradient(ellipse 70% 60% at 80% 40%, rgba(34,197,94,0.05) 0%, transparent 70%)
-```
+Light theme overrides all `--bg`, `--bg-white`, `--fg`, `--muted`, `--subtle`, and demo surface variables.
 
-**Carousel card backgrounds**
-```css
-/* Card 1 — Blue-grey (Cardio) */
-linear-gradient(160deg, #bfcfdf 0%, #8faabf 40%, #6a8ea8 100%)
+Nav: `bg-transparent` → `rgba(248,250,252,0.97)` on mobile in light mode (no blur on mobile for performance).
 
-/* Card 2 — Purple (Strength) */
-linear-gradient(160deg, #c0bfd8 0%, #8a89b8 40%, #5c5a90 100%)
+---
 
-/* Card 3 — Warm grey (Body) */
-linear-gradient(160deg, #c5c0b8 0%, #a09890 40%, #7a706a 100%)
-```
+## Responsive Breakpoints
+
+| Breakpoint | Pad | Notes |
+|---|---|---|
+| `≥1025px` | `80px` | Full desktop layout |
+| `769–1024px` | `48px` | MacFrame hidden, iPhone centered |
+| `≤768px` | `24px` | All grids collapse to 1 col, nav links hidden, tech bar stacks |
+
+### Key Responsive Behaviors
+
+- **Demo:** MacFrame hidden (`display: none`) at `≤1024px`; IPhoneFrame centered
+- **Hero:** Full-width single column on mobile
+- **How It Works:** Step connectors hidden; steps stack with `border-b` separators
+- **Backdrop blur:** Removed on mobile nav (`backdrop-filter: none`, replaced with opaque bg) for GPU performance
+- **Carousel backdrop-blur layers:** Stripped on mobile
+- **Tech bar:** Stacks vertically with horizontal dividers becoming horizontal lines
 
 ---
 
 ## Copy Guidelines
 
-- **Headlines:** Short, declarative, personal. Max 6 words. No adjectives.
-- **Subtitles:** One clear sentence of benefit. Written for the athlete, not the technology.
-- **Section numbers:** Always 2-digit (`01`, `02`...). Mono font. Used as structural anchors.
-- **CTA copy:** Action verbs. "Start for free", "Start training smarter" — not "Get started" or "Sign up".
+- **Headlines:** Short, declarative, personal. Max 6–8 words. No adjectives stacking.
+- **Subtitles:** One clear sentence of benefit, written for the athlete.
+- **CTA copy:** Action verbs. "Join the Waitlist", "Lock Access" — not "Get started" or "Sign up".
+- **Badge/label copy:** All-caps or sentence-case mono, max 5 words.
 - **Problem copy:** Write the athlete's internal monologue. Vivid and specific.
-- **Avoid:** AI/tech jargon, passive voice, adjective stacking, generic claims.
+- **Avoid:** AI/tech jargon, passive voice, "powerful", "seamless", "cutting-edge".
+- **Brand note:** The platform is described as "AI coaches", never "a chatbot". Two distinct agents: Nutrition Coach and Training Coach.
 
 ---
 
-## Footer
+## Magic UI Components
 
-Structure: `1fr 1fr` grid  
-Left: Logo + copyright + social icons (Instagram, X, Reddit, YouTube, Facebook)  
-Right: 4 columns — Company / Product / Resources / Legal  
-Background: `--bg`, border-top `1px solid var(--subtle)`
+Located in `app/components/magicui/`.
+
+| File | Component | Used in |
+|---|---|---|
+| `shimmer-button.tsx` | `ShimmerButton` | Nav, Hero, FinalCTA |
+| `light-rays.tsx` | `LightRays` | Hero background |
+| `iphone.tsx` | `Iphone` | DemoSection (IPhoneFrame) |
+| `text-animate.tsx` | Text animations | (available, not currently used in main page) |
+| `terminal.tsx` | Terminal | (available, not currently used in main page) |
 
 ---
 
-*Last updated: April 2026*
+*Last updated: April 2026 — reflects actual implementation*
